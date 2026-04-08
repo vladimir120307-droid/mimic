@@ -1,0 +1,30 @@
+# Normalize line endings on commit
+* text=auto eol=lf
+
+# Force LF for shell scripts
+*.sh text eol=lf
+*.bash text eol=lf
+
+# Force CRLF for Windows scripts
+*.ps1 text eol=crlf
+*.bat text eol=crlf
+*.cmd text eol=crlf
+
+# Binary files (do not touch)
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.icns binary
+*.mp4 binary
+*.webm binary
+*.zip binary
+*.tar binary
+*.tar.gz binary
+*.7z binary
+
+# Linguist hints (so GitHub language stats are accurate)
+docs/* linguist-documentation
+examples/* linguist-documentation
+*.md linguist-documentation

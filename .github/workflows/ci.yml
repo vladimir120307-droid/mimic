@@ -1,0 +1,112 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  python:
+    name: Python (${{ matrix.os }} / py ${{ matrix.python }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        python: ["3.10", "3.11", "3.12"]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+          cache: pip
+          cache-dependency-path: python/pyproject.toml
+
+      - name: Install package
+        working-directory: python
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e ".[dev]"
+
+      - name: Lint
+        working-directory: python
+        run: |
+          ruff check .
+          ruff format --check .
+
+      - name: Type-check (advisory)
+        working-directory: python
+        continue-on-error: true
+        run: mypy src/mimic
+
+      - name: Test
+        working-directory: python
+        run: pytest -q --cov=mimic --cov-report=term-missing
+
+  native:
+    name: Native (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Linux deps
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ninja-build libxcb1-dev libxcb-shm0-dev
+
+      - name: macOS deps
+        if: runner.os == 'macOS'
+        run: brew install ninja
+
+      - name: Windows deps
+        if: runner.os == 'Windows'
+        run: choco install ninja -y
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install pybind11
+        run: pip install pybind11
+
+      - name: Configure
+        run: cmake -S native -B native/build -G Ninja -DCMAKE_BUILD_TYPE=Release -DMIMIC_WARNINGS_AS_ERRORS=ON
+
+      - name: Build
+        run: cmake --build native/build --parallel
+
+      - name: Test
+        run: ctest --test-dir native/build --output-on-failure
+
+  flutter:
+    name: Flutter
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version: "3.19.x"
+
+      - name: Pub get
+        working-directory: ui
+        run: flutter pub get
+
+      - name: Analyze
+        working-directory: ui
+        run: flutter analyze
+
+      - name: Test
+        working-directory: ui
+        run: flutter test

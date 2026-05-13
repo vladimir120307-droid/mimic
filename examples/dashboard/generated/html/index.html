@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>mimic — generated</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: { extend: { colors: {
+  'primary': '#6E56CF',
+  'surface': '#FFFFFF',
+  'on_surface': '#0F172A',
+  'background': '#FFFFFF'
+} } }
+    };
+  </script>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    .screen { display: none; }
+    .screen.active { display: block; }
+  </style>
+</head>
+<body class="min-h-screen bg-background text-on-surface antialiased">
+<nav class="sticky top-0 z-10 bg-white border-b border-slate-200">
+  <div class="mx-auto max-w-md flex gap-2 px-4 py-2 overflow-x-auto">
+    <button data-target="home" class="px-3 py-1 rounded hover:bg-slate-200">Home</button>
+    <button data-target="details" class="px-3 py-1 rounded hover:bg-slate-200">Activity</button>
+  </div>
+</nav>
+<main class="mx-auto max-w-md">
+<section id="home" class="screen active min-h-screen">
+  <div data-mimic-id="home_root" class="flex flex-col gap-2 bg-background">
+    <header data-mimic-id="app_bar" class="w-full px-4 py-3 flex items-center justify-between bg-primary text-background">
+      <p data-mimic-id="app_title" class="text-background text-xl font-bold">mimic</p>
+    </header>
+    <article data-mimic-id="hero_card" class="rounded-2xl bg-white shadow-sm p-4 bg-[#EEF2FF] rounded-xl p-4">
+      <p data-mimic-id="hero_text" class="text-2xl font-bold">Good morning, Vladimir</p>
+    </article>
+    <ul data-mimic-id="list" class="flex flex-col gap-1 divide-y divide-slate-200">
+      <div data-mimic-id="li1" class=" flex items-center justify-between py-3"><span>Recent activity</span><span class="text-slate-400">›</span></div>
+      <div data-mimic-id="li2" class=" flex items-center justify-between py-3"><span>Saved projects</span><span class="text-slate-400">›</span></div>
+      <div data-mimic-id="li3" class=" flex items-center justify-between py-3"><span>Settings</span><span class="text-slate-400">›</span></div>
+    </ul>
+    <button data-mimic-id="fab" class="fixed bottom-6 right-6 w-14 h-14 rounded-full shadow-lg flex items-center justify-center bg-primary text-background" type="button" aria-label="action"><span class="text-2xl">+</span></button>
+  </div>
+</section>
+<section id="details" class="screen min-h-screen">
+  <div data-mimic-id="details_root" class="flex flex-col gap-2 bg-background">
+    <header data-mimic-id="details_app_bar" class="w-full px-4 py-3 flex items-center justify-between bg-primary text-background">
+      Recent activity
+    </header>
+    <p data-mimic-id="empty_state" class="text-[#94A3B8] text-base text-center">No activity yet — start recording to see something here</p>
+  </div>
+</section>
+</main>
+<script>
+(() => {
+  const routes = {"li1":"details","fab":"details"};
+  const show = (id) => {
+    document.querySelectorAll('.screen').forEach(s => s.classList.toggle('active', s.id === id));
+  };
+  document.querySelectorAll('nav button[data-target]').forEach(btn => {
+    btn.addEventListener('click', () => show(btn.dataset.target));
+  });
+  document.body.addEventListener('click', e => {
+    const target = e.target.closest('[data-mimic-id]');
+    if (!target) return;
+    const dest = routes[target.dataset.mimicId];
+    if (dest) show(dest);
+  });
+})();
+</script>
+</body>
+</html>

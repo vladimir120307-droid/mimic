@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>mimic — generated</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: { extend: { colors: {
+  'primary': '#0EA5E9',
+  'surface': '#FFFFFF',
+  'on_surface': '#0F172A',
+  'background': '#FFFFFF'
+} } }
+    };
+  </script>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    .screen { display: none; }
+    .screen.active { display: block; }
+  </style>
+</head>
+<body class="min-h-screen bg-background text-on-surface antialiased">
+<nav class="sticky top-0 z-10 bg-white border-b border-slate-200">
+  <div class="mx-auto max-w-md flex gap-2 px-4 py-2 overflow-x-auto">
+    <button data-target="inbox" class="px-3 py-1 rounded hover:bg-slate-200">Inbox</button>
+    <button data-target="chat" class="px-3 py-1 rounded hover:bg-slate-200">Chat</button>
+  </div>
+</nav>
+<main class="mx-auto max-w-md">
+<section id="inbox" class="screen active min-h-screen">
+  <div data-mimic-id="inbox_root" class="flex flex-col gap-2 bg-background">
+    <header data-mimic-id="inbox_app_bar" class="w-full px-4 py-3 flex items-center justify-between bg-primary text-background">
+      Messages
+    </header>
+    <input data-mimic-id="search_field" type="text" placeholder="Search conversations" class=" w-full px-3 py-2 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-violet-500" />
+    <ul data-mimic-id="threads" class="flex flex-col gap-1 divide-y divide-slate-200">
+      <div data-mimic-id="thread_0" class="text-base font-semibold flex items-center justify-between py-3"><span>Anna</span><span class="text-slate-400">›</span></div>
+      <div data-mimic-id="thread_1" class="text-base font-semibold flex items-center justify-between py-3"><span>Boris</span><span class="text-slate-400">›</span></div>
+      <div data-mimic-id="thread_2" class="text-base font-semibold flex items-center justify-between py-3"><span>Team</span><span class="text-slate-400">›</span></div>
+      <div data-mimic-id="thread_3" class="text-base font-semibold flex items-center justify-between py-3"><span>Mike</span><span class="text-slate-400">›</span></div>
+      <div data-mimic-id="thread_4" class="text-base font-semibold flex items-center justify-between py-3"><span>Family</span><span class="text-slate-400">›</span></div>
+    </ul>
+  </div>
+</section>
+<section id="chat" class="screen min-h-screen">
+  <div data-mimic-id="chat_root" class="flex flex-col gap-2 bg-[#F1F5F9]">
+    <header data-mimic-id="chat_app_bar" class="w-full px-4 py-3 flex items-center justify-between bg-primary text-background">
+      Anna
+    </header>
+    <article data-mimic-id="msg_in_1" class="rounded-2xl bg-white shadow-sm p-4 bg-background rounded-xl p-3">
+    </article>
+    <article data-mimic-id="msg_out_1" class="rounded-2xl bg-white shadow-sm p-4 bg-primary text-background rounded-xl p-3">
+    </article>
+    <article data-mimic-id="msg_in_2" class="rounded-2xl bg-white shadow-sm p-4 bg-background rounded-xl p-3">
+    </article>
+    <input data-mimic-id="composer" type="text" placeholder="Type a message" class=" w-full px-3 py-2 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-violet-500" />
+    <button data-mimic-id="send" class="fixed bottom-6 right-6 w-14 h-14 rounded-full shadow-lg flex items-center justify-center bg-primary text-background" type="button" aria-label="action"><span class="text-2xl">+</span></button>
+  </div>
+</section>
+</main>
+<script>
+(() => {
+  const routes = {"thread_0":"chat","thread_1":"chat","thread_2":"chat"};
+  const show = (id) => {
+    document.querySelectorAll('.screen').forEach(s => s.classList.toggle('active', s.id === id));
+  };
+  document.querySelectorAll('nav button[data-target]').forEach(btn => {
+    btn.addEventListener('click', () => show(btn.dataset.target));
+  });
+  document.body.addEventListener('click', e => {
+    const target = e.target.closest('[data-mimic-id]');
+    if (!target) return;
+    const dest = routes[target.dataset.mimicId];
+    if (dest) show(dest);
+  });
+})();
+</script>
+</body>
+</html>

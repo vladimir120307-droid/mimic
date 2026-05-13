@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>mimic — generated</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: { extend: { colors: {
+  'primary': '#10B981',
+  'surface': '#FFFFFF',
+  'on_surface': '#0F172A',
+  'background': '#64748B'
+} } }
+    };
+  </script>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    .screen { display: none; }
+    .screen.active { display: block; }
+  </style>
+</head>
+<body class="min-h-screen bg-background text-on-surface antialiased">
+<nav class="sticky top-0 z-10 bg-white border-b border-slate-200">
+  <div class="mx-auto max-w-md flex gap-2 px-4 py-2 overflow-x-auto">
+    <button data-target="month" class="px-3 py-1 rounded hover:bg-slate-200">Month</button>
+    <button data-target="event_detail" class="px-3 py-1 rounded hover:bg-slate-200">Event Detail</button>
+  </div>
+</nav>
+<main class="mx-auto max-w-md">
+<section id="month" class="screen active min-h-screen">
+  <div data-mimic-id="month_root" class="flex flex-col gap-2 bg-surface">
+    <header data-mimic-id="cal_app_bar" class="w-full px-4 py-3 flex items-center justify-between bg-primary text-surface">
+      May 2026
+    </header>
+    <div data-mimic-id="weekdays" class="flex flex-row items-center gap-2">
+      <p data-mimic-id="wd_Mon" class="text-background text-xs text-center">Mon</p>
+      <p data-mimic-id="wd_Tue" class="text-background text-xs text-center">Tue</p>
+      <p data-mimic-id="wd_Wed" class="text-background text-xs text-center">Wed</p>
+      <p data-mimic-id="wd_Thu" class="text-background text-xs text-center">Thu</p>
+      <p data-mimic-id="wd_Fri" class="text-background text-xs text-center">Fri</p>
+      <p data-mimic-id="wd_Sat" class="text-background text-xs text-center">Sat</p>
+      <p data-mimic-id="wd_Sun" class="text-background text-xs text-center">Sun</p>
+    </div>
+    <ul data-mimic-id="grid" class="flex flex-col gap-1 divide-y divide-slate-200">
+      <div data-mimic-id="day_0" class="text-sm text-center flex items-center justify-between py-3"><span>1</span><span class="text-slate-400">›</span></div>
+      <div data-mimic-id="day_1" class="text-sm text-center flex items-center justify-between py-3"><span>2</span><span class="text-slate-400">›</span></div>
+      <div data-mimic-id="day_2" class="text-sm text-center flex items-center justify-between py-3"><span>3</span><span class="text-slate-400">›</span></div>
+      <div data-mimic-id="day_3" class="text-sm text-center flex items-center justify-between py-3"><span>4</span><span class="text-slate-400">›</span></div>
+      <div data-mimic-id="day_4" class="text-sm text-center flex items-center justify-between py-3"><span>5</span><span class="text-slate-400">›</span></div>
+      <div data-mimic-id="day_5" class="text-sm text-center flex items-center justify-between py-3"><span>6</span><span class="text-slate-400">›</span></div>
+      <div data-mimic-id="day_6" class="text-sm text-center flex items-center justify-between py-3"><span>7</span><span class="text-slate-400">›</span></div>
+      <div data-mimic-id="day_7" class="text-sm text-center flex items-center justify-between py-3"><span>8</span><span class="text-slate-400">›</span></div>
+      <div data-mimic-id="day_8" class="text-sm text-center flex items-center justify-between py-3"><span>9</span><span class="text-slate-400">›</span></div>
+      <div data-mimic-id="day_9" class="text-sm text-center flex items-center justify-between py-3"><span>10</span><span class="text-slate-400">›</span></div>
+      <div data-mimic-id="day_10" class="text-sm text-center flex items-center justify-between py-3"><span>11</span><span class="text-slate-400">›</span></div>
+      <div data-mimic-id="day_11" class="text-sm text-center flex items-center justify-between py-3"><span>12</span><span class="text-slate-400">›</span></div>
+      <div data-mimic-id="day_12" class="text-sm text-center flex items-center justify-between py-3"><span>13</span><span class="text-slate-400">›</span></div>
+      <div data-mimic-id="day_13" class="text-sm text-center flex items-center justify-between py-3"><span>14</span><span class="text-slate-400">›</span></div>
+      <div data-mimic-id="day_14" class="text-sm text-center flex items-center justify-between py-3"><span>15</span><span class="text-slate-400">›</span></div>
+      <div data-mimic-id="day_15" class="text-sm text-center flex items-center justify-between py-3"><span>16</span><span class="text-slate-400">›</span></div>
+      <div data-mimic-id="day_16" class="text-sm text-center flex items-center justify-between py-3"><span>17</span><span class="text-slate-400">›</span></div>
+      <div data-mimic-id="day_17" class="text-sm text-center flex items-center justify-between py-3"><span>18</span><span class="text-slate-400">›</span></div>
+      <div data-mimic-id="day_18" class="text-sm text-center flex items-center justify-between py-3"><span>19</span><span class="text-slate-400">›</span></div>
+      <div data-mimic-id="day_19" class="text-sm text-center flex items-center justify-between py-3"><span>20</span><span class="text-slate-400">›</span></div>
+      <div data-mimic-id="day_20" class="text-sm text-center flex items-center justify-between py-3"><span>21</span><span class="text-slate-400">›</span></div>
+      <div data-mimic-id="day_21" class="text-sm text-center flex items-center justify-between py-3"><span>22</span><span class="text-slate-400">›</span></div>
+      <div data-mimic-id="day_22" class="text-sm text-center flex items-center justify-between py-3"><span>23</span><span class="text-slate-400">›</span></div>
+      <div data-mimic-id="day_23" class="text-sm text-center flex items-center justify-between py-3"><span>24</span><span class="text-slate-400">›</span></div>
+      <div data-mimic-id="day_24" class="text-sm text-center flex items-center justify-between py-3"><span>25</span><span class="text-slate-400">›</span></div>
+      <div data-mimic-id="day_25" class="text-sm text-center flex items-center justify-between py-3"><span>26</span><span class="text-slate-400">›</span></div>
+      <div data-mimic-id="day_26" class="text-sm text-center flex items-center justify-between py-3"><span>27</span><span class="text-slate-400">›</span></div>
+      <div data-mimic-id="day_27" class="text-sm text-center flex items-center justify-between py-3"><span>28</span><span class="text-slate-400">›</span></div>
+    </ul>
+    <article data-mimic-id="next_event" class="rounded-2xl bg-white shadow-sm p-4 bg-[#ECFDF5] rounded-xl p-4">
+      <p data-mimic-id="event_title" class="text-base font-bold">Next: Design review</p>
+      <p data-mimic-id="event_time" class="text-background text-sm">Tomorrow, 10:00</p>
+    </article>
+  </div>
+</section>
+<section id="event_detail" class="screen min-h-screen">
+  <div data-mimic-id="event_detail_root" class="flex flex-col gap-2 bg-surface">
+    <header data-mimic-id="event_app_bar" class="w-full px-4 py-3 flex items-center justify-between bg-primary text-surface">
+      Design review
+    </header>
+    <p data-mimic-id="event_when" class="text-base">Friday May 22, 10:00 — 11:00</p>
+    <p data-mimic-id="event_where" class="text-background text-sm">Conference room B / Zoom</p>
+    <button data-mimic-id="join_button" class="bg-primary text-surface" type="button">Join meeting</button>
+  </div>
+</section>
+</main>
+<script>
+(() => {
+  const routes = {"next_event":"event_detail"};
+  const show = (id) => {
+    document.querySelectorAll('.screen').forEach(s => s.classList.toggle('active', s.id === id));
+  };
+  document.querySelectorAll('nav button[data-target]').forEach(btn => {
+    btn.addEventListener('click', () => show(btn.dataset.target));
+  });
+  document.body.addEventListener('click', e => {
+    const target = e.target.closest('[data-mimic-id]');
+    if (!target) return;
+    const dest = routes[target.dataset.mimicId];
+    if (dest) show(dest);
+  });
+})();
+</script>
+</body>
+</html>

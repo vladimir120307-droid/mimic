@@ -15,6 +15,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 
 from mimic.codegen._dedup import DedupResult, analyze
+from mimic.codegen._icons import flutter_icon
 from mimic.codegen.base import GeneratedFile, Target
 from mimic.models import Screen, Style, WidgetNode, WidgetTree
 from mimic.theme import Theme
@@ -191,7 +192,7 @@ def _emit_widget(node: WidgetNode, ctx: _Ctx, indent: int = 0, in_shared: bool =
         on_pressed = f'() => Navigator.pushNamed(context, "/{on_press}")' if on_press else "() {}"
 
         if button_cls == "IconButton":
-            icon = _safe_icon(node.icon_name or "circle")
+            icon = flutter_icon(node.icon_name or "circle")
             args = [
                 f"onPressed: {on_pressed}",
                 f"icon: const Icon(Icons.{icon})",
@@ -223,7 +224,7 @@ def _emit_widget(node: WidgetNode, ctx: _Ctx, indent: int = 0, in_shared: bool =
         )
 
     elif node.kind == "icon" and node.icon_name:
-        args = [f"Icons.{_safe_icon(node.icon_name)}"]
+        args = [f"Icons.{flutter_icon(node.icon_name)}"]
         if node.style.font_size is not None:
             args.append(f"size: {node.style.font_size}")
         if node.style.foreground_color:
@@ -244,7 +245,7 @@ def _emit_widget(node: WidgetNode, ctx: _Ctx, indent: int = 0, in_shared: bool =
             args.append(f'onPressed: () => Navigator.pushNamed(context, "/{on_press}")')
         else:
             args.append("onPressed: () {}")
-        icon = _safe_icon(node.icon_name or "add")
+        icon = flutter_icon(node.icon_name or "add")
         args.append(f"child: const Icon(Icons.{icon})")
         if node.style.background_color:
             args.append(f"backgroundColor: {_color(node.style.background_color)}")
@@ -357,11 +358,6 @@ def _color(value: str) -> str:
             hex_part = "FF" + hex_part
         return f"const Color(0x{hex_part.upper()})"
     return value
-
-
-def _safe_icon(name: str) -> str:
-    n = "".join(c if c.isalnum() else "_" for c in name).lower().strip("_") or "circle"
-    return n
 
 
 def _material3_button(node: WidgetNode) -> str:

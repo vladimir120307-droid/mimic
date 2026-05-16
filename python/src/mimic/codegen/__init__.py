@@ -1,6 +1,6 @@
 from mimic.codegen.base import CodeGenerator, GeneratedFile, Target
 
-_TARGETS = ("flutter", "html", "react", "react-ts")
+_TARGETS = ("flutter", "html", "react", "react-ts", "vue")
 
 
 def get_generator(target: Target) -> CodeGenerator:
@@ -20,6 +20,10 @@ def get_generator(target: Target) -> CodeGenerator:
         from mimic.codegen.react import ReactGenerator
 
         return ReactGenerator(typescript=True)
+    if target == "vue":
+        from mimic.codegen.vue import VueGenerator
+
+        return VueGenerator()
     raise ValueError(f"Unknown target: {target!r}. Supported: {_TARGETS}")
 
 

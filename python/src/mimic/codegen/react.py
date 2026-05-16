@@ -15,6 +15,7 @@ from __future__ import annotations
 
 import html
 
+from mimic.codegen._icons import heroicon_svg
 from mimic.codegen._tailwind import layout_classes, style_classes
 from mimic.codegen.base import GeneratedFile, Target
 from mimic.models import Screen, WidgetNode, WidgetTree
@@ -352,7 +353,11 @@ def _emit_widget(node: WidgetNode, tree: WidgetTree, theme: Theme, indent: int =
         )
 
     if node.kind == "icon":
-        return f'{pad}<span{cls_attr} aria-hidden="true">●</span>'
+        svg = heroicon_svg(node.icon_name, classes="w-6 h-6")
+        return (
+            f'{pad}<span{cls_attr} aria-hidden="true" '
+            f"dangerouslySetInnerHTML={{{{__html: `{svg}`}}}} />"
+        )
 
     if node.kind == "image":
         src = html.escape(node.image_url or "")
@@ -370,9 +375,10 @@ def _emit_widget(node: WidgetNode, tree: WidgetTree, theme: Theme, indent: int =
         )
 
     if node.kind == "fab":
+        svg = heroicon_svg(node.icon_name or "add", classes="w-6 h-6")
         return (
-            f'{pad}<button type="button"{cls_attr}{on_click} aria-label="action">'
-            '<span className="text-2xl">+</span></button>'
+            f'{pad}<button type="button"{cls_attr}{on_click} aria-label="action" '
+            f"dangerouslySetInnerHTML={{{{__html: `{svg}`}}}} />"
         )
 
     if node.kind == "divider":

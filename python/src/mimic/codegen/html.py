@@ -15,6 +15,7 @@ from __future__ import annotations
 import html
 import json
 
+from mimic.codegen._icons import heroicon_svg
 from mimic.codegen._tailwind import layout_classes, style_classes
 from mimic.codegen.base import GeneratedFile, Target
 from mimic.models import WidgetNode, WidgetTree
@@ -161,7 +162,11 @@ def _emit_widget(node: WidgetNode, theme: Theme, indent: int = 0) -> str:
             body = f"{body}\n{children}" if body else f"\n{children}"
         return f"{pad}<{tag}{id_attr}{cls_attr}>{body}\n{pad}</{tag}>"
 
-    if node.kind in {"text", "icon"}:
+    if node.kind == "icon":
+        svg = heroicon_svg(node.icon_name, classes="w-6 h-6")
+        return f"{pad}<span{id_attr}{cls_attr} aria-hidden=\"true\">{svg}</span>"
+
+    if node.kind == "text":
         return f"{pad}<{tag}{id_attr}{cls_attr}>{inner}</{tag}>"
 
     if node.kind == "button":
@@ -189,9 +194,10 @@ def _emit_widget(node: WidgetNode, theme: Theme, indent: int = 0) -> str:
         )
 
     if node.kind == "fab":
+        svg = heroicon_svg(node.icon_name or "add", classes="w-6 h-6")
         return (
             f'{pad}<button{id_attr}{cls_attr} type="button" aria-label="action">'
-            f'<span class="text-2xl">+</span></button>'
+            f"{svg}</button>"
         )
 
     if node.kind == "divider":

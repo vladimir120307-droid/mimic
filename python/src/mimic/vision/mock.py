@@ -423,7 +423,7 @@ def _calendar_flow() -> WidgetTree:
 
 
 def _ecommerce_flow() -> WidgetTree:
-    def product(idx: int, title: str, price: str) -> WidgetNode:
+    def product(idx: int, title: str, price: str, image_url: str) -> WidgetNode:
         return WidgetNode(
             id=f"prod_{idx}",
             kind="card",
@@ -437,9 +437,11 @@ def _ecommerce_flow() -> WidgetTree:
             children=[
                 WidgetNode(
                     id=f"prod_img_{idx}",
-                    kind="container",
+                    kind="image",
+                    image_url=image_url,
+                    semantic_label=title,
                     bounds=_bb(0, 0, 1, 0.6),
-                    style=Style(background_color="#E2E8F0", border_radius=8),
+                    style=Style(border_radius=8),
                 ),
                 WidgetNode(
                     id=f"prod_title_{idx}",
@@ -486,10 +488,14 @@ def _ecommerce_flow() -> WidgetTree:
                 kind="stack",
                 bounds=_bb(0.02, 0.18, 0.96, 0.78),
                 children=[
-                    product(0, "Linen shirt", "$48"),
-                    product(1, "Knit sweater", "$72"),
-                    product(2, "Wool coat", "$195"),
-                    product(3, "Cotton trousers", "$56"),
+                    product(0, "Linen shirt", "$48",
+                            "https://picsum.photos/seed/linen/400/400"),
+                    product(1, "Knit sweater", "$72",
+                            "https://picsum.photos/seed/sweater/400/400"),
+                    product(2, "Wool coat", "$195",
+                            "https://picsum.photos/seed/coat/400/400"),
+                    product(3, "Cotton trousers", "$56",
+                            "https://picsum.photos/seed/trousers/400/400"),
                 ],
             ),
         ],
@@ -502,9 +508,10 @@ def _ecommerce_flow() -> WidgetTree:
         children=[
             WidgetNode(
                 id="detail_image",
-                kind="container",
+                kind="image",
+                image_url="https://picsum.photos/seed/linen/1200/800",
+                semantic_label="Linen shirt",
                 bounds=_bb(0, 0, 1, 0.45),
-                style=Style(background_color="#E2E8F0"),
             ),
             WidgetNode(
                 id="detail_title",

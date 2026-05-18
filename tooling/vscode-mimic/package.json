@@ -1,0 +1,139 @@
+{
+  "name": "vscode-mimic",
+  "displayName": "mimic — screenshot to code",
+  "description": "Right-click any screenshot or screen recording to generate Flutter, HTML, or React code.",
+  "version": "0.1.0",
+  "publisher": "vladimir120307-droid",
+  "license": "MIT",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Other",
+    "Snippets",
+    "Programming Languages"
+  ],
+  "keywords": [
+    "flutter",
+    "react",
+    "tailwind",
+    "screenshot",
+    "code generation",
+    "ui",
+    "design to code"
+  ],
+  "icon": "images/icon.png",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vladimir120307-droid/mimic"
+  },
+  "homepage": "https://github.com/vladimir120307-droid/mimic",
+  "bugs": {
+    "url": "https://github.com/vladimir120307-droid/mimic/issues"
+  },
+  "activationEvents": [
+    "onCommand:mimic.generate",
+    "onCommand:mimic.generateFlutter",
+    "onCommand:mimic.generateHtml",
+    "onCommand:mimic.generateReact",
+    "onCommand:mimic.doctor"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "mimic.generate",
+        "title": "mimic: Generate from screenshot…",
+        "category": "mimic"
+      },
+      {
+        "command": "mimic.generateFlutter",
+        "title": "mimic: Generate Flutter from this screenshot",
+        "category": "mimic"
+      },
+      {
+        "command": "mimic.generateHtml",
+        "title": "mimic: Generate HTML from this screenshot",
+        "category": "mimic"
+      },
+      {
+        "command": "mimic.generateReact",
+        "title": "mimic: Generate React from this screenshot",
+        "category": "mimic"
+      },
+      {
+        "command": "mimic.doctor",
+        "title": "mimic: Doctor (diagnose environment)",
+        "category": "mimic"
+      }
+    ],
+    "menus": {
+      "explorer/context": [
+        {
+          "when": "resourceExtname =~ /\\.(png|jpg|jpeg|webp)$/",
+          "submenu": "mimic.generateSubmenu",
+          "group": "navigation@9"
+        }
+      ],
+      "mimic.generateSubmenu": [
+        {
+          "command": "mimic.generateFlutter",
+          "group": "1_targets@1"
+        },
+        {
+          "command": "mimic.generateHtml",
+          "group": "1_targets@2"
+        },
+        {
+          "command": "mimic.generateReact",
+          "group": "1_targets@3"
+        }
+      ]
+    },
+    "submenus": [
+      {
+        "id": "mimic.generateSubmenu",
+        "label": "mimic: Generate"
+      }
+    ],
+    "configuration": {
+      "title": "mimic",
+      "properties": {
+        "mimic.binaryPath": {
+          "type": "string",
+          "default": "mimic",
+          "description": "Path to the `mimic` CLI. Defaults to looking it up on PATH."
+        },
+        "mimic.defaultTarget": {
+          "type": "string",
+          "default": "flutter",
+          "enum": ["flutter", "html", "react"],
+          "description": "Default output framework for the 'Generate from screenshot…' command."
+        },
+        "mimic.defaultProvider": {
+          "type": "string",
+          "default": "claude",
+          "description": "Default vision provider: claude, openai, mock:dashboard, etc."
+        },
+        "mimic.outputDirectory": {
+          "type": "string",
+          "default": "${workspaceFolder}/mimic-output",
+          "description": "Where to write generated files. Supports ${workspaceFolder}."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile":           "tsc -p ./",
+    "watch":             "tsc -watch -p ./",
+    "lint":              "eslint src --ext ts",
+    "package":           "vsce package --no-dependencies"
+  },
+  "devDependencies": {
+    "@types/node":   "^20.11.0",
+    "@types/vscode": "^1.85.0",
+    "typescript":    "^5.4.0",
+    "@vscode/vsce":  "^2.27.0"
+  }
+}

@@ -23,10 +23,34 @@ class CatalogScreen extends StatelessWidget {
               ),
               Stack(
                 children: [
-                  const _Shared1(),
-                  const _Shared1(),
-                  const _Shared1(),
-                  const _Shared1(),
+                  Card(
+                    child: Image.network(
+                      "https://picsum.photos/seed/linen/400/400",
+                    ),
+                    color: const Color(0xFFFFFFFF),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
+                  ),
+                  Card(
+                    child: Image.network(
+                      "https://picsum.photos/seed/sweater/400/400",
+                    ),
+                    color: const Color(0xFFFFFFFF),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
+                  ),
+                  Card(
+                    child: Image.network(
+                      "https://picsum.photos/seed/coat/400/400",
+                    ),
+                    color: const Color(0xFFFFFFFF),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
+                  ),
+                  Card(
+                    child: Image.network(
+                      "https://picsum.photos/seed/trousers/400/400",
+                    ),
+                    color: const Color(0xFFFFFFFF),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
+                  ),
               ],
               ),
           ],

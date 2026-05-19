@@ -13,8 +13,8 @@ class ProductScreen extends StatelessWidget {
         child:
           Column(
             children: [
-              Container(
-                decoration: BoxDecoration(color: const Color(0xFFE2E8F0)),
+              Image.network(
+                "https://picsum.photos/seed/linen/1200/800",
               ),
               Text(
                 "Linen shirt",

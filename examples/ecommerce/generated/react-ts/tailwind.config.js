@@ -5,7 +5,7 @@ export default {
     extend: {
       colors: {
         primary: '#E11D48',
-        surface: '#E2E8F0',
+        surface: '#FFFFFF',
         on_surface: '#0F172A',
         background: '#FFFFFF',
       },

@@ -21,7 +21,7 @@ export default function Home() {
           <div className=" flex items-center justify-between py-3 cursor-pointer"><span>Saved projects</span><span className="text-slate-400">›</span></div>
           <div className=" flex items-center justify-between py-3 cursor-pointer"><span>Settings</span><span className="text-slate-400">›</span></div>
         </div>
-        <button type="button" className="fixed bottom-6 right-6 w-14 h-14 rounded-full shadow-lg flex items-center justify-center bg-primary text-background" onClick={() => onTap("fab")} aria-label="action"><span className="text-2xl">+</span></button>
+        <button type="button" className="fixed bottom-6 right-6 w-14 h-14 rounded-full shadow-lg flex items-center justify-center bg-primary text-background" onClick={() => onTap("fab")} aria-label="action" dangerouslySetInnerHTML={{__html: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>`}} />
       </div>
     </section>
   );

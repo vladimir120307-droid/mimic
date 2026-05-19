@@ -9,7 +9,7 @@
     tailwind.config = {
       theme: { extend: { colors: {
   'primary': '#E11D48',
-  'surface': '#E2E8F0',
+  'surface': '#FFFFFF',
   'on_surface': '#0F172A',
   'background': '#FFFFFF'
 } } }
@@ -37,26 +37,22 @@
     <input data-mimic-id="catalog_search" type="text" placeholder="Search products" class=" w-full px-3 py-2 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-violet-500" />
     <div data-mimic-id="catalog_grid" class="relative">
       <article data-mimic-id="prod_0" class="rounded-2xl bg-white shadow-sm p-4 bg-background rounded-lg shadow-md p-3">
-        <div data-mimic-id="prod_img_0" class="bg-surface rounded">
-        </div>
+        <img data-mimic-id="prod_img_0" src="https://picsum.photos/seed/linen/400/400" alt="Linen shirt" class="rounded" />
         <p data-mimic-id="prod_title_0" class="text-sm font-semibold">Linen shirt</p>
         <p data-mimic-id="prod_price_0" class="text-primary text-base font-bold">$48</p>
       </article>
       <article data-mimic-id="prod_1" class="rounded-2xl bg-white shadow-sm p-4 bg-background rounded-lg shadow-md p-3">
-        <div data-mimic-id="prod_img_1" class="bg-surface rounded">
-        </div>
+        <img data-mimic-id="prod_img_1" src="https://picsum.photos/seed/sweater/400/400" alt="Knit sweater" class="rounded" />
         <p data-mimic-id="prod_title_1" class="text-sm font-semibold">Knit sweater</p>
         <p data-mimic-id="prod_price_1" class="text-primary text-base font-bold">$72</p>
       </article>
       <article data-mimic-id="prod_2" class="rounded-2xl bg-white shadow-sm p-4 bg-background rounded-lg shadow-md p-3">
-        <div data-mimic-id="prod_img_2" class="bg-surface rounded">
-        </div>
+        <img data-mimic-id="prod_img_2" src="https://picsum.photos/seed/coat/400/400" alt="Wool coat" class="rounded" />
         <p data-mimic-id="prod_title_2" class="text-sm font-semibold">Wool coat</p>
         <p data-mimic-id="prod_price_2" class="text-primary text-base font-bold">$195</p>
       </article>
       <article data-mimic-id="prod_3" class="rounded-2xl bg-white shadow-sm p-4 bg-background rounded-lg shadow-md p-3">
-        <div data-mimic-id="prod_img_3" class="bg-surface rounded">
-        </div>
+        <img data-mimic-id="prod_img_3" src="https://picsum.photos/seed/trousers/400/400" alt="Cotton trousers" class="rounded" />
         <p data-mimic-id="prod_title_3" class="text-sm font-semibold">Cotton trousers</p>
         <p data-mimic-id="prod_price_3" class="text-primary text-base font-bold">$56</p>
       </article>
@@ -65,8 +61,7 @@
 </section>
 <section id="product_detail" class="screen min-h-screen">
   <div data-mimic-id="product_detail_root" class="flex flex-col gap-2 bg-background">
-    <div data-mimic-id="detail_image" class="bg-surface">
-    </div>
+    <img data-mimic-id="detail_image" src="https://picsum.photos/seed/linen/1200/800" alt="Linen shirt" class="" />
     <p data-mimic-id="detail_title" class="text-2xl font-bold">Linen shirt</p>
     <p data-mimic-id="detail_price" class="text-primary text-lg">$48</p>
     <p data-mimic-id="detail_desc" class="text-[#64748B] text-sm">Soft, breathable linen with a relaxed cut. Ethically sourced.</p>

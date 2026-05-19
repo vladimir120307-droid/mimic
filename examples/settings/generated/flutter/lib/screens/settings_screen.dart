@@ -27,7 +27,18 @@ class SettingsScreen extends StatelessWidget {
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
               ),
               Card(
-                child: const _Shared1(),
+                child: Row(
+                  children: [
+                    Text(
+                      "Push notifications",
+                      style: TextStyle(fontSize: 15.0),
+                    ),
+                    Switch(
+                      value: true,
+                      onChanged: (_) {},
+                    ),
+                ],
+                ),
                 color: const Color(0xFFFFFFFF),
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
               ),

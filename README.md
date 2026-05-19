@@ -18,6 +18,8 @@ Turn a screen recording (or a single screenshot) into clean **Flutter**, **HTML/
 [![Made with Flutter](https://img.shields.io/badge/Made_with-Flutter-02569B?logo=flutter)](https://flutter.dev)
 [![VS Code](https://img.shields.io/badge/VS_Code-Extension-007ACC?logo=visualstudiocode)](tooling/vscode-mimic)
 
+**📺 [Live example gallery](https://vladimir120307-droid.github.io/mimic/)** — click any fixture to see the HTML mimic generates, rendered live in your browser.
+
 <img src="assets/demo.gif" alt="mimic demo" width="720" />
 
 </div>
@@ -88,10 +90,10 @@ See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for the full design.
 | Flutter             | 🟢 v0.1       | Material 3 buttons, ColorScheme, Navigator routes  |
 | HTML + Tailwind     | 🟢 v0.1       | Single-file, inline `tailwind.config` palette      |
 | React + Tailwind    | 🟢 v0.1       | Vite + react-router + theme.extend palette         |
-| **React + TypeScript** | 🟢 v0.1    | `.tsx`, typed RouteMap, full tsconfig              |
+| React + TypeScript  | 🟢 v0.1       | `.tsx`, typed RouteMap, full tsconfig              |
+| **Vue 3 + Tailwind**| 🟢 v0.2       | Vite + vue-router + single-file `.vue` components  |
 | SwiftUI             | ⚪ planned    | iOS/macOS native                                   |
 | Jetpack Compose     | ⚪ planned    | Android native                                     |
-| Vue                 | ⚪ community  | Contributions welcome                              |
 
 ## How does mimic compare?
 

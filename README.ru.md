@@ -18,6 +18,8 @@
 [![Made with Flutter](https://img.shields.io/badge/Made_with-Flutter-02569B?logo=flutter)](https://flutter.dev)
 [![VS Code](https://img.shields.io/badge/VS_Code-Extension-007ACC?logo=visualstudiocode)](tooling/vscode-mimic)
 
+**📺 [Живая галерея примеров](https://vladimir120307-droid.github.io/mimic/)** — кликни любую фикстуру и увидишь HTML, который mimic сгенерировал, прямо в браузере.
+
 <img src="assets/demo.gif" alt="mimic demo" width="720" />
 
 </div>
@@ -88,10 +90,10 @@ mimic bench --target flutter
 | Flutter                | 🟢 v0.1       | Material 3 кнопки, ColorScheme, Navigator маршруты     |
 | HTML + Tailwind        | 🟢 v0.1       | Один файл, inline `tailwind.config` с палитрой         |
 | React + Tailwind       | 🟢 v0.1       | Vite + react-router + theme.extend палитра             |
-| **React + TypeScript** | 🟢 v0.1       | `.tsx`, типизированный RouteMap, полный tsconfig       |
+| React + TypeScript     | 🟢 v0.1       | `.tsx`, типизированный RouteMap, полный tsconfig       |
+| **Vue 3 + Tailwind**   | 🟢 v0.2       | Vite + vue-router + однофайловые `.vue` компоненты     |
 | SwiftUI                | ⚪ план       | Нативный iOS/macOS                                     |
 | Jetpack Compose        | ⚪ план       | Нативный Android                                       |
-| Vue                    | ⚪ community  | Ждём контрибьюшен                                      |
 
 ## Сравнение с альтернативами
 

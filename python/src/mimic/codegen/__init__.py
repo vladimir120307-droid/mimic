@@ -1,6 +1,6 @@
 from mimic.codegen.base import CodeGenerator, GeneratedFile, Target
 
-_TARGETS = ("flutter", "html", "react", "react-ts", "vue")
+_TARGETS = ("flutter", "html", "react", "react-ts", "vue", "swiftui")
 
 
 def get_generator(target: Target) -> CodeGenerator:
@@ -24,6 +24,10 @@ def get_generator(target: Target) -> CodeGenerator:
         from mimic.codegen.vue import VueGenerator
 
         return VueGenerator()
+    if target == "swiftui":
+        from mimic.codegen.swiftui import SwiftUIGenerator
+
+        return SwiftUIGenerator()
     raise ValueError(f"Unknown target: {target!r}. Supported: {_TARGETS}")
 
 

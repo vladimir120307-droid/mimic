@@ -14,7 +14,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
-from mimic.codegen._dedup import DedupResult, analyze
+from mimic.codegen._dedup import DedupResult, SharedComponent, analyze
 from mimic.codegen._icons import flutter_icon
 from mimic.codegen.base import GeneratedFile, Target
 from mimic.models import Screen, Style, WidgetNode, WidgetTree
@@ -151,10 +151,28 @@ class {class_name} extends StatelessWidget {{
 def _emit_shared(ctx: _Ctx) -> str:
     parts: list[str] = ["import 'package:flutter/material.dart';\n"]
     for shared in ctx.dedup.shared:
-        body = _emit_widget(shared.template, ctx, indent=6, in_shared=True)
+        slot_lookup = {(s.path, s.kind): s.name for s in shared.slots}
+        body = _emit_widget(
+            shared.template, ctx, indent=6, in_shared=shared,
+            path=(), slot_lookup=slot_lookup,
+        )
+        ctor_params = ", ".join(
+            f"required this.{slot.name}" for slot in shared.slots
+        )
+        ctor_args = (
+            "{" + ("super.key, " + ctor_params if ctor_params else "super.key") + "}"
+        )
+        field_decls = (
+            "\n  ".join(f"final String {slot.name};" for slot in shared.slots)
+            if shared.slots
+            else ""
+        )
+        const_kw = "const " if not shared.slots else ""
         parts.append(
             f"""class {shared.name} extends StatelessWidget {{
-  const {shared.name}({{super.key}});
+  {const_kw}{shared.name}({ctor_args});
+
+  {field_decls}
 
   @override
   Widget build(BuildContext context) {{
@@ -167,19 +185,45 @@ def _emit_shared(ctx: _Ctx) -> str:
     return "\n".join(parts)
 
 
-def _emit_widget(node: WidgetNode, ctx: _Ctx, indent: int = 0, in_shared: bool = False) -> str:
+def _emit_widget(
+    node:        WidgetNode,
+    ctx:         _Ctx,
+    indent:      int = 0,
+    in_shared:   SharedComponent | None = None,
+    path:        tuple[int, ...] = (),
+    slot_lookup: dict[tuple[tuple[int, ...], str], str] | None = None,
+) -> str:
     pad = " " * indent
 
-    if not in_shared:
-        shared_name = ctx.dedup.shared_name_for(node.id)
-        if shared_name:
-            return f"{pad}const {shared_name}()"
+    if in_shared is None:
+        component = ctx.dedup.component_for(node.id)
+        if component:
+            if not component.slots:
+                return f"{pad}const {component.name}()"
+            args = ", ".join(
+                f'{slot.name}: "{_escape(component.bindings[node.id].get(slot.name, ""))}"'
+                for slot in component.slots
+            )
+            return f"{pad}{component.name}({args})"
 
     cls = _KIND_MAP.get(node.kind, "Container")
     args: list[str] = []
 
+    def _slot(kind: str) -> str | None:
+        if slot_lookup is None:
+            return None
+        return slot_lookup.get((path, kind))
+
+    def _str_lit(value: str, kind: str, *, const: bool = True) -> str:
+        """Dart string expression — slot reference when shared, literal otherwise."""
+        s = _slot(kind)
+        if s is not None:
+            return s
+        prefix = "const " if const else ""
+        return f'{prefix}"{_escape(value)}"' if not const else f'"{_escape(value)}"'
+
     if node.kind == "text" and node.text is not None:
-        args.append(f'"{_escape(node.text)}"')
+        args.append(_str_lit(node.text, "text"))
         style = _text_style(node.style)
         if style:
             args.append(f"style: {style}")
@@ -215,23 +259,33 @@ def _emit_widget(node: WidgetNode, ctx: _Ctx, indent: int = 0, in_shared: bool =
                     f"style: OutlinedButton.styleFrom("
                     f"side: BorderSide(color: {_color(node.style.border_color)}))"
                 )
-            args.append(f'child: const Text("{_escape(label)}")')
+            slot = _slot("text")
+            text_arg = slot if slot else f'"{_escape(label)}"'
+            args.append(f"child: Text({text_arg})")
 
     elif node.kind == "text_field" and node.placeholder:
-        args.append(
-            f"decoration: const InputDecoration("
-            f'hintText: "{_escape(node.placeholder)}", border: OutlineInputBorder())'
-        )
+        ph_slot = _slot("placeholder")
+        if ph_slot:
+            args.append(
+                f"decoration: InputDecoration("
+                f"hintText: {ph_slot}, border: const OutlineInputBorder())"
+            )
+        else:
+            args.append(
+                f"decoration: const InputDecoration("
+                f'hintText: "{_escape(node.placeholder)}", border: OutlineInputBorder())'
+            )
 
     elif node.kind == "icon" and node.icon_name:
-        args = [f"Icons.{flutter_icon(node.icon_name)}"]
+        args = [f"Icons.{flutter_icon(node.icon_name)}"]  # icon name slot unsupported in v0.3
         if node.style.font_size is not None:
             args.append(f"size: {node.style.font_size}")
         if node.style.foreground_color:
             args.append(f"color: {_color(node.style.foreground_color)}")
 
     elif node.kind == "image" and node.image_url:
-        args = [f'"{_escape(node.image_url)}"']
+        img_slot = _slot("image")
+        args = [img_slot if img_slot else f'"{_escape(node.image_url)}"']
 
     elif node.kind == "switch":
         args = ["value: true", "onChanged: (_) {}"]
@@ -253,24 +307,50 @@ def _emit_widget(node: WidgetNode, ctx: _Ctx, indent: int = 0, in_shared: bool =
     elif node.kind == "list_item":
         on_tap = ctx.interactions.get(node.id)
         if node.text:
-            args.append(f'title: const Text("{_escape(node.text)}")')
+            slot = _slot("text")
+            title_arg = slot if slot else f'"{_escape(node.text)}"'
+            args.append(f"title: Text({title_arg})")
         if on_tap:
             args.append(f'onTap: () => Navigator.pushNamed(context, "/{on_tap}")')
         args.append("trailing: const Icon(Icons.chevron_right)")
 
     elif node.kind == "app_bar":
         if node.text:
-            args.append(f'title: const Text("{_escape(node.text)}")')
+            slot = _slot("text")
+            title_arg = slot if slot else f'"{_escape(node.text)}"'
+            args.append(f"title: Text({title_arg})")
         if node.style.background_color:
             args.append(f"backgroundColor: {_color(node.style.background_color)}")
         if node.style.foreground_color:
             args.append(f"foregroundColor: {_color(node.style.foreground_color)}")
 
     if node.children and node.kind in {"row", "column", "stack", "list"}:
-        children = ",\n".join(_emit_widget(c, ctx, indent + 4, in_shared) for c in node.children)
+        children = ",\n".join(
+            _emit_widget(c, ctx, indent + 4, in_shared, path + (i,), slot_lookup)
+            for i, c in enumerate(node.children)
+        )
         args.append(f"children: [\n{children},\n{pad}]")
     elif node.children and node.kind in {"container", "card", "scroll_view"}:
-        args.append("child: " + _emit_widget(node.children[0], ctx, indent + 2, in_shared).lstrip())
+        if len(node.children) == 1:
+            args.append(
+                "child: "
+                + _emit_widget(
+                    node.children[0], ctx, indent + 2, in_shared, path + (0,), slot_lookup
+                ).lstrip()
+            )
+        else:
+            # Multi-child container/card → wrap children in a Column so we
+            # don't silently drop content
+            child_lines = ",\n".join(
+                _emit_widget(c, ctx, indent + 6, in_shared, path + (i,), slot_lookup)
+                for i, c in enumerate(node.children)
+            )
+            args.append(
+                f"child: Column(\n"
+                f"{pad}    crossAxisAlignment: CrossAxisAlignment.start,\n"
+                f"{pad}    children: [\n{child_lines},\n{pad}    ],\n"
+                f"{pad}  )"
+            )
 
     if node.kind == "container":
         deco = _container_decoration(node.style)

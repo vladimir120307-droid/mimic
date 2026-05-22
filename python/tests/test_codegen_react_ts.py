@@ -39,5 +39,5 @@ def test_react_js_does_not_emit_typescript_artifacts():
 def test_react_ts_package_json_has_typescript_dev_dep():
     files = get_generator("react-ts").generate(get_fixture("login"))
     pkg = next(f for f in files if f.path == "package.json")
-    assert "\"typescript\":" in pkg.content
+    assert '"typescript":' in pkg.content
     assert "@types/react" in pkg.content

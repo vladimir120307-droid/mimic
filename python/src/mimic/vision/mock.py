@@ -52,9 +52,7 @@ def _login_screen() -> WidgetTree:
                 kind="text",
                 text="Sign in to continue to your dashboard",
                 bounds=_bb(0.1, 0.36, 0.8, 0.05),
-                style=Style(
-                    font_size=14, foreground_color="#64748B", text_align="center"
-                ),
+                style=Style(font_size=14, foreground_color="#64748B", text_align="center"),
             ),
             WidgetNode(
                 id="email_field",
@@ -109,8 +107,7 @@ def _dashboard_flow() -> WidgetTree:
                         kind="text",
                         text="mimic",
                         bounds=_bb(0.05, 0.02, 0.4, 0.04),
-                        style=Style(font_size=20, font_weight="bold",
-                                    foreground_color="#FFFFFF"),
+                        style=Style(font_size=20, font_weight="bold", foreground_color="#FFFFFF"),
                     ),
                 ],
             ),
@@ -118,8 +115,7 @@ def _dashboard_flow() -> WidgetTree:
                 id="hero_card",
                 kind="card",
                 bounds=_bb(0.05, 0.12, 0.9, 0.18),
-                style=Style(background_color="#EEF2FF", border_radius=16,
-                            padding=(16, 16, 16, 16)),
+                style=Style(background_color="#EEF2FF", border_radius=16, padding=(16, 16, 16, 16)),
                 children=[
                     WidgetNode(
                         id="hero_text",
@@ -183,8 +179,7 @@ def _dashboard_flow() -> WidgetTree:
                 kind="text",
                 text="No activity yet — start recording to see something here",
                 bounds=_bb(0.1, 0.45, 0.8, 0.1),
-                style=Style(font_size=15, foreground_color="#94A3B8",
-                            text_align="center"),
+                style=Style(font_size=15, foreground_color="#94A3B8", text_align="center"),
             ),
         ],
     )
@@ -234,9 +229,7 @@ def _chat_flow() -> WidgetTree:
                         text=name,
                         style=Style(font_size=15, font_weight="500"),
                     )
-                    for i, name in enumerate(
-                        ["Anna", "Boris", "Team", "Mike", "Family"]
-                    )
+                    for i, name in enumerate(["Anna", "Boris", "Team", "Mike", "Family"])
                 ],
             ),
         ],
@@ -298,7 +291,7 @@ def _chat_flow() -> WidgetTree:
     return WidgetTree(
         screens=[
             Screen(id="inbox", name="Inbox", root=inbox_root),
-            Screen(id="chat",  name="Chat",  root=chat_root),
+            Screen(id="chat", name="Chat", root=chat_root),
         ],
         interactions=[
             Interaction(kind="tap", source_widget_id="thread_0", target_screen_id="chat"),
@@ -333,8 +326,7 @@ def _calendar_flow() -> WidgetTree:
                         kind="text",
                         text=d,
                         bounds=_bb(i * 0.14, 0, 0.14, 1),
-                        style=Style(font_size=12, foreground_color="#64748B",
-                                    text_align="center"),
+                        style=Style(font_size=12, foreground_color="#64748B", text_align="center"),
                     )
                     for i, d in enumerate(["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"])
                 ],
@@ -420,11 +412,11 @@ def _calendar_flow() -> WidgetTree:
     )
     return WidgetTree(
         screens=[
-            Screen(id="month",        name="Month",        root=month_root),
+            Screen(id="month", name="Month", root=month_root),
             Screen(id="event_detail", name="Event Detail", root=detail_root),
         ],
         interactions=[
-            Interaction(kind="tap", source_widget_id="next_event",  target_screen_id="event_detail"),
+            Interaction(kind="tap", source_widget_id="next_event", target_screen_id="event_detail"),
         ],
         target_platform="mobile",
     )
@@ -494,10 +486,10 @@ def _ecommerce_flow() -> WidgetTree:
                 kind="stack",
                 bounds=_bb(0.02, 0.18, 0.96, 0.78),
                 children=[
-                    product(0, "Linen shirt",    "$48"),
-                    product(1, "Knit sweater",   "$72"),
-                    product(2, "Wool coat",      "$195"),
-                    product(3, "Cotton trousers","$56"),
+                    product(0, "Linen shirt", "$48"),
+                    product(1, "Knit sweater", "$72"),
+                    product(2, "Wool coat", "$195"),
+                    product(3, "Cotton trousers", "$56"),
                 ],
             ),
         ],
@@ -546,8 +538,8 @@ def _ecommerce_flow() -> WidgetTree:
     )
     return WidgetTree(
         screens=[
-            Screen(id="catalog",        name="Catalog",       root=list_root),
-            Screen(id="product_detail", name="Product",       root=detail_root),
+            Screen(id="catalog", name="Catalog", root=list_root),
+            Screen(id="product_detail", name="Product", root=detail_root),
         ],
         interactions=[
             Interaction(kind="tap", source_widget_id=f"prod_{i}", target_screen_id="product_detail")
@@ -575,8 +567,7 @@ def _settings_screen() -> WidgetTree:
                 id="profile_card",
                 kind="card",
                 bounds=_bb(0.04, 0.1, 0.92, 0.14),
-                style=Style(background_color="#FFFFFF", border_radius=16,
-                            padding=(16, 16, 16, 16)),
+                style=Style(background_color="#FFFFFF", border_radius=16, padding=(16, 16, 16, 16)),
                 children=[
                     WidgetNode(
                         id="profile_name",
@@ -598,8 +589,7 @@ def _settings_screen() -> WidgetTree:
                 id="section_notifications",
                 kind="card",
                 bounds=_bb(0.04, 0.27, 0.92, 0.24),
-                style=Style(background_color="#FFFFFF", border_radius=16,
-                            padding=(8, 16, 8, 16)),
+                style=Style(background_color="#FFFFFF", border_radius=16, padding=(8, 16, 8, 16)),
                 children=[
                     WidgetNode(
                         id="row_push",
@@ -676,12 +666,12 @@ def _settings_screen() -> WidgetTree:
 
 
 _FIXTURES = {
-    "login":     _login_screen(),
+    "login": _login_screen(),
     "dashboard": _dashboard_flow(),
-    "chat":      _chat_flow(),
-    "calendar":  _calendar_flow(),
+    "chat": _chat_flow(),
+    "calendar": _calendar_flow(),
     "ecommerce": _ecommerce_flow(),
-    "settings":  _settings_screen(),
+    "settings": _settings_screen(),
 }
 
 
@@ -696,9 +686,7 @@ class MockVision(VisionProvider):
 
     def __init__(self, fixture: str = "dashboard") -> None:
         if fixture not in _FIXTURES:
-            raise ValueError(
-                f"Unknown mock fixture {fixture!r}. Available: {sorted(_FIXTURES)}"
-            )
+            raise ValueError(f"Unknown mock fixture {fixture!r}. Available: {sorted(_FIXTURES)}")
         self._fixture = fixture
 
     async def analyze(self, source: VisionInput) -> WidgetTree:

@@ -3,7 +3,7 @@ from pathlib import Path
 
 import pytest
 
-from mimic.codegen import get_generator, list_targets
+from mimic.codegen import list_targets
 from mimic.pipeline import Pipeline
 from mimic.vision.base import VisionInput
 from mimic.vision.mock import MockVision, list_fixtures

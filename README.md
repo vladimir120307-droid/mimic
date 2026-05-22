@@ -93,6 +93,18 @@ See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for the full design.
 | Jetpack Compose     | ⚪ planned    | Android native                                     |
 | Vue                 | ⚪ community  | Contributions welcome                              |
 
+## How does mimic compare?
+
+| Tool                                                                   | Video input | Flutter output | TypeScript | Component dedup | Open source | Self-hosted     |
+| ---------------------------------------------------------------------- | :---------: | :------------: | :--------: | :-------------: | :---------: | :-------------: |
+| **mimic** (this project)                                               |    ✅       |     ✅         |   ✅       |     ✅          |    MIT      |       ✅        |
+| [abi/screenshot-to-code](https://github.com/abi/screenshot-to-code)    |    ❌       |     ❌         |   ✅       |     ❌          |   MIT       |       ✅        |
+| [Locofy](https://www.locofy.ai/)                                       |    ❌       |     ✅         |   ✅       |     partial     |  closed     |       ❌        |
+| [Anima](https://www.animaapp.com/)                                     |    ❌       |     ❌         |   ✅       |     partial     |  closed     |       ❌        |
+| [Builder.io Visual Copilot](https://www.builder.io/m/visual-copilot)   |    ❌       |     ❌         |   ✅       |     partial     |  closed     |       ❌        |
+
+mimic is the only open-source tool that targets **Flutter as a first-class output** and accepts **video** in addition to single screenshots. It also runs fully **on your machine** — no design file required, no proprietary cloud round-trip.
+
 ## Roadmap
 
 See [docs/ROADMAP.md](docs/ROADMAP.md). Highlights:

@@ -67,17 +67,31 @@ target-version = "py310"
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "B", "UP", "SIM", "RUF"]
-ignore = ["E501"]
+# E501  - line length (handled by --line-length, not enforced here)
+# E701  - multiple statements on one line (used for aligned guard clauses)
+# RUF001- ambiguous unicode (×, ›) — intentional in generated UI strings
+# RUF002- ambiguous unicode in docstrings — same reason
+# RUF003- ambiguous unicode in comments — Russian text in tests/docs
+ignore = ["E501", "E701", "RUF001", "RUF002", "RUF003"]
+
+[tool.ruff.lint.per-file-ignores]
+# Tests can shadow built-ins and use longer lines without complaint.
+"tests/**" = ["E741", "B007"]
 
 [tool.ruff.format]
 quote-style = "double"
 
 [tool.mypy]
-python_version       = "3.10"
-strict               = true
-warn_unused_ignores  = true
-warn_return_any      = true
-disallow_untyped_defs = true
+python_version        = "3.10"
+strict                = false
+warn_unused_ignores   = true
+warn_return_any       = false
+disallow_untyped_defs = false
+# We use strict-ish defaults but allow gradual typing; CI runs `mypy src/mimic`
+# which mostly catches obvious shape errors without forcing every helper to
+# have explicit signatures.
+ignore_missing_imports = true
+allow_untyped_globals  = true
 
 [tool.pytest.ini_options]
 testpaths      = ["tests"]

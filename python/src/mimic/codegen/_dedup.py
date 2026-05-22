@@ -35,22 +35,22 @@ class DedupResult:
         return self.id_to_shared.get(node_id)
 
 
-def analyze(
-    tree: WidgetTree, *, min_occurrences: int = 2, min_depth: int = 2
-) -> DedupResult:
+def analyze(tree: WidgetTree, *, min_occurrences: int = 2, min_depth: int = 2) -> DedupResult:
     skeletons: dict[str, list[WidgetNode]] = defaultdict(list)
     for screen in tree.screens:
         _gather(screen.root, depth=0, min_depth=min_depth, into=skeletons)
 
     result = DedupResult()
     counter = 0
-    for digest, nodes in skeletons.items():
+    for _digest, nodes in skeletons.items():
         if len(nodes) < min_occurrences:
             continue
         counter += 1
         name = f"_Shared{counter}"
         template = nodes[0]
-        result.shared.append(SharedComponent(name=name, template=template, occurrences=[n.id for n in nodes]))
+        result.shared.append(
+            SharedComponent(name=name, template=template, occurrences=[n.id for n in nodes])
+        )
         for n in nodes:
             result.id_to_shared[n.id] = name
     return result
@@ -83,7 +83,7 @@ def _skeleton_hash(node: WidgetNode) -> str:
     Includes: kind, style dict, ordered list of child skeletons.
     """
     payload = {
-        "kind":  node.kind,
+        "kind": node.kind,
         "style": _style_signature(node.style.model_dump()),
         "children": [_skeleton_hash(c) for c in node.children],
     }

@@ -55,7 +55,9 @@ class ClaudeVision(VisionProvider):
         )
 
         raw = "".join(
-            block.text for block in response.content if getattr(block, "type", None) == "text"
+            getattr(block, "text", "")
+            for block in response.content
+            if getattr(block, "type", None) == "text"
         )
         return WidgetTree.model_validate_json(_strip_fences(raw))
 

@@ -164,8 +164,8 @@ def _text_size_class(px: float) -> str:
 
 
 _TW_PALETTE = {
-    "white":       "white",
-    "black":       "black",
+    "white": "white",
+    "black": "black",
     "transparent": "transparent",
 }
 

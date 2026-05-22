@@ -24,6 +24,7 @@ class DisplayInfo:
 def _try_native() -> Any | None:
     try:
         import _mimic_capture
+
         return _mimic_capture
     except ImportError:
         return None
@@ -52,9 +53,9 @@ def record_screen(duration_s: int, target_fps: int = 30) -> list[Any]:
         return fallback_record(duration_s=duration_s, target_fps=target_fps)
 
     cfg = native.CaptureConfig()
-    cfg.target_fps      = target_fps
-    cfg.include_cursor  = True
-    cfg.enable_dedup    = True
+    cfg.target_fps = target_fps
+    cfg.include_cursor = True
+    cfg.enable_dedup = True
     cfg.dedup_threshold = 0.02
 
     cap = native.make_capturer()
@@ -65,6 +66,7 @@ def record_screen(duration_s: int, target_fps: int = 30) -> list[Any]:
 
     cap.start(cfg, _on_frame)
     import time
+
     time.sleep(duration_s)
     cap.stop()
     return frames

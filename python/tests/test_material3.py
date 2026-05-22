@@ -41,9 +41,7 @@ def test_no_style_yields_text_button():
 
 
 def test_border_only_yields_outlined_button():
-    src = _screen_source(
-        _tree_with_button(Style(border_color="#6E56CF", border_width=1))
-    )
+    src = _screen_source(_tree_with_button(Style(border_color="#6E56CF", border_width=1)))
     assert "OutlinedButton" in src
     assert "BorderSide(color:" in src
 
@@ -57,9 +55,7 @@ def test_solid_background_yields_filled_button():
 
 
 def test_background_plus_shadow_yields_elevated_button():
-    src = _screen_source(
-        _tree_with_button(Style(background_color="#6E56CF", shadow=True))
-    )
+    src = _screen_source(_tree_with_button(Style(background_color="#6E56CF", shadow=True)))
     assert "ElevatedButton" in src
 
 

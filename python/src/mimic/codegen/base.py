@@ -25,5 +25,4 @@ class GeneratedFile:
 class CodeGenerator(Protocol):
     target: Target
 
-    def generate(self, tree: WidgetTree) -> list[GeneratedFile]:
-        ...
+    def generate(self, tree: WidgetTree) -> list[GeneratedFile]: ...

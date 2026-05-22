@@ -18,7 +18,8 @@ import html
 from mimic.codegen._tailwind import layout_classes, style_classes
 from mimic.codegen.base import GeneratedFile, Target
 from mimic.models import Screen, WidgetNode, WidgetTree
-from mimic.theme import Theme, extract as extract_theme
+from mimic.theme import Theme
+from mimic.theme import extract as extract_theme
 
 
 class ReactGenerator:
@@ -36,21 +37,25 @@ class ReactGenerator:
         theme = extract_theme(tree)
         config_ext = "ts" if self.typescript else "js"
         files: list[GeneratedFile] = [
-            GeneratedFile("package.json",       _emit_package_json(self.typescript), "json"),
-            GeneratedFile(f"vite.config.{config_ext}",
-                          _emit_vite_config(),       "typescript" if self.typescript else "javascript"),
-            GeneratedFile("tailwind.config.js", _emit_tailwind_config(theme),       "javascript"),
-            GeneratedFile("postcss.config.js",  _emit_postcss_config(),             "javascript"),
-            GeneratedFile("index.html",         _emit_index_html(self.ext),         "html"),
-            GeneratedFile(f"src/main.{self.ext}",  _emit_main(self.ext),            self.ext),
-            GeneratedFile("src/index.css",      _emit_index_css(),                  "css"),
-            GeneratedFile(f"src/App.{self.ext}",   _emit_app(tree, self.ext, self.typescript),
-                          self.ext),
+            GeneratedFile("package.json", _emit_package_json(self.typescript), "json"),
+            GeneratedFile(
+                f"vite.config.{config_ext}",
+                _emit_vite_config(),
+                "typescript" if self.typescript else "javascript",
+            ),
+            GeneratedFile("tailwind.config.js", _emit_tailwind_config(theme), "javascript"),
+            GeneratedFile("postcss.config.js", _emit_postcss_config(), "javascript"),
+            GeneratedFile("index.html", _emit_index_html(self.ext), "html"),
+            GeneratedFile(f"src/main.{self.ext}", _emit_main(self.ext), self.ext),
+            GeneratedFile("src/index.css", _emit_index_css(), "css"),
+            GeneratedFile(
+                f"src/App.{self.ext}", _emit_app(tree, self.ext, self.typescript), self.ext
+            ),
         ]
         if self.typescript:
-            files.append(GeneratedFile("tsconfig.json",       _emit_tsconfig(),     "json"))
-            files.append(GeneratedFile("tsconfig.node.json",  _emit_tsconfig_node(),"json"))
-            files.append(GeneratedFile("src/types.ts",        _emit_types(),        "typescript"))
+            files.append(GeneratedFile("tsconfig.json", _emit_tsconfig(), "json"))
+            files.append(GeneratedFile("tsconfig.node.json", _emit_tsconfig_node(), "json"))
+            files.append(GeneratedFile("src/types.ts", _emit_types(), "typescript"))
 
         for screen in tree.screens:
             files.append(
@@ -71,13 +76,13 @@ def _emit_package_json(typescript: bool) -> str:
     "vite":                 "^5.2.10"'''
     if typescript:
         devs = (
-            devs.rstrip()
-            + ',\n'
+            devs.rstrip() + ",\n"
             '    "@types/react":             "^18.2.0",\n'
             '    "@types/react-dom":         "^18.2.0",\n'
             '    "typescript":               "^5.4.0"'
         )
-    return """{
+    return (
+        """{
   "name": "mimic-generated",
   "private": true,
   "version": "0.0.0",
@@ -93,10 +98,13 @@ def _emit_package_json(typescript: bool) -> str:
     "react-router-dom":"^6.23.0"
   },
   "devDependencies": {
-""" + devs + """
+"""
+        + devs
+        + """
   }
 }
 """
+    )
 
 
 def _emit_vite_config() -> str:
@@ -153,7 +161,8 @@ def _emit_index_html(ext: str) -> str:
 
 
 def _emit_main(ext: str) -> str:
-    return f"""import React from 'react';
+    return (
+        f"""import React from 'react';
 import ReactDOM from 'react-dom/client';
 import {{ BrowserRouter }} from 'react-router-dom';
 import App from './App.{ext}';
@@ -166,7 +175,9 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
     </BrowserRouter>
   </React.StrictMode>,
 );
-""" if ext == "tsx" else """import React from 'react';
+"""
+        if ext == "tsx"
+        else """import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import App from './App.jsx';
@@ -180,6 +191,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
   </React.StrictMode>,
 );
 """
+    )
 
 
 def _emit_index_css() -> str:
@@ -236,8 +248,7 @@ def _emit_types() -> str:
 
 def _emit_app(tree: WidgetTree, ext: str, typescript: bool) -> str:
     imports = "\n".join(
-        f'import {_pascal(s.name)} from "./screens/{_pascal(s.name)}.{ext}";'
-        for s in tree.screens
+        f'import {_pascal(s.name)} from "./screens/{_pascal(s.name)}.{ext}";' for s in tree.screens
     )
     routes = "\n".join(
         f'        <Route path="{"/" if i == 0 else f"/{s.id}"}" element={{<{_pascal(s.name)} />}} />'
@@ -260,9 +271,7 @@ export default function {signature} {{
 """
 
 
-def _emit_screen(
-    screen: Screen, tree: WidgetTree, theme: Theme, typescript: bool
-) -> str:
+def _emit_screen(screen: Screen, tree: WidgetTree, theme: Theme, typescript: bool) -> str:
     class_name = _pascal(screen.name)
     body = _emit_widget(screen.root, tree, theme, indent=6)
     bg_style = ""
@@ -291,9 +300,7 @@ def _emit_screen(
     if (routes[id]) navigate("/" + routes[id]);
   }};"""
 
-    signature = (
-        f"{class_name}(): React.JSX.Element" if typescript else f"{class_name}()"
-    )
+    signature = f"{class_name}(): React.JSX.Element" if typescript else f"{class_name}()"
     return f"""import React from 'react';{nav_imports}
 
 export default function {signature} {{{on_tap_handler}
@@ -306,16 +313,22 @@ export default function {signature} {{{on_tap_handler}
 """
 
 
-def _emit_widget(
-    node: WidgetNode, tree: WidgetTree, theme: Theme, indent: int = 0
-) -> str:
+def _emit_widget(node: WidgetNode, tree: WidgetTree, theme: Theme, indent: int = 0) -> str:
     pad = " " * indent
     cls = " ".join(layout_classes(node.kind) + style_classes(node.style, node.kind, theme))
     cls_attr = f' className="{cls}"' if cls else ""
     on_click = f' onClick={{() => onTap("{node.id}")}}' if _has_tap_handler(node, tree) else ""
 
-    if node.kind in {"row", "column", "stack", "list", "card", "container",
-                     "scroll_view", "app_bar"}:
+    if node.kind in {
+        "row",
+        "column",
+        "stack",
+        "list",
+        "card",
+        "container",
+        "scroll_view",
+        "app_bar",
+    }:
         children = "\n".join(_emit_widget(c, tree, theme, indent + 2) for c in node.children)
         text_inline = ""
         if node.text:
@@ -324,13 +337,11 @@ def _emit_widget(
         return f"{pad}<div{cls_attr}{on_click}>{body}\n{pad}</div>"
 
     if node.kind == "text":
-        return f'{pad}<p{cls_attr}>{html.escape(node.text or "")}</p>'
+        return f"{pad}<p{cls_attr}>{html.escape(node.text or '')}</p>"
 
     if node.kind == "button":
         label = html.escape(node.text or "Button")
-        return (
-            f'{pad}<button type="button"{cls_attr}{on_click}>{label}</button>'
-        )
+        return f'{pad}<button type="button"{cls_attr}{on_click}>{label}</button>'
 
     if node.kind == "text_field":
         ph = html.escape(node.placeholder or "")

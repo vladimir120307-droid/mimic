@@ -22,9 +22,9 @@ from mimic.pipeline import Pipeline
 from mimic.vision.base import VisionInput
 from mimic.vision.mock import list_fixtures
 
-REPO_ROOT  = Path(__file__).resolve().parents[2]
-EXAMPLES   = REPO_ROOT / "examples"
-TARGETS    = ("flutter", "html", "react", "react-ts")
+REPO_ROOT = Path(__file__).resolve().parents[2]
+EXAMPLES = REPO_ROOT / "examples"
+TARGETS = ("flutter", "html", "react", "react-ts")
 UPDATE_ENV = "MIMIC_UPDATE_SNAPSHOTS"
 
 
@@ -49,6 +49,7 @@ def _load_snapshot(fixture: str, target: str) -> dict[str, str] | None:
 def _write_snapshot(fixture: str, target: str, files: dict[str, str]) -> None:
     base = EXAMPLES / fixture / "generated" / target
     import shutil
+
     if base.exists():
         shutil.rmtree(base)
     for rel, content in files.items():
@@ -58,7 +59,7 @@ def _write_snapshot(fixture: str, target: str, files: dict[str, str]) -> None:
 
 
 @pytest.mark.parametrize("fixture", list_fixtures())
-@pytest.mark.parametrize("target",  TARGETS)
+@pytest.mark.parametrize("target", TARGETS)
 def test_snapshot_matches_examples(fixture: str, target: str) -> None:
     current = _run(fixture, target)
     if os.environ.get(UPDATE_ENV):
@@ -67,12 +68,9 @@ def test_snapshot_matches_examples(fixture: str, target: str) -> None:
 
     snapshot = _load_snapshot(fixture, target)
     if snapshot is None:
-        pytest.skip(
-            f"No snapshot for {fixture}/{target}. "
-            f"Set {UPDATE_ENV}=1 to generate it."
-        )
+        pytest.skip(f"No snapshot for {fixture}/{target}. Set {UPDATE_ENV}=1 to generate it.")
 
-    extra_in_current  = set(current)  - set(snapshot)
+    extra_in_current = set(current) - set(snapshot)
     missing_from_curr = set(snapshot) - set(current)
     assert not extra_in_current, (
         f"Generator added files not in snapshot for {fixture}/{target}: {sorted(extra_in_current)}"
@@ -82,9 +80,8 @@ def test_snapshot_matches_examples(fixture: str, target: str) -> None:
     )
 
     for rel in sorted(current):
-        actual   = current[rel].replace("\r\n", "\n")
+        actual = current[rel].replace("\r\n", "\n")
         expected = snapshot[rel].replace("\r\n", "\n")
         assert actual == expected, (
-            f"Output drift in {fixture}/{target}/{rel}. "
-            f"Refresh with {UPDATE_ENV}=1 pytest"
+            f"Output drift in {fixture}/{target}/{rel}. Refresh with {UPDATE_ENV}=1 pytest"
         )

@@ -46,6 +46,7 @@ class VisionInput:
         chosen: list[Any] = frames
         if segment and len(frames) > 5:
             from mimic.segmentation import segment as _seg
+
             chosen = _seg(frames).representatives or frames
 
         out: list[str] = []
@@ -61,5 +62,4 @@ class VisionInput:
 class VisionProvider(Protocol):
     name: str
 
-    async def analyze(self, source: VisionInput) -> WidgetTree:
-        ...
+    async def analyze(self, source: VisionInput) -> WidgetTree: ...

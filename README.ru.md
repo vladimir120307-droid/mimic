@@ -93,6 +93,18 @@ mimic bench --target flutter
 | Jetpack Compose        | ⚪ план       | Нативный Android                                       |
 | Vue                    | ⚪ community  | Ждём контрибьюшен                                      |
 
+## Сравнение с альтернативами
+
+| Инструмент                                                              | Видео-ввод | Flutter | TypeScript | Дедуп компонентов | Open source | Self-hosted |
+| ----------------------------------------------------------------------- | :--------: | :-----: | :--------: | :---------------: | :---------: | :---------: |
+| **mimic** (этот проект)                                                 |    ✅      |   ✅    |     ✅     |        ✅          |    MIT      |     ✅      |
+| [abi/screenshot-to-code](https://github.com/abi/screenshot-to-code)     |    ❌      |   ❌    |     ✅     |        ❌          |   MIT       |     ✅      |
+| [Locofy](https://www.locofy.ai/)                                        |    ❌      |   ✅    |     ✅     |     частично       |  закрытый   |     ❌      |
+| [Anima](https://www.animaapp.com/)                                      |    ❌      |   ❌    |     ✅     |     частично       |  закрытый   |     ❌      |
+| [Builder.io Visual Copilot](https://www.builder.io/m/visual-copilot)    |    ❌      |   ❌    |     ✅     |     частично       |  закрытый   |     ❌      |
+
+mimic — единственный open-source инструмент, который **поддерживает Flutter как основной таргет** и принимает **видео**, а не только статичный скриншот. Всё работает **локально** — Figma-файл не требуется, в облако ничего не уходит.
+
 ## Дорожная карта
 
 См. [docs/ROADMAP.ru.md](docs/ROADMAP.ru.md). Кратко:

@@ -14,19 +14,19 @@ from __future__ import annotations
 from collections import Counter
 from dataclasses import dataclass, field
 
-from mimic.models import Style, WidgetNode, WidgetTree
+from mimic.models import WidgetNode, WidgetTree
 
 
 @dataclass
 class Theme:
-    primary: str | None    = None
-    secondary: str | None  = None
-    surface: str | None    = None
+    primary: str | None = None
+    secondary: str | None = None
+    surface: str | None = None
     on_surface: str | None = None
-    error: str | None      = None
+    error: str | None = None
     background: str | None = None
-    extra: dict[str, str]  = field(default_factory=dict)
-    body_font_size: float | None  = None
+    extra: dict[str, str] = field(default_factory=dict)
+    body_font_size: float | None = None
     title_font_size: float | None = None
 
     def named_colors(self) -> dict[str, str]:

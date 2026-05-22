@@ -55,7 +55,9 @@ def check_python() -> CheckResult:
 def check_required_packages() -> CheckResult:
     required = ["anthropic", "pydantic", "PIL", "numpy", "rich", "typer"]
     missing = [
-        name for name in required if importlib.util.find_spec(name) is None  # type: ignore[attr-defined]
+        name
+        for name in required
+        if importlib.util.find_spec(name) is None  # type: ignore[attr-defined]
     ]
     if not missing:
         return CheckResult("Python packages", "ok", f"All {len(required)} present")
@@ -63,7 +65,7 @@ def check_required_packages() -> CheckResult:
         "Python packages",
         "fail",
         f"Missing: {', '.join(missing)}",
-        fix="pip install -e \".[dev]\" from the python/ directory",
+        fix='pip install -e ".[dev]" from the python/ directory',
     )
 
 

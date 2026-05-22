@@ -1,0 +1,76 @@
+name: Deploy examples to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "examples/**"
+      - ".github/workflows/pages.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Assemble site
+        run: |
+          set -euo pipefail
+          OUT=_site
+          mkdir -p "$OUT/examples"
+          cat > "$OUT/index.html" <<'HTML'
+          <!doctype html>
+          <html lang="en">
+          <head>
+            <meta charset="utf-8" />
+            <title>mimic — example outputs</title>
+            <script src="https://cdn.tailwindcss.com"></script>
+            <style>body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;}</style>
+          </head>
+          <body class="min-h-screen bg-slate-50 text-slate-900 antialiased">
+          <main class="mx-auto max-w-3xl p-8">
+            <h1 class="text-4xl font-bold mb-2">mimic — example gallery</h1>
+            <p class="text-slate-600 mb-8">Live HTML preview of every fixture the mimic project ships. Open the source on <a href="https://github.com/vladimir120307-droid/mimic" class="text-violet-700 underline">GitHub</a>.</p>
+            <ul class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          HTML
+          for fix in login dashboard chat calendar ecommerce settings; do
+            src="examples/$fix/generated/html/index.html"
+            if [[ -f "$src" ]]; then
+              mkdir -p "$OUT/examples/$fix"
+              cp "$src" "$OUT/examples/$fix/index.html"
+              echo "<li><a class=\"block p-5 rounded-2xl bg-white shadow hover:shadow-md transition\" href=\"./examples/$fix/\"><div class=\"text-lg font-semibold\">$fix</div><div class=\"text-sm text-slate-500\">Generated HTML preview</div></a></li>" >> "$OUT/index.html"
+            fi
+          done
+          cat >> "$OUT/index.html" <<'HTML'
+            </ul>
+            <p class="mt-12 text-xs text-slate-400">Generated automatically from the examples/ folder on every push to main.</p>
+          </main>
+          </body>
+          </html>
+          HTML
+          ls -R "$OUT" | head -30
+
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

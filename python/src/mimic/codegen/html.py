@@ -17,8 +17,9 @@ import json
 
 from mimic.codegen._tailwind import layout_classes, style_classes
 from mimic.codegen.base import GeneratedFile, Target
-from mimic.models import Interaction, Screen, WidgetNode, WidgetTree
-from mimic.theme import Theme, extract as extract_theme
+from mimic.models import WidgetNode, WidgetTree
+from mimic.theme import Theme
+from mimic.theme import extract as extract_theme
 
 
 class HtmlGenerator:
@@ -136,16 +137,22 @@ def _emit_script(tree: WidgetTree) -> str:
 
 def _emit_widget(node: WidgetNode, theme: Theme, indent: int = 0) -> str:
     pad = " " * indent
-    cls = " ".join(
-        layout_classes(node.kind) + style_classes(node.style, node.kind, theme)
-    )
+    cls = " ".join(layout_classes(node.kind) + style_classes(node.style, node.kind, theme))
     cls_attr = f' class="{cls}"' if cls else ""
     id_attr = f' data-mimic-id="{node.id}"'
 
     tag, inner = _tag_and_inner(node)
 
-    if node.kind in {"row", "column", "stack", "list", "card", "scroll_view",
-                     "container", "app_bar"}:
+    if node.kind in {
+        "row",
+        "column",
+        "stack",
+        "list",
+        "card",
+        "scroll_view",
+        "container",
+        "app_bar",
+    }:
         children = "\n".join(_emit_widget(c, theme, indent + 2) for c in node.children)
         body = ""
         if inner:
@@ -158,9 +165,7 @@ def _emit_widget(node: WidgetNode, theme: Theme, indent: int = 0) -> str:
         return f"{pad}<{tag}{id_attr}{cls_attr}>{inner}</{tag}>"
 
     if node.kind == "button":
-        return (
-            f'{pad}<button{id_attr}{cls_attr} type="button">{inner}</button>'
-        )
+        return f'{pad}<button{id_attr}{cls_attr} type="button">{inner}</button>'
 
     if node.kind == "text_field":
         ph = html.escape(node.placeholder or "")
@@ -190,7 +195,7 @@ def _emit_widget(node: WidgetNode, theme: Theme, indent: int = 0) -> str:
         )
 
     if node.kind == "divider":
-        return f'{pad}<hr{id_attr}{cls_attr} />'
+        return f"{pad}<hr{id_attr}{cls_attr} />"
     if node.kind == "spacer":
         return f'{pad}<div{id_attr} class="flex-1"></div>'
 
@@ -201,12 +206,21 @@ def _emit_widget(node: WidgetNode, theme: Theme, indent: int = 0) -> str:
 def _tag_and_inner(node: WidgetNode) -> tuple[str, str]:
     text = html.escape(node.text or "")
     match node.kind:
-        case "text":      return ("p",      text)
-        case "icon":      return ("span",   text or "●")
-        case "app_bar":   return ("header", text)
-        case "card":      return ("article", "")
-        case "list":      return ("ul",     "")
-        case "row":       return ("div",    "")
-        case "column":    return ("div",    "")
-        case "container": return ("div",    "")
-        case _:           return ("div",    text)
+        case "text":
+            return ("p", text)
+        case "icon":
+            return ("span", text or "●")
+        case "app_bar":
+            return ("header", text)
+        case "card":
+            return ("article", "")
+        case "list":
+            return ("ul", "")
+        case "row":
+            return ("div", "")
+        case "column":
+            return ("div", "")
+        case "container":
+            return ("div", "")
+        case _:
+            return ("div", text)

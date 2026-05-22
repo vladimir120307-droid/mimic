@@ -83,12 +83,13 @@ class _Handler(BaseHTTPRequestHandler):
             return list(list_targets())
         if method == "list_displays":
             from mimic.capture import list_displays
+
             return [
                 {
-                    "index":      d.index,
-                    "name":       d.name,
-                    "bounds":     d.bounds,
-                    "dpi_scale":  d.dpi_scale,
+                    "index": d.index,
+                    "name": d.name,
+                    "bounds": d.bounds,
+                    "dpi_scale": d.dpi_scale,
                     "is_primary": d.is_primary,
                 }
                 for d in list_displays()
@@ -117,9 +118,8 @@ class _Handler(BaseHTTPRequestHandler):
 
         async def go() -> list[Any]:
             from mimic.capture import record_screen
-            return await asyncio.get_running_loop().run_in_executor(
-                None, record_screen, duration_s
-            )
+
+            return await asyncio.get_running_loop().run_in_executor(None, record_screen, duration_s)
 
         self.state.capture_task = asyncio.run_coroutine_threadsafe(  # type: ignore[assignment]
             go(), self.loop
@@ -180,10 +180,7 @@ class _RpcError(Exception):
 
 def _result_payload(files: list[Any]) -> dict[str, Any]:
     return {
-        "files": [
-            {"path": f.path, "content": f.content, "language": f.language}
-            for f in files
-        ]
+        "files": [{"path": f.path, "content": f.content, "language": f.language} for f in files]
     }
 
 
@@ -201,9 +198,7 @@ def serve(host: str = "127.0.0.1", port: int = 54321) -> None:
     )
     loop_thread.start()
 
-    handler_cls = type(
-        "MimicHandler", (_Handler,), {"state": state, "loop": loop}
-    )
+    handler_cls = type("MimicHandler", (_Handler,), {"state": state, "loop": loop})
 
     httpd = ThreadingHTTPServer((host, port), handler_cls)
     log.info("mimic RPC server listening on %s:%d", host, port)

@@ -52,15 +52,11 @@ def _root(
 @app.command()
 def gen(
     image: Annotated[Path, typer.Argument(exists=True, readable=True, help="Input image file.")],
-    target: Annotated[
-        Target, typer.Option("--target", "-t", help="Output framework.")
-    ] = "flutter",
+    target: Annotated[Target, typer.Option("--target", "-t", help="Output framework.")] = "flutter",
     provider: Annotated[
         str, typer.Option("--provider", "-p", help="Vision provider: claude / openai / local.")
     ] = "claude",
-    out: Annotated[
-        Path, typer.Option("--out", "-o", help="Output directory.")
-    ] = Path("out"),
+    out: Annotated[Path, typer.Option("--out", "-o", help="Output directory.")] = Path("out"),
     dry_run: Annotated[
         bool, typer.Option("--dry-run", help="Show what would be generated without writing files.")
     ] = False,
@@ -78,11 +74,12 @@ def gen(
 
     if output_format == "json":
         import json as _json
+        from typing import Any as _Any
 
-        payload = {
-            "target":     target,
+        payload: dict[str, _Any] = {
+            "target": target,
             "elapsed_ms": result.elapsed_ms,
-            "dry_run":    dry_run,
+            "dry_run": dry_run,
             "files": [
                 {"path": f.path, "size": len(f.content.encode("utf-8")), "language": f.language}
                 for f in result.files
@@ -114,15 +111,9 @@ def record(
     duration: Annotated[
         int, typer.Option("--duration", "-d", help="Recording duration, seconds.")
     ] = 15,
-    target: Annotated[
-        Target, typer.Option("--target", "-t", help="Output framework.")
-    ] = "flutter",
-    provider: Annotated[
-        str, typer.Option("--provider", "-p", help="Vision provider.")
-    ] = "claude",
-    out: Annotated[
-        Path, typer.Option("--out", "-o", help="Output directory.")
-    ] = Path("out"),
+    target: Annotated[Target, typer.Option("--target", "-t", help="Output framework.")] = "flutter",
+    provider: Annotated[str, typer.Option("--provider", "-p", help="Vision provider.")] = "claude",
+    out: Annotated[Path, typer.Option("--out", "-o", help="Output directory.")] = Path("out"),
 ) -> None:
     """Record the screen, then generate code from the recording."""
     from mimic.capture import record_screen
@@ -185,9 +176,7 @@ def doctor() -> None:
     table.add_column("Status", justify="center")
     table.add_column("Detail")
     for r in run_all():
-        symbol = {"ok": "[green]✓[/]", "warn": "[yellow]![/]", "fail": "[red]✗[/]"}[
-            r.status
-        ]
+        symbol = {"ok": "[green]✓[/]", "warn": "[yellow]![/]", "fail": "[red]✗[/]"}[r.status]
         table.add_row(r.name, symbol, r.detail)
         if r.fix and r.status != "ok":
             table.add_row("", "", f"[dim]→ {r.fix}[/]")
@@ -221,9 +210,9 @@ def targets() -> None:
     from mimic.codegen import list_targets
 
     status = {
-        "flutter":  "stable",
-        "html":     "stable",
-        "react":    "stable",
+        "flutter": "stable",
+        "html": "stable",
+        "react": "stable",
         "react-ts": "stable",
     }
     for t in list_targets():
@@ -296,10 +285,10 @@ def bench(
 
     table = Table(title=f"mimic bench — {target}, {iterations} iterations")
     table.add_column("Fixture")
-    table.add_column("Files",      justify="right")
-    table.add_column("Min (ms)",   justify="right")
-    table.add_column("Median (ms)",justify="right")
-    table.add_column("Max (ms)",   justify="right")
+    table.add_column("Files", justify="right")
+    table.add_column("Min (ms)", justify="right")
+    table.add_column("Median (ms)", justify="right")
+    table.add_column("Max (ms)", justify="right")
 
     for fix in list_fixtures():
         pipeline = Pipeline(provider=f"mock:{fix}", target=target)

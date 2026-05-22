@@ -67,6 +67,7 @@ def _dhash(frame: FrameLike, size: int = 8) -> int:
     """
     try:
         import _mimic_capture  # type: ignore[import-not-found]
+
         return _mimic_capture.dhash(frame, size)
     except (ImportError, TypeError):
         pass
@@ -125,9 +126,7 @@ def segment(
     return Segmentation(states=states, transitions=transitions)
 
 
-def _merge_smallest(
-    states: list[FrameState], hashes: list[int], target: int
-) -> list[FrameState]:
+def _merge_smallest(states: list[FrameState], hashes: list[int], target: int) -> list[FrameState]:
     while len(states) > target:
         smallest_i = min(range(len(states)), key=lambda i: states[i].member_count)
         candidates = [j for j in (smallest_i - 1, smallest_i + 1) if 0 <= j < len(states)]
@@ -135,9 +134,7 @@ def _merge_smallest(
             states.pop(smallest_i)
             hashes.pop(smallest_i)
             continue
-        neighbor_i = min(
-            candidates, key=lambda j: _hamming(hashes[j], hashes[smallest_i])
-        )
+        neighbor_i = min(candidates, key=lambda j: _hamming(hashes[j], hashes[smallest_i]))
         states[neighbor_i].member_count += states[smallest_i].member_count
         states[neighbor_i].last_index = max(
             states[neighbor_i].last_index, states[smallest_i].last_index

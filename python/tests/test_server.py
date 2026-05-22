@@ -19,9 +19,7 @@ def _free_port() -> int:
 @contextmanager
 def running_server():
     port = _free_port()
-    thread = threading.Thread(
-        target=serve, kwargs={"host": "127.0.0.1", "port": port}, daemon=True
-    )
+    thread = threading.Thread(target=serve, kwargs={"host": "127.0.0.1", "port": port}, daemon=True)
     thread.start()
     for _ in range(20):
         try:
@@ -79,8 +77,8 @@ def test_server_gen_works_with_mock(tmp_path):
             "gen",
             {
                 "image_path": str(img),
-                "target":     "html",
-                "provider":   "mock:login",
+                "target": "html",
+                "provider": "mock:login",
             },
         )
         assert "result" in result, result

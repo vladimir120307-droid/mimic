@@ -16,41 +16,42 @@ from dataclasses import dataclass
 
 from mimic.codegen._dedup import DedupResult, analyze
 from mimic.codegen.base import GeneratedFile, Target
-from mimic.models import Interaction, Screen, Style, WidgetNode, WidgetTree
-from mimic.theme import Theme, extract as extract_theme
+from mimic.models import Screen, Style, WidgetNode, WidgetTree
+from mimic.theme import Theme
+from mimic.theme import extract as extract_theme
 
 _KIND_MAP: dict[str, str] = {
-    "container":   "Container",
-    "row":         "Row",
-    "column":      "Column",
-    "stack":       "Stack",
-    "text":        "Text",
-    "image":       "Image.network",
-    "icon":        "Icon",
-    "button":      "ElevatedButton",
-    "text_field":  "TextField",
-    "checkbox":    "Checkbox",
-    "switch":      "Switch",
-    "slider":      "Slider",
-    "list":        "ListView",
-    "list_item":   "ListTile",
-    "card":        "Card",
-    "app_bar":     "AppBar",
-    "fab":         "FloatingActionButton",
+    "container": "Container",
+    "row": "Row",
+    "column": "Column",
+    "stack": "Stack",
+    "text": "Text",
+    "image": "Image.network",
+    "icon": "Icon",
+    "button": "ElevatedButton",
+    "text_field": "TextField",
+    "checkbox": "Checkbox",
+    "switch": "Switch",
+    "slider": "Slider",
+    "list": "ListView",
+    "list_item": "ListTile",
+    "card": "Card",
+    "app_bar": "AppBar",
+    "fab": "FloatingActionButton",
     "scroll_view": "SingleChildScrollView",
-    "spacer":      "Spacer",
-    "divider":     "Divider",
-    "tab_bar":     "TabBar",
-    "bottom_nav":  "BottomNavigationBar",
+    "spacer": "Spacer",
+    "divider": "Divider",
+    "tab_bar": "TabBar",
+    "bottom_nav": "BottomNavigationBar",
 }
 
 
 @dataclass
 class _Ctx:
-    theme:        Theme
-    tree:         WidgetTree
-    dedup:        DedupResult
-    interactions: dict[str, str]   # source_widget_id -> target_screen_id
+    theme: Theme
+    tree: WidgetTree
+    dedup: DedupResult
+    interactions: dict[str, str]  # source_widget_id -> target_screen_id
 
 
 class FlutterGenerator:
@@ -67,8 +68,8 @@ class FlutterGenerator:
         ctx = _Ctx(theme=theme, tree=tree, dedup=dedup, interactions=interactions)
 
         files: list[GeneratedFile] = [
-            GeneratedFile("lib/main.dart",   _emit_main(ctx),   "dart"),
-            GeneratedFile("pubspec.yaml",    _emit_pubspec(),   "yaml"),
+            GeneratedFile("lib/main.dart", _emit_main(ctx), "dart"),
+            GeneratedFile("pubspec.yaml", _emit_pubspec(), "yaml"),
         ]
         for screen in tree.screens:
             files.append(
@@ -79,20 +80,15 @@ class FlutterGenerator:
                 )
             )
         if dedup.shared:
-            files.append(
-                GeneratedFile("lib/widgets/shared.dart", _emit_shared(ctx), "dart")
-            )
+            files.append(GeneratedFile("lib/widgets/shared.dart", _emit_shared(ctx), "dart"))
         return files
 
 
 def _emit_main(ctx: _Ctx) -> str:
     initial = ctx.tree.initial_screen
-    imports = "\n".join(
-        f"import 'screens/{_snake(s.name)}_screen.dart';" for s in ctx.tree.screens
-    )
+    imports = "\n".join(f"import 'screens/{_snake(s.name)}_screen.dart';" for s in ctx.tree.screens)
     routes_inner = ",\n".join(
-        f'        "{_route(s)}": (context) => const {_class(s)}()'
-        for s in ctx.tree.screens
+        f'        "{_route(s)}": (context) => const {_class(s)}()' for s in ctx.tree.screens
     )
     seed = ctx.theme.primary or ctx.theme.background or "#6E56CF"
     return f"""import 'package:flutter/material.dart';
@@ -170,9 +166,7 @@ def _emit_shared(ctx: _Ctx) -> str:
     return "\n".join(parts)
 
 
-def _emit_widget(
-    node: WidgetNode, ctx: _Ctx, indent: int = 0, in_shared: bool = False
-) -> str:
+def _emit_widget(node: WidgetNode, ctx: _Ctx, indent: int = 0, in_shared: bool = False) -> str:
     pad = " " * indent
 
     if not in_shared:
@@ -194,9 +188,7 @@ def _emit_widget(
         cls = button_cls
         label = node.text or "Button"
         on_press = ctx.interactions.get(node.id)
-        on_pressed = (
-            f'() => Navigator.pushNamed(context, "/{on_press}")' if on_press else "() {}"
-        )
+        on_pressed = f'() => Navigator.pushNamed(context, "/{on_press}")' if on_press else "() {}"
 
         if button_cls == "IconButton":
             icon = _safe_icon(node.icon_name or "circle")
@@ -212,8 +204,10 @@ def _emit_widget(
             fg = node.style.foreground_color
             if button_cls in {"FilledButton", "ElevatedButton"} and (bg or fg):
                 style_parts: list[str] = []
-                if bg: style_parts.append(f"backgroundColor: {_color(bg)}")
-                if fg: style_parts.append(f"foregroundColor: {_color(fg)}")
+                if bg:
+                    style_parts.append(f"backgroundColor: {_color(bg)}")
+                if fg:
+                    style_parts.append(f"foregroundColor: {_color(fg)}")
                 args.append(f"style: {button_cls}.styleFrom({', '.join(style_parts)})")
             elif button_cls == "OutlinedButton" and node.style.border_color:
                 args.append(
@@ -224,7 +218,7 @@ def _emit_widget(
 
     elif node.kind == "text_field" and node.placeholder:
         args.append(
-            f'decoration: const InputDecoration('
+            f"decoration: const InputDecoration("
             f'hintText: "{_escape(node.placeholder)}", border: OutlineInputBorder())'
         )
 
@@ -344,8 +338,13 @@ def _container_decoration(style: Style) -> str | None:
 def _padding(style: Style) -> str | None:
     if not style.padding:
         return None
-    l, t, r, b = style.padding[3], style.padding[0], style.padding[1], style.padding[2]
-    return f"{l}, {t}, {r}, {b}"
+    left, top, right, bottom = (
+        style.padding[3],
+        style.padding[0],
+        style.padding[1],
+        style.padding[2],
+    )
+    return f"{left}, {top}, {right}, {bottom}"
 
 
 def _color(value: str) -> str:
@@ -376,7 +375,7 @@ def _material3_button(node: WidgetNode) -> str:
     - background, no shadow                         -> FilledButton (M3 default)
     """
     s = node.style
-    has_bg     = bool(s.background_color) and s.background_color not in {"transparent", "none"}
+    has_bg = bool(s.background_color) and s.background_color not in {"transparent", "none"}
     has_border = bool(s.border_color)
     if not node.text and node.icon_name:
         return "IconButton"

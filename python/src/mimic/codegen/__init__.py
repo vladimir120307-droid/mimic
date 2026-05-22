@@ -6,15 +6,19 @@ _TARGETS = ("flutter", "html", "react", "react-ts")
 def get_generator(target: Target) -> CodeGenerator:
     if target == "flutter":
         from mimic.codegen.flutter import FlutterGenerator
+
         return FlutterGenerator()
     if target == "html":
         from mimic.codegen.html import HtmlGenerator
+
         return HtmlGenerator()
     if target == "react":
         from mimic.codegen.react import ReactGenerator
+
         return ReactGenerator(typescript=False)
     if target == "react-ts":
         from mimic.codegen.react import ReactGenerator
+
         return ReactGenerator(typescript=True)
     raise ValueError(f"Unknown target: {target!r}. Supported: {_TARGETS}")
 

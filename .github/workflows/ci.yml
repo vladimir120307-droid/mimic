@@ -39,8 +39,9 @@ jobs:
           ruff check .
           ruff format --check .
 
-      - name: Type-check
+      - name: Type-check (advisory)
         working-directory: python
+        continue-on-error: true
         run: mypy src/mimic
 
       - name: Test

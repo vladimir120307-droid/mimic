@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import asyncio
+import sys
 from pathlib import Path
 from typing import Annotated
 
@@ -15,12 +16,19 @@ from mimic.codegen.base import Target
 from mimic.pipeline import Pipeline
 from mimic.vision.base import VisionInput
 
+if hasattr(sys.stdout, "reconfigure"):
+    try:
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+        sys.stderr.reconfigure(encoding="utf-8", errors="replace")
+    except OSError:
+        pass
+
 app = typer.Typer(
     name="mimic",
     help="Turn screen recordings and screenshots into working code.",
     no_args_is_help=True,
 )
-console = Console()
+console = Console(legacy_windows=False)
 
 
 def _version_callback(value: bool) -> None:
@@ -112,13 +120,73 @@ def displays() -> None:
     table.add_column("DPI scale", justify="right")
     table.add_column("Primary", justify="center")
     for d in list_displays():
+        bounds_str = (
+            f"{d.bounds[2]}×{d.bounds[3]}"
+            if isinstance(d.bounds, tuple)
+            else f"{d.bounds.width}×{d.bounds.height}"
+        )
         table.add_row(
             str(d.index),
             d.name,
-            f"{d.bounds.width}×{d.bounds.height}",
+            bounds_str,
             f"{d.dpi_scale:.2f}",
             "✓" if d.is_primary else "",
         )
+    console.print(table)
+
+
+@app.command()
+def doctor() -> None:
+    """Diagnose your local environment."""
+    from mimic.doctor import run_all
+
+    table = Table(title="mimic doctor")
+    table.add_column("Check")
+    table.add_column("Status", justify="center")
+    table.add_column("Detail")
+    for r in run_all():
+        symbol = {"ok": "[green]✓[/]", "warn": "[yellow]![/]", "fail": "[red]✗[/]"}[
+            r.status
+        ]
+        table.add_row(r.name, symbol, r.detail)
+        if r.fix and r.status != "ok":
+            table.add_row("", "", f"[dim]→ {r.fix}[/]")
+    console.print(table)
+
+
+@app.command()
+def serve(
+    host: Annotated[str, typer.Option("--host", "-h", help="Bind host.")] = "127.0.0.1",
+    port: Annotated[int, typer.Option("--port", "-p", help="Bind port.")] = 54321,
+) -> None:
+    """Run the JSON-RPC server the desktop UI talks to."""
+    import logging
+
+    from mimic.server import serve as run_server
+
+    logging.basicConfig(
+        level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s: %(message)s"
+    )
+    console.print(f"[cyan]mimic server[/] listening on [bold]{host}:{port}[/]")
+    console.print("[dim]Press Ctrl+C to stop.[/]")
+    run_server(host=host, port=port)
+
+
+@app.command()
+def targets() -> None:
+    """List supported output frameworks."""
+    table = Table(title="Output targets")
+    table.add_column("Target")
+    table.add_column("Status")
+    from mimic.codegen import list_targets
+
+    status = {
+        "flutter": "stable",
+        "html":    "stable",
+        "react":   "stable",
+    }
+    for t in list_targets():
+        table.add_row(t, status.get(t, "experimental"))
     console.print(table)
 
 

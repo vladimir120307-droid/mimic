@@ -29,19 +29,27 @@ class VisionInput:
         return cls(images_b64=[base64.b64encode(data).decode("ascii")], mime_type=mime)
 
     @classmethod
-    def from_frames(cls, frames: list[Any]) -> VisionInput:
+    def from_frames(cls, frames: list[Any], *, segment: bool = True) -> VisionInput:
         """Encode pre-captured frames as PNG and return them as a VisionInput.
 
         Accepts anything that has an `.as_numpy()` method returning (H, W, 4)
-        uint8 — which covers `_mimic_capture.Frame` and the pure-Python
-        fallback alike.
+        uint8 — covers `_mimic_capture.Frame` and the pure-Python fallback.
+
+        When `segment` is True (default) and more than 5 frames are provided,
+        the frames are first clustered into distinct UI states via
+        `mimic.segmentation.segment`; only representatives are encoded.
         """
         from io import BytesIO
 
         from PIL import Image
 
+        chosen: list[Any] = frames
+        if segment and len(frames) > 5:
+            from mimic.segmentation import segment as _seg
+            chosen = _seg(frames).representatives or frames
+
         out: list[str] = []
-        for f in frames:
+        for f in chosen:
             arr = f.as_numpy() if hasattr(f, "as_numpy") else f
             img = Image.fromarray(arr[..., :3][..., ::-1])  # BGRA → RGB
             buf = BytesIO()

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../widgets/shared.dart';
+
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
 
@@ -13,6 +15,8 @@ class LoginScreen extends StatelessWidget {
             children: [
               Icon(
                 Icons.bolt,
+                size: 48.0,
+                color: const Color(0xFF6E56CF),
               ),
               Text(
                 "Welcome back",
@@ -23,13 +27,14 @@ class LoginScreen extends StatelessWidget {
                 style: TextStyle(fontSize: 14.0, color: const Color(0xFF64748B)),
               ),
               TextField(
-                decoration: const InputDecoration(hintText: "Email address"),
+                decoration: const InputDecoration(hintText: "Email address", border: OutlineInputBorder()),
               ),
               TextField(
-                decoration: const InputDecoration(hintText: "Password"),
+                decoration: const InputDecoration(hintText: "Password", border: OutlineInputBorder()),
               ),
               ElevatedButton(
                 onPressed: () {},
+                style: ElevatedButton.styleFrom(backgroundColor: const Color(0xFF6E56CF), foregroundColor: const Color(0xFFFFFFFF)),
                 child: const Text("Sign in"),
               ),
               Text(

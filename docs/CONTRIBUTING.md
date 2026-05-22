@@ -4,14 +4,14 @@ Thanks for considering a contribution. mimic is a young project and most things 
 
 ## Before you start
 
-1. Check [open issues](https://github.com/Cyber-Lord/mimic/issues), especially those tagged [`good first issue`](https://github.com/Cyber-Lord/mimic/labels/good%20first%20issue) and [`help wanted`](https://github.com/Cyber-Lord/mimic/labels/help%20wanted).
+1. Check [open issues](https://github.com/vladimir120307-droid/mimic/issues), especially those tagged [`good first issue`](https://github.com/vladimir120307-droid/mimic/labels/good%20first%20issue) and [`help wanted`](https://github.com/vladimir120307-droid/mimic/labels/help%20wanted).
 2. For anything bigger than a small fix, open an issue first describing what you want to do. We will tell you if we are already working on it, or if the design space is constrained.
 3. Read [ARCHITECTURE.md](ARCHITECTURE.md). PRs that fight the architecture get pushed back; PRs that fit it get merged fast.
 
 ## Setting up
 
 ```bash
-git clone https://github.com/Cyber-Lord/mimic
+git clone https://github.com/vladimir120307-droid/mimic
 cd mimic
 
 # Python orchestrator

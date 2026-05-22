@@ -143,7 +143,7 @@ def ui() -> None:
     console.print(
         "[yellow]The desktop UI is not bundled with the Python package yet.[/]\n"
         "Download the latest installer from "
-        "[link=https://github.com/Cyber-Lord/mimic/releases]Releases[/link], "
+        "[link=https://github.com/vladimir120307-droid/mimic/releases]Releases[/link], "
         "or run [cyan]flutter run[/] inside the [bold]ui/[/] folder."
     )
 

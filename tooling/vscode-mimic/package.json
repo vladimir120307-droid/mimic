@@ -3,7 +3,7 @@
   "displayName": "mimic — screenshot to code",
   "description": "Right-click any screenshot or screen recording to generate Flutter, HTML, or React code.",
   "version": "0.1.0",
-  "publisher": "cyber-lord",
+  "publisher": "vladimir120307-droid",
   "license": "MIT",
   "engines": {
     "vscode": "^1.85.0"
@@ -25,11 +25,11 @@
   "icon": "images/icon.png",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Cyber-Lord/mimic"
+    "url": "https://github.com/vladimir120307-droid/mimic"
   },
-  "homepage": "https://github.com/Cyber-Lord/mimic",
+  "homepage": "https://github.com/vladimir120307-droid/mimic",
   "bugs": {
-    "url": "https://github.com/Cyber-Lord/mimic/issues"
+    "url": "https://github.com/vladimir120307-droid/mimic/issues"
   },
   "activationEvents": [
     "onCommand:mimic.generate",

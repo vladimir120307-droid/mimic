@@ -1,6 +1,6 @@
 # mimic-cli
 
-Python package for the [mimic](https://github.com/Cyber-Lord/mimic) project — screen recordings and screenshots into working Flutter / HTML / React code.
+Python package for the [mimic](https://github.com/vladimir120307-droid/mimic) project — screen recordings and screenshots into working Flutter / HTML / React code.
 
 ```bash
 pip install mimic-cli

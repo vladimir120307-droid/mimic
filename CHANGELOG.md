@@ -45,5 +45,5 @@ All notable changes to mimic are documented here. Format follows [Keep a Changel
 - Flutter desktop UI scaffold (Riverpod + go_router).
 - GitHub Actions CI matrix: Ubuntu/macOS/Windows × Python 3.10/3.11/3.12 + native build + Flutter analyze/test.
 
-[Unreleased]: https://github.com/Cyber-Lord/mimic/compare/v0.1.0...HEAD
-[0.1.0]:      https://github.com/Cyber-Lord/mimic/releases/tag/v0.1.0
+[Unreleased]: https://github.com/vladimir120307-droid/mimic/compare/v0.1.0...HEAD
+[0.1.0]:      https://github.com/vladimir120307-droid/mimic/releases/tag/v0.1.0

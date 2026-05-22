@@ -4,14 +4,14 @@
 
 ## Перед началом
 
-1. Посмотри [открытые issue](https://github.com/Cyber-Lord/mimic/issues), особенно с тегами [`good first issue`](https://github.com/Cyber-Lord/mimic/labels/good%20first%20issue) и [`help wanted`](https://github.com/Cyber-Lord/mimic/labels/help%20wanted).
+1. Посмотри [открытые issue](https://github.com/vladimir120307-droid/mimic/issues), особенно с тегами [`good first issue`](https://github.com/vladimir120307-droid/mimic/labels/good%20first%20issue) и [`help wanted`](https://github.com/vladimir120307-droid/mimic/labels/help%20wanted).
 2. Для всего крупнее мелкого фикса — открой issue с описанием, что хочешь сделать. Скажем, делает ли это уже кто-то, и есть ли ограничения по архитектуре.
 3. Прочитай [ARCHITECTURE.ru.md](ARCHITECTURE.ru.md). PR, которые ломают архитектуру, отвергаются; PR, которые вписываются, мёрджатся быстро.
 
 ## Настройка окружения
 
 ```bash
-git clone https://github.com/Cyber-Lord/mimic
+git clone https://github.com/vladimir120307-droid/mimic
 cd mimic
 
 # Python-оркестратор

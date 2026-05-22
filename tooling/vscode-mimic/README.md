@@ -2,7 +2,7 @@
 
 Right-click any screenshot in the Explorer → **mimic: Generate** → pick a framework. Generated files open in the editor seconds later.
 
-Wraps the [mimic](https://github.com/Cyber-Lord/mimic) CLI. Requires `mimic` on your PATH (or set `mimic.binaryPath` in settings).
+Wraps the [mimic](https://github.com/vladimir120307-droid/mimic) CLI. Requires `mimic` on your PATH (or set `mimic.binaryPath` in settings).
 
 ## Install
 

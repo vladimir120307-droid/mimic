@@ -10,11 +10,11 @@ Turn a screen recording (or a single screenshot) into clean **Flutter**, **HTML/
 
 [English](README.md) · [Русский](README.ru.md)
 
-[![CI](https://img.shields.io/github/actions/workflow/status/Cyber-Lord/mimic/ci.yml?branch=main&label=CI)](https://github.com/Cyber-Lord/mimic/actions/workflows/ci.yml)
+[![CI](https://img.shields.io/github/actions/workflow/status/vladimir120307-droid/mimic/ci.yml?branch=main&label=CI)](https://github.com/vladimir120307-droid/mimic/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![PyPI](https://img.shields.io/pypi/v/mimic-cli?label=PyPI)](https://pypi.org/project/mimic-cli/)
 [![Python](https://img.shields.io/pypi/pyversions/mimic-cli?label=python)](https://pypi.org/project/mimic-cli/)
-[![Stars](https://img.shields.io/github/stars/Cyber-Lord/mimic?style=social)](https://github.com/Cyber-Lord/mimic/stargazers)
+[![Stars](https://img.shields.io/github/stars/vladimir120307-droid/mimic?style=social)](https://github.com/vladimir120307-droid/mimic/stargazers)
 [![Made with Flutter](https://img.shields.io/badge/Made_with-Flutter-02569B?logo=flutter)](https://flutter.dev)
 [![VS Code](https://img.shields.io/badge/VS_Code-Extension-007ACC?logo=visualstudiocode)](tooling/vscode-mimic)
 
@@ -128,7 +128,7 @@ Component-by-component instructions are in [docs/BUILDING.md](docs/BUILDING.md).
 
 ## Contributing
 
-PRs welcome. Read [docs/CONTRIBUTING.md](docs/CONTRIBUTING.md) before opening one. Good first issues are tagged [`good first issue`](https://github.com/Cyber-Lord/mimic/labels/good%20first%20issue).
+PRs welcome. Read [docs/CONTRIBUTING.md](docs/CONTRIBUTING.md) before opening one. Good first issues are tagged [`good first issue`](https://github.com/vladimir120307-droid/mimic/labels/good%20first%20issue).
 
 ## License
 

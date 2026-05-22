@@ -18,5 +18,5 @@ class LocalVision(VisionProvider):
     async def analyze(self, source: VisionInput) -> WidgetTree:
         raise NotImplementedError(
             "Local vision is planned for v0.4. "
-            "Track progress at https://github.com/Cyber-Lord/mimic/issues."
+            "Track progress at https://github.com/vladimir120307-droid/mimic/issues."
         )

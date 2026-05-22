@@ -37,9 +37,7 @@ class Pipeline:
         provider: VisionProvider | str = "claude",
         target: Target = "flutter",
     ) -> None:
-        self.provider = (
-            provider if isinstance(provider, VisionProvider) else get_provider(provider)
-        )
+        self.provider = get_provider(provider) if isinstance(provider, str) else provider
         self.target = target
         self.generator = get_generator(target)
 

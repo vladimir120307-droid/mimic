@@ -1,5 +1,7 @@
 from mimic.codegen.base import CodeGenerator, GeneratedFile, Target
 
+_TARGETS = ("flutter", "html", "react")
+
 
 def get_generator(target: Target) -> CodeGenerator:
     if target == "flutter":
@@ -11,7 +13,11 @@ def get_generator(target: Target) -> CodeGenerator:
     if target == "react":
         from mimic.codegen.react import ReactGenerator
         return ReactGenerator()
-    raise ValueError(f"Unknown target: {target!r}")
+    raise ValueError(f"Unknown target: {target!r}. Supported: {_TARGETS}")
 
 
-__all__ = ["CodeGenerator", "GeneratedFile", "Target", "get_generator"]
+def list_targets() -> tuple[str, ...]:
+    return _TARGETS
+
+
+__all__ = ["CodeGenerator", "GeneratedFile", "Target", "get_generator", "list_targets"]

@@ -18,6 +18,8 @@
 [![Made with Flutter](https://img.shields.io/badge/Made_with-Flutter-02569B?logo=flutter)](https://flutter.dev)
 [![VS Code](https://img.shields.io/badge/VS_Code-Extension-007ACC?logo=visualstudiocode)](tooling/vscode-mimic)
 
+**📺 [Живая галерея примеров](https://vladimir120307-droid.github.io/mimic/)** — кликни любую фикстуру и увидишь HTML, который mimic сгенерировал, прямо в браузере.
+
 <img src="assets/demo.gif" alt="mimic demo" width="720" />
 
 </div>

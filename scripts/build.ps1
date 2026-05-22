@@ -21,6 +21,15 @@ Write-Host "==> Fetching Flutter packages" -ForegroundColor Cyan
 Set-Location "$Root\ui"
 flutter pub get
 
+Write-Host "==> Installing pybind11 module into venv" -ForegroundColor Cyan
+$pyd = Get-ChildItem -Path "$Root\native\build" -Filter "_mimic_capture*.pyd" -Recurse -ErrorAction SilentlyContinue |
+    Select-Object -First 1
+if ($pyd) {
+    $sitePackages = python -c "import site; print([p for p in site.getsitepackages() if 'site-packages' in p][-1])"
+    Copy-Item $pyd.FullName -Destination $sitePackages -Force
+    Write-Host "  copied $($pyd.Name) -> $sitePackages"
+}
+
 Write-Host "==> Done. To run:" -ForegroundColor Green
 Write-Host "   mimic --help"
 Write-Host "   cd $Root\ui ; flutter run -d windows"

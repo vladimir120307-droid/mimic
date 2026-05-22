@@ -20,6 +20,14 @@ echo "==> Fetching Flutter packages"
 cd "$ROOT/ui"
 flutter pub get
 
+echo "==> Installing pybind11 module into venv"
+PYD=$(find "$ROOT/native/build" -name '_mimic_capture*.so' -o -name '_mimic_capture*.dylib' -o -name '_mimic_capture*.pyd' 2>/dev/null | head -1)
+SP=$(python -c "import site, sys; print(site.getsitepackages()[0] if sys.platform != 'win32' else site.getsitepackages()[1])")
+if [[ -n "$PYD" && -d "$SP" ]]; then
+    cp "$PYD" "$SP/"
+    echo "  copied $(basename "$PYD") -> $SP"
+fi
+
 echo "==> Done. To run:"
 echo "   mimic --help"
 echo "   cd $ROOT/ui && flutter run -d \$(uname | tr '[:upper:]' '[:lower:]')"

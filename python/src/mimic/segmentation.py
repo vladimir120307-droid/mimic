@@ -59,11 +59,16 @@ class Segmentation:
 
 
 def _dhash(frame: FrameLike, size: int = 8) -> int:
-    """Compute a perceptual difference-hash. Reuses native dhash if available."""
+    """Compute a perceptual difference-hash.
+
+    Reuses the native implementation when the frame originated from the C++
+    capturer (passes type check); falls back to a pure-Python implementation
+    for any other frame-like object (mss fallback, test fixtures).
+    """
     try:
-        import _mimic_capture
+        import _mimic_capture  # type: ignore[import-not-found]
         return _mimic_capture.dhash(frame, size)
-    except ImportError:
+    except (ImportError, TypeError):
         pass
     import numpy as np
     from PIL import Image

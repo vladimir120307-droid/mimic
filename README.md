@@ -39,15 +39,22 @@ Existing screenshot-to-code tools handle static images. **mimic adds the dimensi
 # install
 pip install mimic-cli
 
-# screenshot → Flutter
+# try without an API key — uses a hand-crafted fixture
+mimic gen any.png --provider mock:dashboard --target react --out ./demo
+
+# screenshot → Flutter (needs ANTHROPIC_API_KEY)
 mimic gen screenshot.png --target flutter --out lib/
 
 # record screen → Flutter (15 seconds)
 mimic record --duration 15 --target flutter --out lib/
 
-# or use the desktop app
-mimic ui
+# diagnose your environment
+mimic doctor
 ```
+
+> No API key? Use `--provider mock:login` or `--provider mock:dashboard`
+> to generate from a built-in fixture. See [examples/](examples/) for the
+> kind of output mimic produces, all three targets included.
 
 ## How it works
 
@@ -66,9 +73,9 @@ See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for the full design.
 
 | Target           | Status        | Notes                              |
 | ---------------- | ------------- | ---------------------------------- |
-| Flutter          | 🟢 v0.1       | Hero target — best fidelity        |
-| HTML + Tailwind  | 🟡 v0.2       | Coming next                        |
-| React + Tailwind | 🟡 v0.2       | Component-based output             |
+| Flutter          | 🟢 v0.1       | Hero target — full screen + nav    |
+| HTML + Tailwind  | 🟢 v0.1       | Single-file Tailwind CDN page      |
+| React + Tailwind | 🟢 v0.1       | Vite project with React Router     |
 | SwiftUI          | ⚪ planned    | iOS/macOS native                   |
 | Jetpack Compose  | ⚪ planned    | Android native                     |
 | Vue              | ⚪ community  | Contributions welcome              |
@@ -77,8 +84,8 @@ See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for the full design.
 
 See [docs/ROADMAP.md](docs/ROADMAP.md). Highlights:
 
-- **v0.1** — Screenshot → Flutter via Claude Vision (✅ in progress)
-- **v0.2** — Video capture, click-flow detection, HTML/React targets
+- **v0.1** — Screenshot → Flutter / HTML / React via Claude Vision (✅ shipped: scaffolding, codegen, native DXGI capture, mock provider, JSON-RPC server, doctor)
+- **v0.2** — Video capture polish, click-flow detection in vision prompts, PipeWire/Wayland for Linux
 - **v0.3** — Live preview window — see code emerge as you record
 - **v0.4** — Local vision model option (Florence-2 / Llava)
 - **v1.0** — Component library awareness (Material 3, shadcn/ui, etc.)

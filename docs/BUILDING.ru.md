@@ -13,7 +13,7 @@
 
 - **Windows**: Visual Studio 2022 Build Tools (или полная IDE), Windows 10 SDK 10.0.20348.0+
 - **macOS**: Xcode Command Line Tools, macOS 12.3+ для ScreenCaptureKit
-- **Linux**: gcc 11+ или clang 14+, `libpipewire-0.3-dev` (для портала захвата)
+- **Linux**: gcc 11+ или clang 14+, `libxcb1-dev` + `libxcb-shm0-dev` для X11-захвата. (Wayland через PipeWire — v0.2, см. docs/ROADMAP.ru.md.)
 
 ## Быстрая сборка (всё сразу)
 

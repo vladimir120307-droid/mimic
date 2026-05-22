@@ -52,8 +52,10 @@ elseif(APPLE)
 elseif(UNIX)
     list(APPEND MIMIC_PLATFORM_SOURCES src/capture_linux.cpp)
     find_package(PkgConfig REQUIRED)
-    pkg_check_modules(PIPEWIRE REQUIRED libpipewire-0.3)
-    set(MIMIC_PLATFORM_LIBS ${PIPEWIRE_LIBRARIES})
+    pkg_check_modules(XCB     REQUIRED xcb)
+    pkg_check_modules(XCB_SHM REQUIRED xcb-shm)
+    set(MIMIC_PLATFORM_LIBS ${XCB_LIBRARIES} ${XCB_SHM_LIBRARIES})
+    include_directories(${XCB_INCLUDE_DIRS} ${XCB_SHM_INCLUDE_DIRS})
 endif()
 
 # ---------- Core library ----------

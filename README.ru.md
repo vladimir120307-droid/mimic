@@ -39,15 +39,22 @@
 # установка
 pip install mimic-cli
 
-# скриншот → Flutter
+# попробовать без API-ключа — на встроенной фикстуре
+mimic gen any.png --provider mock:dashboard --target react --out ./demo
+
+# скриншот → Flutter (нужен ANTHROPIC_API_KEY)
 mimic gen screenshot.png --target flutter --out lib/
 
 # запись экрана → Flutter (15 секунд)
 mimic record --duration 15 --target flutter --out lib/
 
-# или десктоп-приложение
-mimic ui
+# диагностика окружения
+mimic doctor
 ```
+
+> Нет API-ключа? Используй `--provider mock:login` или `--provider mock:dashboard`,
+> чтобы сгенерировать из встроенной фикстуры. См. [examples/](examples/) —
+> там примеры что mimic выдаёт на всех трёх таргетах.
 
 ## Как это работает
 
@@ -66,9 +73,9 @@ mimic ui
 
 | Таргет           | Статус        | Заметки                            |
 | ---------------- | ------------- | ---------------------------------- |
-| Flutter          | 🟢 v0.1       | Главный — лучшее качество          |
-| HTML + Tailwind  | 🟡 v0.2       | На очереди                         |
-| React + Tailwind | 🟡 v0.2       | Компонентный вывод                 |
+| Flutter          | 🟢 v0.1       | Главный — полный экран + навигация |
+| HTML + Tailwind  | 🟢 v0.1       | Single-file Tailwind CDN страница  |
+| React + Tailwind | 🟢 v0.1       | Vite-проект с React Router         |
 | SwiftUI          | ⚪ план       | Нативный iOS/macOS                 |
 | Jetpack Compose  | ⚪ план       | Нативный Android                   |
 | Vue              | ⚪ community  | Ждём контрибьюшен                  |
@@ -77,8 +84,8 @@ mimic ui
 
 См. [docs/ROADMAP.ru.md](docs/ROADMAP.ru.md). Кратко:
 
-- **v0.1** — Скриншот → Flutter через Claude Vision (✅ в работе)
-- **v0.2** — Захват видео, распознавание click-flow, HTML/React таргеты
+- **v0.1** — Скриншот → Flutter / HTML / React через Claude Vision (✅ зашиплено: скелет, codegen, нативный DXGI-захват, mock-провайдер, JSON-RPC сервер, doctor)
+- **v0.2** — Полировка видео-захвата, распознавание click-flow в vision-промптах, PipeWire/Wayland для Linux
 - **v0.3** — Живой preview — видишь код по мере записи
 - **v0.4** — Локальная vision-модель (Florence-2 / Llava)
 - **v1.0** — Знание UI-библиотек (Material 3, shadcn/ui и т.д.)

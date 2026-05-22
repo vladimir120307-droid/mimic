@@ -13,7 +13,7 @@ Platform-specific:
 
 - **Windows**: Visual Studio 2022 Build Tools (or full IDE), Windows 10 SDK 10.0.20348.0+
 - **macOS**: Xcode Command Line Tools, macOS 12.3+ for ScreenCaptureKit
-- **Linux**: gcc 11+ or clang 14+, `libpipewire-0.3-dev` (for capture portal)
+- **Linux**: gcc 11+ or clang 14+, `libxcb1-dev` + `libxcb-shm0-dev` for X11 capture. (Wayland support via PipeWire is planned for v0.2 — see docs/ROADMAP.md.)
 
 ## Quick build (everything)
 

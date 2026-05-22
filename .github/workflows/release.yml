@@ -27,7 +27,7 @@ jobs:
           pip install --upgrade pip build
           python -m build --wheel --sdist
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: dist-${{ matrix.os }}
           path: python/dist/*

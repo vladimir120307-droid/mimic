@@ -42,16 +42,27 @@ def test_dedup_collapses_identical_subtrees():
 
 
 def test_dedup_preserves_per_instance_content():
-    """Ecommerce product cards differ by title/price text — strict dedup
-    must NOT collapse them, otherwise generated code silently drops data."""
+    """Ecommerce product cards differ by title/price/image — parameterized
+    dedup collapses them into one shared widget AND captures the differing
+    leaves as named slots so nothing is silently dropped."""
     tree = get_fixture("ecommerce")
     result = analyze(tree, min_occurrences=2, min_depth=2)
-    # No two product cards share content, so dedup of those should be empty
-    product_card_ids = {f"prod_{i}" for i in range(4)}
-    for shared in result.shared:
-        assert not (product_card_ids & set(shared.occurrences)), (
-            f"product cards collapsed despite differing content: {shared.occurrences}"
+    product_shared = next(
+        (s for s in result.shared if {f"prod_{i}" for i in range(4)} <= set(s.occurrences)),
+        None,
+    )
+    assert product_shared, "expected the 4 product cards to share a hoisted widget"
+    assert product_shared.slots, "expected per-instance leaves to become parameter slots"
+    # Each instance must have a non-empty value for every slot — no dropped content.
+    for prod_id in (f"prod_{i}" for i in range(4)):
+        binding = product_shared.bindings[prod_id]
+        assert all(v for v in binding.values()), (
+            f"slot binding for {prod_id} contains an empty value: {binding}"
         )
+    # All the original titles should appear somewhere in the bindings.
+    all_values = {v for b in product_shared.bindings.values() for v in b.values()}
+    for title in ("Linen shirt", "Knit sweater", "Wool coat", "Cotton trousers"):
+        assert title in all_values, f"title {title!r} lost during dedup"
 
 
 def test_dedup_skips_when_no_repeats():

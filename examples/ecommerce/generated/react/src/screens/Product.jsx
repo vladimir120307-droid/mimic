@@ -9,13 +9,13 @@ export default function Product() {
   };
   return (
     <section className="mx-auto max-w-md min-h-screen">
-      <div className="flex flex-col gap-2 bg-[#FFFFFF]">
-        <div className="bg-[#E2E8F0]">
+      <div className="flex flex-col gap-2 bg-background">
+        <div className="bg-surface">
         </div>
         <p className="text-2xl font-bold">Linen shirt</p>
-        <p className="text-[#E11D48] text-lg">$48</p>
+        <p className="text-primary text-lg">$48</p>
         <p className="text-[#64748B] text-sm">Soft, breathable linen with a relaxed cut. Ethically sourced.</p>
-        <button type="button" className="bg-[#0F172A] text-[#FFFFFF]">Add to cart</button>
+        <button type="button" className="bg-on_surface text-background">Add to cart</button>
       </div>
     </section>
   );

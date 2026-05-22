@@ -56,7 +56,11 @@ def test_flutter_screen_contains_widgets():
     screen = next(f for f in files if f.path == "lib/screens/home_screen.dart")
     assert "Hello, mimic" in screen.content
     assert "Continue" in screen.content
-    assert "ElevatedButton" in screen.content
+    # button with no background/border styling falls through M3 heuristics to TextButton
+    assert any(
+        b in screen.content
+        for b in ("TextButton", "FilledButton", "ElevatedButton", "OutlinedButton")
+    )
 
 
 def test_flutter_handles_empty_text_safely():

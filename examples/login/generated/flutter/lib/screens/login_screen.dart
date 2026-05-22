@@ -32,9 +32,9 @@ class LoginScreen extends StatelessWidget {
               TextField(
                 decoration: const InputDecoration(hintText: "Password", border: OutlineInputBorder()),
               ),
-              ElevatedButton(
+              FilledButton(
                 onPressed: () {},
-                style: ElevatedButton.styleFrom(backgroundColor: const Color(0xFF6E56CF), foregroundColor: const Color(0xFFFFFFFF)),
+                style: FilledButton.styleFrom(backgroundColor: const Color(0xFF6E56CF), foregroundColor: const Color(0xFFFFFFFF)),
                 child: const Text("Sign in"),
               ),
               Text(

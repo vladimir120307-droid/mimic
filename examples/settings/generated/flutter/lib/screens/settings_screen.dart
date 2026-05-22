@@ -31,9 +31,9 @@ class SettingsScreen extends StatelessWidget {
                 color: const Color(0xFFFFFFFF),
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
               ),
-              ElevatedButton(
+              FilledButton(
                 onPressed: () {},
-                style: ElevatedButton.styleFrom(backgroundColor: const Color(0xFFE11D48), foregroundColor: const Color(0xFFFFFFFF)),
+                style: FilledButton.styleFrom(backgroundColor: const Color(0xFFE11D48), foregroundColor: const Color(0xFFFFFFFF)),
                 child: const Text("Sign out"),
               ),
           ],

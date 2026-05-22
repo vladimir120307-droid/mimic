@@ -28,9 +28,9 @@ class ProductScreen extends StatelessWidget {
                 "Soft, breathable linen with a relaxed cut. Ethically sourced.",
                 style: TextStyle(fontSize: 14.0, color: const Color(0xFF64748B)),
               ),
-              ElevatedButton(
+              FilledButton(
                 onPressed: () {},
-                style: ElevatedButton.styleFrom(backgroundColor: const Color(0xFF0F172A), foregroundColor: const Color(0xFFFFFFFF)),
+                style: FilledButton.styleFrom(backgroundColor: const Color(0xFF0F172A), foregroundColor: const Color(0xFFFFFFFF)),
                 child: const Text("Add to cart"),
               ),
           ],

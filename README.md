@@ -43,16 +43,25 @@ Existing screenshot-to-code tools handle static images. **mimic adds the dimensi
 pip install mimic-cli
 
 # try without an API key — uses a hand-crafted fixture
-mimic gen any.png --provider mock:dashboard --target react --out ./demo
+mimic gen any.png --provider mock:dashboard --target react-ts --out ./demo
 
 # screenshot → Flutter (needs ANTHROPIC_API_KEY)
 mimic gen screenshot.png --target flutter --out lib/
 
+# scaffold a brand-new project pre-seeded with an example
+mimic init my-app --fixture ecommerce --target react-ts
+
 # record screen → Flutter (15 seconds)
 mimic record --duration 15 --target flutter --out lib/
 
+# preview without writing files
+mimic gen screenshot.png --target html --dry-run
+
 # diagnose your environment
 mimic doctor
+
+# benchmark the codegen pipeline
+mimic bench --target flutter
 ```
 
 > No API key? Use `--provider mock:login` or `--provider mock:dashboard`
@@ -74,14 +83,15 @@ See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for the full design.
 
 ## Output targets
 
-| Target           | Status        | Notes                              |
-| ---------------- | ------------- | ---------------------------------- |
-| Flutter          | 🟢 v0.1       | Hero target — full screen + nav    |
-| HTML + Tailwind  | 🟢 v0.1       | Single-file Tailwind CDN page      |
-| React + Tailwind | 🟢 v0.1       | Vite project with React Router     |
-| SwiftUI          | ⚪ planned    | iOS/macOS native                   |
-| Jetpack Compose  | ⚪ planned    | Android native                     |
-| Vue              | ⚪ community  | Contributions welcome              |
+| Target              | Status        | Notes                                              |
+| ------------------- | ------------- | -------------------------------------------------- |
+| Flutter             | 🟢 v0.1       | Material 3 buttons, ColorScheme, Navigator routes  |
+| HTML + Tailwind     | 🟢 v0.1       | Single-file, inline `tailwind.config` palette      |
+| React + Tailwind    | 🟢 v0.1       | Vite + react-router + theme.extend palette         |
+| **React + TypeScript** | 🟢 v0.1    | `.tsx`, typed RouteMap, full tsconfig              |
+| SwiftUI             | ⚪ planned    | iOS/macOS native                                   |
+| Jetpack Compose     | ⚪ planned    | Android native                                     |
+| Vue                 | ⚪ community  | Contributions welcome                              |
 
 ## Roadmap
 

@@ -4,26 +4,35 @@ Produces a single self-contained `index.html` with the Tailwind play CDN
 script — drop it into a browser and it just works, no build step. When
 there are multiple screens, navigation buttons toggle visibility of
 sections at runtime via a tiny inline script.
+
+The extracted theme palette is materialized as an inline
+`tailwind.config = {...}` script tag so semantic classes like `bg-primary`
+work without a build step.
 """
 
 from __future__ import annotations
 
 import html
+import json
 
 from mimic.codegen._tailwind import layout_classes, style_classes
 from mimic.codegen.base import GeneratedFile, Target
 from mimic.models import Interaction, Screen, WidgetNode, WidgetTree
+from mimic.theme import Theme, extract as extract_theme
 
 
 class HtmlGenerator:
     target: Target = "html"
 
     def generate(self, tree: WidgetTree) -> list[GeneratedFile]:
-        body = _emit_body(tree)
+        theme = extract_theme(tree)
+        body = _emit_body(tree, theme)
         nav = _emit_nav(tree) if len(tree.screens) > 1 else ""
         script = _emit_script(tree) if len(tree.screens) > 1 else ""
+        config = _emit_tailwind_config(theme)
         index = _PAGE_TEMPLATE.format(
             title="mimic — generated",
+            config=config,
             nav=nav,
             body=body,
             script=script,
@@ -38,13 +47,14 @@ _PAGE_TEMPLATE = """<!doctype html>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>{title}</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  {config}
   <style>
     body {{ font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }}
     .screen {{ display: none; }}
     .screen.active {{ display: block; }}
   </style>
 </head>
-<body class="min-h-screen bg-slate-50 text-slate-900 antialiased">
+<body class="min-h-screen bg-background text-on-surface antialiased">
 {nav}
 <main class="mx-auto max-w-md">
 {body}
@@ -53,6 +63,20 @@ _PAGE_TEMPLATE = """<!doctype html>
 </body>
 </html>
 """
+
+
+def _emit_tailwind_config(theme: Theme) -> str:
+    palette = theme.named_colors()
+    if not palette:
+        return ""
+    colors_json = json.dumps(palette, indent=2).replace('"', "'")
+    return (
+        "<script>\n"
+        "    tailwind.config = {\n"
+        "      theme: { extend: { colors: " + colors_json + " } }\n"
+        "    };\n"
+        "  </script>"
+    )
 
 
 def _emit_nav(tree: WidgetTree) -> str:
@@ -70,7 +94,7 @@ def _emit_nav(tree: WidgetTree) -> str:
     )
 
 
-def _emit_body(tree: WidgetTree) -> str:
+def _emit_body(tree: WidgetTree, theme: Theme) -> str:
     parts: list[str] = []
     for i, screen in enumerate(tree.screens):
         active = " active" if i == 0 else ""
@@ -79,7 +103,7 @@ def _emit_body(tree: WidgetTree) -> str:
             bg = f' style="background-color: {html.escape(screen.background_color)}"'
         parts.append(
             f'<section id="{screen.id}" class="screen{active} min-h-screen"{bg}>\n'
-            f"{_emit_widget(screen.root, indent=2)}\n"
+            f"{_emit_widget(screen.root, theme, indent=2)}\n"
             "</section>"
         )
     return "\n".join(parts)
@@ -110,9 +134,11 @@ def _emit_script(tree: WidgetTree) -> str:
 </script>"""
 
 
-def _emit_widget(node: WidgetNode, indent: int = 0) -> str:
+def _emit_widget(node: WidgetNode, theme: Theme, indent: int = 0) -> str:
     pad = " " * indent
-    cls = " ".join(layout_classes(node.kind) + style_classes(node.style, node.kind))
+    cls = " ".join(
+        layout_classes(node.kind) + style_classes(node.style, node.kind, theme)
+    )
     cls_attr = f' class="{cls}"' if cls else ""
     id_attr = f' data-mimic-id="{node.id}"'
 
@@ -120,7 +146,7 @@ def _emit_widget(node: WidgetNode, indent: int = 0) -> str:
 
     if node.kind in {"row", "column", "stack", "list", "card", "scroll_view",
                      "container", "app_bar"}:
-        children = "\n".join(_emit_widget(c, indent + 2) for c in node.children)
+        children = "\n".join(_emit_widget(c, theme, indent + 2) for c in node.children)
         body = ""
         if inner:
             body = f"\n{pad}  {inner}"
@@ -168,7 +194,7 @@ def _emit_widget(node: WidgetNode, indent: int = 0) -> str:
     if node.kind == "spacer":
         return f'{pad}<div{id_attr} class="flex-1"></div>'
 
-    children = "\n".join(_emit_widget(c, indent + 2) for c in node.children)
+    children = "\n".join(_emit_widget(c, theme, indent + 2) for c in node.children)
     return f"{pad}<div{id_attr}{cls_attr}>\n{children}\n{pad}</div>"
 
 

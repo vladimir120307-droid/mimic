@@ -61,10 +61,50 @@ def gen(
     out: Annotated[
         Path, typer.Option("--out", "-o", help="Output directory.")
     ] = Path("out"),
+    dry_run: Annotated[
+        bool, typer.Option("--dry-run", help="Show what would be generated without writing files.")
+    ] = False,
+    output_format: Annotated[
+        str,
+        typer.Option(
+            "--format",
+            help="Result format: 'table' (default), 'json' for machine-readable output.",
+        ),
+    ] = "table",
 ) -> None:
     """Generate code from a single screenshot."""
     pipeline = Pipeline(provider=provider, target=target)
     result = asyncio.run(pipeline.run(VisionInput.from_image(image)))
+
+    if output_format == "json":
+        import json as _json
+
+        payload = {
+            "target":     target,
+            "elapsed_ms": result.elapsed_ms,
+            "dry_run":    dry_run,
+            "files": [
+                {"path": f.path, "size": len(f.content.encode("utf-8")), "language": f.language}
+                for f in result.files
+            ],
+        }
+        if not dry_run:
+            paths = result.write_to(out)
+            payload["written_to"] = str(out)
+            payload["paths"] = [str(p) for p in paths]
+        print(_json.dumps(payload, indent=2))
+        return
+
+    if dry_run:
+        table = Table(title=f"Would generate ({target}) — dry run, no files written")
+        table.add_column("File")
+        table.add_column("Size", justify="right")
+        for f in result.files:
+            table.add_row(f.path, f"{len(f.content.encode('utf-8'))} B")
+        console.print(table)
+        console.print(f"[yellow]dry run[/]: {len(result.files)} files would be written to {out}")
+        return
+
     paths = result.write_to(out)
     _print_result_table(target, result.elapsed_ms, paths)
 
@@ -181,12 +221,104 @@ def targets() -> None:
     from mimic.codegen import list_targets
 
     status = {
-        "flutter": "stable",
-        "html":    "stable",
-        "react":   "stable",
+        "flutter":  "stable",
+        "html":     "stable",
+        "react":    "stable",
+        "react-ts": "stable",
     }
     for t in list_targets():
         table.add_row(t, status.get(t, "experimental"))
+    console.print(table)
+
+
+@app.command()
+def init(
+    name: Annotated[
+        str, typer.Argument(help="Project folder name, created in the current directory.")
+    ],
+    fixture: Annotated[
+        str,
+        typer.Option(
+            "--fixture",
+            help="Mock fixture to seed the project from: login / dashboard / chat / calendar / ecommerce / settings.",
+        ),
+    ] = "dashboard",
+    target: Annotated[
+        Target, typer.Option("--target", "-t", help="Initial target framework.")
+    ] = "flutter",
+) -> None:
+    """Scaffold a new project directory pre-seeded with a generated example."""
+    project = Path.cwd() / name
+    if project.exists() and any(project.iterdir()):
+        console.print(f"[red]error[/]: {project} already exists and is not empty")
+        raise typer.Exit(code=1)
+    project.mkdir(parents=True, exist_ok=True)
+
+    dummy = project / "_seed.png"
+    try:
+        from PIL import Image
+
+        Image.new("RGB", (375, 812), "#F8FAFC").save(dummy)
+    except Exception:
+        dummy.write_bytes(b"\x89PNG\r\n\x1a\n")
+
+    pipeline = Pipeline(provider=f"mock:{fixture}", target=target)
+    result = asyncio.run(pipeline.run(VisionInput.from_image(dummy)))
+    result.write_to(project)
+    dummy.unlink(missing_ok=True)
+
+    console.print(
+        f"[green]✓[/] Scaffolded [bold]{name}[/] from [cyan]mock:{fixture}[/] → "
+        f"[cyan]{target}[/] ({len(result.files)} files in {result.elapsed_ms:.0f} ms)"
+    )
+    console.print(f"  cd {name}")
+    if target == "flutter":
+        console.print("  flutter run")
+    elif target == "html":
+        console.print("  open index.html  # or xdg-open / start")
+    elif target in {"react", "react-ts"}:
+        console.print("  npm install && npm run dev")
+
+
+@app.command()
+def bench(
+    target: Annotated[
+        Target, typer.Option("--target", "-t", help="Target to benchmark.")
+    ] = "flutter",
+    iterations: Annotated[
+        int, typer.Option("--iterations", "-n", help="Number of runs per fixture.")
+    ] = 5,
+) -> None:
+    """Benchmark the codegen pipeline across all mock fixtures."""
+    import time
+
+    from mimic.vision.mock import list_fixtures
+
+    table = Table(title=f"mimic bench — {target}, {iterations} iterations")
+    table.add_column("Fixture")
+    table.add_column("Files",      justify="right")
+    table.add_column("Min (ms)",   justify="right")
+    table.add_column("Median (ms)",justify="right")
+    table.add_column("Max (ms)",   justify="right")
+
+    for fix in list_fixtures():
+        pipeline = Pipeline(provider=f"mock:{fix}", target=target)
+        timings: list[float] = []
+        files_count = 0
+        for _ in range(iterations):
+            t0 = time.perf_counter()
+            result = asyncio.run(pipeline.run(VisionInput(images_b64=["dummy"])))
+            timings.append((time.perf_counter() - t0) * 1000.0)
+            files_count = len(result.files)
+        timings.sort()
+        median = timings[len(timings) // 2]
+        table.add_row(
+            fix,
+            str(files_count),
+            f"{timings[0]:.2f}",
+            f"{median:.2f}",
+            f"{timings[-1]:.2f}",
+        )
     console.print(table)
 
 

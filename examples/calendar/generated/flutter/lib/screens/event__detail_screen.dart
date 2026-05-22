@@ -26,9 +26,9 @@ class Event DetailScreen extends StatelessWidget {
                 "Conference room B / Zoom",
                 style: TextStyle(fontSize: 14.0, color: const Color(0xFF64748B)),
               ),
-              ElevatedButton(
+              FilledButton(
                 onPressed: () {},
-                style: ElevatedButton.styleFrom(backgroundColor: const Color(0xFF10B981), foregroundColor: const Color(0xFFFFFFFF)),
+                style: FilledButton.styleFrom(backgroundColor: const Color(0xFF10B981), foregroundColor: const Color(0xFFFFFFFF)),
                 child: const Text("Join meeting"),
               ),
           ],

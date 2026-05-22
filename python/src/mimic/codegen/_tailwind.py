@@ -2,22 +2,33 @@
 
 Maps the framework-agnostic `Style` model to a list of Tailwind utility
 classes. Centralized so improvements to mapping benefit both targets.
+
+When a `Theme` is supplied, repeated colors are emitted as semantic Tailwind
+names (e.g. `bg-primary`) instead of arbitrary values (`bg-[#6E56CF]`). The
+theme is later materialized as a `tailwind.config.js` block in the React
+target and as an inline `tailwind.config = {...}` script in the HTML target.
 """
 
 from __future__ import annotations
 
 from mimic.models import Style, WidgetKind
+from mimic.theme import Theme
 
 
-def style_classes(style: Style, kind: WidgetKind | None = None) -> list[str]:
+def style_classes(
+    style: Style,
+    kind: WidgetKind | None = None,
+    theme: Theme | None = None,
+) -> list[str]:
     classes: list[str] = []
 
+    palette = theme.color_to_name() if theme else {}
     if style.background_color:
-        classes.append(_color_class("bg", style.background_color))
+        classes.append(_color_class("bg", style.background_color, palette))
     if style.foreground_color:
-        classes.append(_color_class("text", style.foreground_color))
+        classes.append(_color_class("text", style.foreground_color, palette))
     if style.border_color:
-        classes.append(_color_class("border", style.border_color))
+        classes.append(_color_class("border", style.border_color, palette))
     if style.border_width is not None and style.border_width > 0:
         classes.append(f"border-{_size_step(style.border_width)}")
     if style.border_radius is not None:
@@ -152,24 +163,32 @@ def _text_size_class(px: float) -> str:
     return "text-6xl"
 
 
-def _color_class(prefix: str, value: str) -> str:
-    """Use Tailwind arbitrary-value syntax for unknown colors.
+_TW_PALETTE = {
+    "white":       "white",
+    "black":       "black",
+    "transparent": "transparent",
+}
 
-    Maps common color words to Tailwind palette where obvious; otherwise
-    emits `bg-[#hex]` (arbitrary value). Reliable but not pretty.
+
+def _color_class(prefix: str, value: str, palette: dict[str, str] | None = None) -> str:
+    """Emit a Tailwind class for `value`.
+
+    Resolution order:
+    1. semantic theme palette (`bg-primary` if value matches theme.primary)
+    2. built-in keyword (`white`, `black`, `transparent`)
+    3. arbitrary value (`bg-[#6E56CF]`) — always works, just less pretty
     """
     v = value.strip()
-    palette = {
-        "white":       "white",
-        "black":       "black",
-        "transparent": "transparent",
-    }
+    upper = v.upper() if v.startswith("#") else v
+
+    if palette and upper in palette:
+        return f"{prefix}-{palette[upper]}"
+
     lower = v.lower()
-    if lower in palette:
-        return f"{prefix}-{palette[lower]}"
+    if lower in _TW_PALETTE:
+        return f"{prefix}-{_TW_PALETTE[lower]}"
     if v.startswith("#"):
         return f"{prefix}-[{v}]"
     if v.startswith("rgb"):
-        compact = v.replace(" ", "")
-        return f"{prefix}-[{compact}]"
+        return f"{prefix}-[{v.replace(' ', '')}]"
     return f"{prefix}-[{v}]"

@@ -5,25 +5,35 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>mimic — generated</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: { extend: { colors: {
+  'primary': '#E11D48',
+  'surface': '#F1F5F9',
+  'on_surface': '#0F172A',
+  'background': '#FFFFFF'
+} } }
+    };
+  </script>
   <style>
     body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
     .screen { display: none; }
     .screen.active { display: block; }
   </style>
 </head>
-<body class="min-h-screen bg-slate-50 text-slate-900 antialiased">
+<body class="min-h-screen bg-background text-on-surface antialiased">
 
 <main class="mx-auto max-w-md">
 <section id="settings" class="screen active min-h-screen">
-  <div data-mimic-id="settings_root" class="flex flex-col gap-2 bg-[#F1F5F9]">
-    <header data-mimic-id="settings_app_bar" class="w-full px-4 py-3 flex items-center justify-between bg-[#FFFFFF] text-[#0F172A]">
+  <div data-mimic-id="settings_root" class="flex flex-col gap-2 bg-surface">
+    <header data-mimic-id="settings_app_bar" class="w-full px-4 py-3 flex items-center justify-between bg-background text-on_surface">
       Settings
     </header>
-    <article data-mimic-id="profile_card" class="rounded-2xl bg-white shadow-sm p-4 bg-[#FFFFFF] rounded-xl p-4">
+    <article data-mimic-id="profile_card" class="rounded-2xl bg-white shadow-sm p-4 bg-background rounded-xl p-4">
       <p data-mimic-id="profile_name" class="text-lg font-bold">Vladimir</p>
       <p data-mimic-id="profile_email" class="text-[#64748B] text-sm">vladimir@example.com</p>
     </article>
-    <article data-mimic-id="section_notifications" class="rounded-2xl bg-white shadow-sm p-4 bg-[#FFFFFF] rounded-xl pt-2 pr-4 pb-2 pl-4">
+    <article data-mimic-id="section_notifications" class="rounded-2xl bg-white shadow-sm p-4 bg-background rounded-xl pt-2 pr-4 pb-2 pl-4">
       <div data-mimic-id="row_push" class="flex flex-row items-center gap-2">
         <p data-mimic-id="push_label" class="text-base">Push notifications</p>
         <div data-mimic-id="push_switch">
@@ -43,7 +53,7 @@
         </div>
       </div>
     </article>
-    <button data-mimic-id="sign_out" class="bg-[#E11D48] text-[#FFFFFF]" type="button">Sign out</button>
+    <button data-mimic-id="sign_out" class="bg-primary text-background" type="button">Sign out</button>
   </div>
 </section>
 </main>

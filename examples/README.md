@@ -1,6 +1,6 @@
 # Examples gallery
 
-Six reference fixtures, each generated for all three targets (Flutter, HTML, React). Browse the source directly on GitHub to see exactly what mimic produces.
+Six reference fixtures, each generated for all four targets — **Flutter, HTML, React (JS), React (TypeScript)**. Browse the source directly on GitHub to see exactly what mimic produces.
 
 | Example                                    | Screens | Demonstrates                                            |
 | ------------------------------------------ | ------- | ------------------------------------------------------- |
@@ -17,16 +17,17 @@ Each fixture lives at `examples/<name>/`:
 examples/<name>/
   notes.md
   generated/
-    flutter/       (Material 3 app with Navigator)
-    html/          (single-file Tailwind page)
-    react/         (Vite project, react-router)
+    flutter/       (Material 3 app with Navigator + ColorScheme)
+    html/          (single-file Tailwind, inline palette config)
+    react/         (Vite + react-router, JavaScript)
+    react-ts/      (Vite + react-router, fully typed TypeScript)
 ```
 
 ## Regenerating
 
 ```bash
 for fixture in login dashboard chat calendar ecommerce settings; do
-  for target in flutter html react; do
+  for target in flutter html react react-ts; do
     mimic gen any.png \
       --provider mock:$fixture \
       --target  $target \
@@ -35,7 +36,7 @@ for fixture in login dashboard chat calendar ecommerce settings; do
 done
 ```
 
-These outputs double as regression fixtures — see `python/tests/test_mock_vision.py`.
+These outputs double as regression fixtures — see `python/tests/test_snapshots.py`. Drift is caught by `pytest`; refresh deliberately with `MIMIC_UPDATE_SNAPSHOTS=1 pytest`.
 
 ## What to look at to evaluate quality
 

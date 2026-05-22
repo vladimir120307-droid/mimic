@@ -5,13 +5,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>mimic — generated</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: { extend: { colors: {
+  'primary': '#0EA5E9',
+  'surface': '#FFFFFF',
+  'on_surface': '#0F172A',
+  'background': '#FFFFFF'
+} } }
+    };
+  </script>
   <style>
     body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
     .screen { display: none; }
     .screen.active { display: block; }
   </style>
 </head>
-<body class="min-h-screen bg-slate-50 text-slate-900 antialiased">
+<body class="min-h-screen bg-background text-on-surface antialiased">
 <nav class="sticky top-0 z-10 bg-white border-b border-slate-200">
   <div class="mx-auto max-w-md flex gap-2 px-4 py-2 overflow-x-auto">
     <button data-target="inbox" class="px-3 py-1 rounded hover:bg-slate-200">Inbox</button>
@@ -20,8 +30,8 @@
 </nav>
 <main class="mx-auto max-w-md">
 <section id="inbox" class="screen active min-h-screen">
-  <div data-mimic-id="inbox_root" class="flex flex-col gap-2 bg-[#FFFFFF]">
-    <header data-mimic-id="inbox_app_bar" class="w-full px-4 py-3 flex items-center justify-between bg-[#0EA5E9] text-[#FFFFFF]">
+  <div data-mimic-id="inbox_root" class="flex flex-col gap-2 bg-background">
+    <header data-mimic-id="inbox_app_bar" class="w-full px-4 py-3 flex items-center justify-between bg-primary text-background">
       Messages
     </header>
     <input data-mimic-id="search_field" type="text" placeholder="Search conversations" class=" w-full px-3 py-2 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-violet-500" />
@@ -36,17 +46,17 @@
 </section>
 <section id="chat" class="screen min-h-screen">
   <div data-mimic-id="chat_root" class="flex flex-col gap-2 bg-[#F1F5F9]">
-    <header data-mimic-id="chat_app_bar" class="w-full px-4 py-3 flex items-center justify-between bg-[#0EA5E9] text-[#FFFFFF]">
+    <header data-mimic-id="chat_app_bar" class="w-full px-4 py-3 flex items-center justify-between bg-primary text-background">
       Anna
     </header>
-    <article data-mimic-id="msg_in_1" class="rounded-2xl bg-white shadow-sm p-4 bg-[#FFFFFF] rounded-xl p-3">
+    <article data-mimic-id="msg_in_1" class="rounded-2xl bg-white shadow-sm p-4 bg-background rounded-xl p-3">
     </article>
-    <article data-mimic-id="msg_out_1" class="rounded-2xl bg-white shadow-sm p-4 bg-[#0EA5E9] text-[#FFFFFF] rounded-xl p-3">
+    <article data-mimic-id="msg_out_1" class="rounded-2xl bg-white shadow-sm p-4 bg-primary text-background rounded-xl p-3">
     </article>
-    <article data-mimic-id="msg_in_2" class="rounded-2xl bg-white shadow-sm p-4 bg-[#FFFFFF] rounded-xl p-3">
+    <article data-mimic-id="msg_in_2" class="rounded-2xl bg-white shadow-sm p-4 bg-background rounded-xl p-3">
     </article>
     <input data-mimic-id="composer" type="text" placeholder="Type a message" class=" w-full px-3 py-2 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-violet-500" />
-    <button data-mimic-id="send" class="fixed bottom-6 right-6 w-14 h-14 rounded-full shadow-lg flex items-center justify-center bg-[#0EA5E9] text-[#FFFFFF]" type="button" aria-label="action"><span class="text-2xl">+</span></button>
+    <button data-mimic-id="send" class="fixed bottom-6 right-6 w-14 h-14 rounded-full shadow-lg flex items-center justify-center bg-primary text-background" type="button" aria-label="action"><span class="text-2xl">+</span></button>
   </div>
 </section>
 </main>

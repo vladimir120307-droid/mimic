@@ -43,16 +43,25 @@
 pip install mimic-cli
 
 # попробовать без API-ключа — на встроенной фикстуре
-mimic gen any.png --provider mock:dashboard --target react --out ./demo
+mimic gen any.png --provider mock:dashboard --target react-ts --out ./demo
 
 # скриншот → Flutter (нужен ANTHROPIC_API_KEY)
 mimic gen screenshot.png --target flutter --out lib/
 
+# создать новый проект из примера
+mimic init my-app --fixture ecommerce --target react-ts
+
 # запись экрана → Flutter (15 секунд)
 mimic record --duration 15 --target flutter --out lib/
 
+# превью без записи на диск
+mimic gen screenshot.png --target html --dry-run
+
 # диагностика окружения
 mimic doctor
+
+# бенчмарк скорости кодогенерации
+mimic bench --target flutter
 ```
 
 > Нет API-ключа? Используй `--provider mock:login` или `--provider mock:dashboard`,
@@ -74,14 +83,15 @@ mimic doctor
 
 ## Выходные таргеты
 
-| Таргет           | Статус        | Заметки                            |
-| ---------------- | ------------- | ---------------------------------- |
-| Flutter          | 🟢 v0.1       | Главный — полный экран + навигация |
-| HTML + Tailwind  | 🟢 v0.1       | Single-file Tailwind CDN страница  |
-| React + Tailwind | 🟢 v0.1       | Vite-проект с React Router         |
-| SwiftUI          | ⚪ план       | Нативный iOS/macOS                 |
-| Jetpack Compose  | ⚪ план       | Нативный Android                   |
-| Vue              | ⚪ community  | Ждём контрибьюшен                  |
+| Таргет                 | Статус        | Заметки                                                |
+| ---------------------- | ------------- | ------------------------------------------------------ |
+| Flutter                | 🟢 v0.1       | Material 3 кнопки, ColorScheme, Navigator маршруты     |
+| HTML + Tailwind        | 🟢 v0.1       | Один файл, inline `tailwind.config` с палитрой         |
+| React + Tailwind       | 🟢 v0.1       | Vite + react-router + theme.extend палитра             |
+| **React + TypeScript** | 🟢 v0.1       | `.tsx`, типизированный RouteMap, полный tsconfig       |
+| SwiftUI                | ⚪ план       | Нативный iOS/macOS                                     |
+| Jetpack Compose        | ⚪ план       | Нативный Android                                       |
+| Vue                    | ⚪ community  | Ждём контрибьюшен                                      |
 
 ## Дорожная карта
 

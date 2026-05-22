@@ -5,7 +5,7 @@ import Product from "./screens/Product.jsx";
 
 export default function App() {
   return (
-    <main className="min-h-screen bg-slate-50 text-slate-900 antialiased">
+    <main className="min-h-screen bg-background text-on-surface antialiased">
       <Routes>
         <Route path="/" element={<Catalog />} />
         <Route path="/product_detail" element={<Product />} />

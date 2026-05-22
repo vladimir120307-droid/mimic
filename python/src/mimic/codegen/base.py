@@ -12,7 +12,7 @@ from typing import Literal, Protocol
 
 from mimic.models import WidgetTree
 
-Target = Literal["flutter", "html", "react"]
+Target = Literal["flutter", "html", "react", "react-ts"]
 
 
 @dataclass

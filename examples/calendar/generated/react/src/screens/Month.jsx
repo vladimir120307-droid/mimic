@@ -9,18 +9,18 @@ export default function Month() {
   };
   return (
     <section className="mx-auto max-w-md min-h-screen">
-      <div className="flex flex-col gap-2 bg-[#FFFFFF]">
-        <div className="w-full px-4 py-3 flex items-center justify-between bg-[#10B981] text-[#FFFFFF]">
+      <div className="flex flex-col gap-2 bg-surface">
+        <div className="w-full px-4 py-3 flex items-center justify-between bg-primary text-surface">
           <span>May 2026</span>
         </div>
         <div className="flex flex-row items-center gap-2">
-          <p className="text-[#64748B] text-xs text-center">Mon</p>
-          <p className="text-[#64748B] text-xs text-center">Tue</p>
-          <p className="text-[#64748B] text-xs text-center">Wed</p>
-          <p className="text-[#64748B] text-xs text-center">Thu</p>
-          <p className="text-[#64748B] text-xs text-center">Fri</p>
-          <p className="text-[#64748B] text-xs text-center">Sat</p>
-          <p className="text-[#64748B] text-xs text-center">Sun</p>
+          <p className="text-background text-xs text-center">Mon</p>
+          <p className="text-background text-xs text-center">Tue</p>
+          <p className="text-background text-xs text-center">Wed</p>
+          <p className="text-background text-xs text-center">Thu</p>
+          <p className="text-background text-xs text-center">Fri</p>
+          <p className="text-background text-xs text-center">Sat</p>
+          <p className="text-background text-xs text-center">Sun</p>
         </div>
         <div className="flex flex-col gap-1 divide-y divide-slate-200">
           <div className="text-sm text-center" className="text-sm text-center flex items-center justify-between py-3 cursor-pointer"><span>1</span><span className="text-slate-400">›</span></div>
@@ -54,7 +54,7 @@ export default function Month() {
         </div>
         <div className="rounded-2xl bg-white shadow-sm p-4 bg-[#ECFDF5] rounded-xl p-4" onClick={() => onTap("next_event")}>
           <p className="text-base font-bold">Next: Design review</p>
-          <p className="text-[#64748B] text-sm">Tomorrow, 10:00</p>
+          <p className="text-background text-sm">Tomorrow, 10:00</p>
         </div>
       </div>
     </section>

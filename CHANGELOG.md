@@ -11,10 +11,19 @@ All notable changes to mimic are documented here. Format follows [Keep a Changel
 - `theme.extract()` — derives a named palette and typography from any `WidgetTree`, used by codegen targets to emit `ColorScheme.fromSeed` (Flutter) and Tailwind theme tokens.
 - Component deduplication — repeated subtrees (e.g. product cards) are hoisted into a shared `_SharedN` widget in the Flutter target.
 - Flutter generator now emits real `MaterialApp.routes` with `Navigator.pushNamed` wiring for every `tap` interaction.
+- **Material 3 button recognition** — buttons emit `FilledButton`, `OutlinedButton`, `TextButton`, `IconButton`, or `ElevatedButton` based on the input styling instead of always defaulting to `ElevatedButton`.
+- **TypeScript React target** — new `react-ts` target produces a fully typed Vite project (`.tsx`, `tsconfig.json`, typed `RouteMap`).
+- **Tailwind palette in `tailwind.config.js`** — semantic class names (`bg-primary`, `text-on-surface`) replace arbitrary-value classes; HTML target inlines the same config via the play CDN.
+- **`mimic init`** — scaffold a project from any mock fixture as a starting point.
+- **`mimic bench`** — measure codegen latency across all fixtures (`<5 ms` per fixture in median on a typical laptop).
+- **`mimic gen --dry-run`** — preview which files would be written without touching disk.
+- **`mimic gen --format json`** — machine-readable output for tooling integration.
+- **Snapshot tests** — `tests/test_snapshots.py` pins generator output against `examples/<fixture>/generated/<target>/`. Refresh with `MIMIC_UPDATE_SNAPSHOTS=1 pytest`.
 
 ### Tests
 
-- 42 Python tests pass; 10 native tests pass on Windows.
+- **81 Python tests pass** (up from 42); 10 native tests pass on Windows.
+- PyPI wheel `mimic_cli-0.1.0-py3-none-any.whl` builds cleanly and installs into a fresh venv.
 
 ## [0.1.0] — initial release
 

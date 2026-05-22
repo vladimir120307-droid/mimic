@@ -1,14 +1,14 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Month from "./screens/Month.jsx";
-import Event Detail from "./screens/Event Detail.jsx";
+import EventDetail from "./screens/EventDetail.jsx";
 
 export default function App() {
   return (
-    <main className="min-h-screen bg-slate-50 text-slate-900 antialiased">
+    <main className="min-h-screen bg-background text-on-surface antialiased">
       <Routes>
         <Route path="/" element={<Month />} />
-        <Route path="/event_detail" element={<Event Detail />} />
+        <Route path="/event_detail" element={<EventDetail />} />
       </Routes>
     </main>
   );

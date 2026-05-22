@@ -9,8 +9,8 @@ export default function Inbox() {
   };
   return (
     <section className="mx-auto max-w-md min-h-screen">
-      <div className="flex flex-col gap-2 bg-[#FFFFFF]">
-        <div className="w-full px-4 py-3 flex items-center justify-between bg-[#0EA5E9] text-[#FFFFFF]">
+      <div className="flex flex-col gap-2 bg-background">
+        <div className="w-full px-4 py-3 flex items-center justify-between bg-primary text-background">
           <span>Messages</span>
         </div>
         <input type="text" placeholder="Search conversations" className=" w-full px-3 py-2 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-violet-500" />

@@ -190,22 +190,37 @@ def _emit_widget(
             args.append(f"style: {style}")
 
     elif node.kind == "button":
+        button_cls = _material3_button(node)
+        cls = button_cls
         label = node.text or "Button"
         on_press = ctx.interactions.get(node.id)
-        if on_press:
-            args.append(f'onPressed: () => Navigator.pushNamed(context, "/{on_press}")')
+        on_pressed = (
+            f'() => Navigator.pushNamed(context, "/{on_press}")' if on_press else "() {}"
+        )
+
+        if button_cls == "IconButton":
+            icon = _safe_icon(node.icon_name or "circle")
+            args = [
+                f"onPressed: {on_pressed}",
+                f"icon: const Icon(Icons.{icon})",
+            ]
+            if node.style.foreground_color:
+                args.append(f"color: {_color(node.style.foreground_color)}")
         else:
-            args.append("onPressed: () {}")
-        bg = node.style.background_color
-        fg = node.style.foreground_color
-        if bg or fg:
-            style_parts = []
-            if bg: style_parts.append(f"backgroundColor: {_color(bg)}")
-            if fg: style_parts.append(f"foregroundColor: {_color(fg)}")
-            args.append(
-                f"style: ElevatedButton.styleFrom({', '.join(style_parts)})"
-            )
-        args.append(f'child: const Text("{_escape(label)}")')
+            args.append(f"onPressed: {on_pressed}")
+            bg = node.style.background_color
+            fg = node.style.foreground_color
+            if button_cls in {"FilledButton", "ElevatedButton"} and (bg or fg):
+                style_parts: list[str] = []
+                if bg: style_parts.append(f"backgroundColor: {_color(bg)}")
+                if fg: style_parts.append(f"foregroundColor: {_color(fg)}")
+                args.append(f"style: {button_cls}.styleFrom({', '.join(style_parts)})")
+            elif button_cls == "OutlinedButton" and node.style.border_color:
+                args.append(
+                    f"style: OutlinedButton.styleFrom("
+                    f"side: BorderSide(color: {_color(node.style.border_color)}))"
+                )
+            args.append(f'child: const Text("{_escape(label)}")')
 
     elif node.kind == "text_field" and node.placeholder:
         args.append(
@@ -348,6 +363,30 @@ def _color(value: str) -> str:
 def _safe_icon(name: str) -> str:
     n = "".join(c if c.isalnum() else "_" for c in name).lower().strip("_") or "circle"
     return n
+
+
+def _material3_button(node: WidgetNode) -> str:
+    """Pick the Material 3 button variant that best matches the styling.
+
+    Heuristics:
+    - icon-only (no text + icon_name)               -> IconButton
+    - no background, no border                      -> TextButton
+    - border_color set, no background               -> OutlinedButton
+    - background + shadow flag                      -> ElevatedButton
+    - background, no shadow                         -> FilledButton (M3 default)
+    """
+    s = node.style
+    has_bg     = bool(s.background_color) and s.background_color not in {"transparent", "none"}
+    has_border = bool(s.border_color)
+    if not node.text and node.icon_name:
+        return "IconButton"
+    if not has_bg and has_border:
+        return "OutlinedButton"
+    if not has_bg and not has_border:
+        return "TextButton"
+    if has_bg and s.shadow:
+        return "ElevatedButton"
+    return "FilledButton"
 
 
 def _escape(s: str) -> str:

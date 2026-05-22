@@ -5,7 +5,7 @@ import Activity from "./screens/Activity.jsx";
 
 export default function App() {
   return (
-    <main className="min-h-screen bg-slate-50 text-slate-900 antialiased">
+    <main className="min-h-screen bg-background text-on-surface antialiased">
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/details" element={<Activity />} />

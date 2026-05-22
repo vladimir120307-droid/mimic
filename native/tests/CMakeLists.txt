@@ -7,10 +7,15 @@ FetchContent_Declare(
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 
-add_executable(mimic_tests
+set(MIMIC_TEST_SOURCES
     test_dedup.cpp
     test_capture_factory.cpp
 )
+if(WIN32)
+    list(APPEND MIMIC_TEST_SOURCES test_dxgi_grab.cpp)
+endif()
+
+add_executable(mimic_tests ${MIMIC_TEST_SOURCES})
 target_link_libraries(mimic_tests PRIVATE mimic_capture gtest_main)
 
 include(GoogleTest)

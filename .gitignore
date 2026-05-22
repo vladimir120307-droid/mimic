@@ -1,0 +1,84 @@
+# ---------- Native (C++ / CMake) ----------
+native/build/
+native/cmake-build-*/
+native/out/
+*.o
+*.obj
+*.a
+*.lib
+*.so
+*.so.*
+*.dylib
+*.dll
+*.exp
+*.pdb
+*.ilk
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
+compile_commands.json
+
+# ---------- Python ----------
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.eggs/
+dist/
+build/
+.venv/
+venv/
+env/
+.python-version
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+.tox/
+
+# ---------- Flutter / Dart ----------
+ui/.dart_tool/
+ui/.flutter-plugins
+ui/.flutter-plugins-dependencies
+ui/.packages
+ui/build/
+ui/.idea/
+ui/.vscode/
+ui/ios/Pods/
+ui/android/.gradle/
+ui/android/local.properties
+ui/windows/flutter/ephemeral/
+ui/macos/Flutter/ephemeral/
+ui/linux/flutter/ephemeral/
+
+# ---------- Editors / IDE ----------
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ---------- Secrets / env ----------
+.env
+.env.local
+.env.*.local
+*.pem
+*.key
+secrets/
+
+# ---------- AI tooling (local only) ----------
+.claude/
+.cursor/
+CLAUDE.md
+.aider*
+
+# ---------- Logs / temp ----------
+*.log
+*.tmp
+/tmp/
+.cache/

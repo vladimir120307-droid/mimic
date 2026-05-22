@@ -1,0 +1,41 @@
+---
+Language:        Cpp
+BasedOnStyle:    LLVM
+IndentWidth:     4
+TabWidth:        4
+UseTab:          Never
+ColumnLimit:     100
+AccessModifierOffset: -4
+
+AlignAfterOpenBracket: Align
+AlignConsecutiveAssignments: AcrossEmptyLines
+AlignConsecutiveDeclarations: AcrossEmptyLines
+AlignTrailingComments: true
+
+AllowShortFunctionsOnASingleLine: Empty
+AllowShortIfStatementsOnASingleLine: WithoutElse
+AllowShortLoopsOnASingleLine: false
+
+BinPackArguments: false
+BinPackParameters: false
+
+BreakBeforeBraces: Attach
+BreakConstructorInitializers: BeforeColon
+BreakInheritanceList: BeforeColon
+
+IncludeBlocks: Regroup
+IncludeCategories:
+  - Regex:    '^"mimic/'
+    Priority: 1
+  - Regex:    '^"'
+    Priority: 2
+  - Regex:    '^<.*\.h>$'
+    Priority: 3
+  - Regex:    '^<.*>$'
+    Priority: 4
+
+PointerAlignment: Left
+ReferenceAlignment: Left
+SortIncludes: CaseInsensitive
+SpaceBeforeParens: ControlStatements
+SpacesBeforeTrailingComments: 2

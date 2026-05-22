@@ -1,0 +1,31 @@
+name: Feature request
+description: Suggest an idea or improvement
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem does this solve?
+      description: Describe the use case. Concrete examples are very helpful.
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution
+      description: What should change? Any specific API / UX in mind?
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: Other approaches you thought about and why you rejected them.
+
+  - type: checkboxes
+    id: roadmap
+    attributes:
+      label: Roadmap fit
+      options:
+        - label: I have read [ROADMAP.md](https://github.com/Cyber-Lord/mimic/blob/main/docs/ROADMAP.md) and this is not already planned
+          required: true

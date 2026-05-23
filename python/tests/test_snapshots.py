@@ -24,7 +24,7 @@ from mimic.vision.mock import list_fixtures
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 EXAMPLES = REPO_ROOT / "examples"
-TARGETS = ("flutter", "html", "react", "react-ts", "vue")
+TARGETS = ("flutter", "html", "react", "react-ts", "vue", "swiftui")
 UPDATE_ENV = "MIMIC_UPDATE_SNAPSHOTS"
 
 

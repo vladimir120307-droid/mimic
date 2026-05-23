@@ -22,6 +22,8 @@ Turn a screen recording (or a single screenshot) into clean **Flutter**, **HTML/
 
 <img src="assets/demo.gif" alt="mimic demo" width="720" />
 
+[![asciicast](https://asciinema.org/a/cli-demo.svg)](https://asciinema.org/a/cli-demo)
+
 </div>
 
 ---

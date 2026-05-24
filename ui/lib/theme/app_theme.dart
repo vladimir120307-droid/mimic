@@ -23,7 +23,7 @@ class AppTheme {
       cardTheme: CardTheme(
         elevation: 0,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-        color: scheme.surfaceContainerHighest,
+        color: scheme.surfaceVariant,
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(

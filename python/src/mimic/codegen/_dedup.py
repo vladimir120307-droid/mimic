@@ -29,24 +29,24 @@ from mimic.models import WidgetNode, WidgetTree
 class SharedSlot:
     """One parameter of a hoisted shared widget."""
 
-    name:       str   # e.g. "title", "price", "icon"
-    kind:       str   # "text" | "icon" | "image" | "placeholder"
-    path:       tuple[int, ...]  # child-index path from the shared root
+    name: str  # e.g. "title", "price", "icon"
+    kind: str  # "text" | "icon" | "image" | "placeholder"
+    path: tuple[int, ...]  # child-index path from the shared root
 
 
 @dataclass
 class SharedComponent:
-    name:        str
-    template:    WidgetNode                 # canonical first instance
-    occurrences: list[str]                  # widget ids that became this
-    slots:       list[SharedSlot] = field(default_factory=list)
+    name: str
+    template: WidgetNode  # canonical first instance
+    occurrences: list[str]  # widget ids that became this
+    slots: list[SharedSlot] = field(default_factory=list)
     # ids -> {slot_name: value}; one entry per occurrence
-    bindings:    dict[str, dict[str, str]] = field(default_factory=dict)
+    bindings: dict[str, dict[str, str]] = field(default_factory=dict)
 
 
 @dataclass
 class DedupResult:
-    shared:       list[SharedComponent] = field(default_factory=list)
+    shared: list[SharedComponent] = field(default_factory=list)
     id_to_shared: dict[str, str] = field(default_factory=dict)
 
     def shared_name_for(self, node_id: str) -> str | None:
@@ -59,9 +59,7 @@ class DedupResult:
         return next((c for c in self.shared if c.name == name), None)
 
 
-def analyze(
-    tree: WidgetTree, *, min_occurrences: int = 2, min_depth: int = 2
-) -> DedupResult:
+def analyze(tree: WidgetTree, *, min_occurrences: int = 2, min_depth: int = 2) -> DedupResult:
     by_structure: dict[str, list[WidgetNode]] = defaultdict(list)
     for screen in tree.screens:
         _gather(screen.root, depth=0, min_depth=min_depth, into=by_structure)
@@ -121,8 +119,8 @@ def _node_depth(node: WidgetNode) -> int:
 def _structural_hash(node: WidgetNode) -> str:
     """Skeleton hash — kind + style + children shape. Ignores leaf content."""
     payload = {
-        "kind":     node.kind,
-        "style":    node.style.model_dump(),
+        "kind": node.kind,
+        "style": node.style.model_dump(),
         "children": [_structural_hash(c) for c in node.children],
     }
     return hashlib.sha1(
@@ -210,9 +208,9 @@ def _extract_bindings(node: WidgetNode, slots: list[SharedSlot]) -> dict[str, st
 def _slot_name(kind: str, used: set[str]) -> str:
     """Generate a stable readable slot name, avoiding collisions."""
     base = {
-        "text":        "text",
-        "icon":        "icon",
-        "image":       "image",
+        "text": "text",
+        "icon": "icon",
+        "image": "image",
         "placeholder": "placeholder",
     }.get(kind, "arg")
     name = base

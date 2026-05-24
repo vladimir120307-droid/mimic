@@ -24,9 +24,7 @@ class SwiftUIGenerator:
         files: list[GeneratedFile] = [
             GeneratedFile("Package.swift", _emit_package_swift(), "swift"),
             GeneratedFile("Sources/MimicApp/App.swift", _emit_app(tree), "swift"),
-            GeneratedFile(
-                "Sources/MimicApp/Theme.swift", _emit_theme(theme), "swift"
-            ),
+            GeneratedFile("Sources/MimicApp/Theme.swift", _emit_theme(theme), "swift"),
         ]
         for screen in tree.screens:
             files.append(
@@ -74,10 +72,10 @@ struct MimicApp: App {{
 
 
 def _emit_theme(theme: Theme) -> str:
-    primary    = theme.primary    or "#6E56CF"
+    primary = theme.primary or "#6E56CF"
     background = theme.background or "#FFFFFF"
-    surface    = theme.surface    or "#F8FAFC"
-    error      = theme.error      or "#E11D48"
+    surface = theme.surface or "#F8FAFC"
+    error = theme.error or "#E11D48"
     on_surface = theme.on_surface or "#0F172A"
     return f"""import SwiftUI
 
@@ -130,8 +128,11 @@ def _emit_widget(node: WidgetNode, tree: WidgetTree, theme: Theme, indent: int =
     if node.kind == "button":
         action = ""
         on_press = next(
-            (i.target_screen_id for i in tree.interactions
-             if i.kind == "tap" and i.source_widget_id == node.id),
+            (
+                i.target_screen_id
+                for i in tree.interactions
+                if i.kind == "tap" and i.source_widget_id == node.id
+            ),
             None,
         )
         if on_press:
@@ -143,7 +144,7 @@ def _emit_widget(node: WidgetNode, tree: WidgetTree, theme: Theme, indent: int =
             )
             return f"{pad}Group {{{action}\n{pad}}}"
         return (
-            f"{pad}Button(\"{_swift_escape(node.text or 'Button')}\") {{}}\n"
+            f'{pad}Button("{_swift_escape(node.text or "Button")}") {{}}\n'
             f"{pad}    .buttonStyle(.borderedProminent)"
         )
 
@@ -202,8 +203,11 @@ def _emit_widget(node: WidgetNode, tree: WidgetTree, theme: Theme, indent: int =
 
     if node.kind == "list_item":
         on_tap = next(
-            (i.target_screen_id for i in tree.interactions
-             if i.kind == "tap" and i.source_widget_id == node.id),
+            (
+                i.target_screen_id
+                for i in tree.interactions
+                if i.kind == "tap" and i.source_widget_id == node.id
+            ),
             None,
         )
         if on_tap:
@@ -225,8 +229,11 @@ def _emit_widget(node: WidgetNode, tree: WidgetTree, theme: Theme, indent: int =
 
     if node.kind == "fab":
         on_press = next(
-            (i.target_screen_id for i in tree.interactions
-             if i.kind == "tap" and i.source_widget_id == node.id),
+            (
+                i.target_screen_id
+                for i in tree.interactions
+                if i.kind == "tap" and i.source_widget_id == node.id
+            ),
             None,
         )
         if on_press:
@@ -250,7 +257,7 @@ def _emit_widget(node: WidgetNode, tree: WidgetTree, theme: Theme, indent: int =
         )
 
     if node.kind in {"switch", "checkbox"}:
-        return f"{pad}Toggle(\"\", isOn: .constant(true)).labelsHidden()"
+        return f'{pad}Toggle("", isOn: .constant(true)).labelsHidden()'
 
     if node.kind == "divider":
         return f"{pad}Divider()"
@@ -288,44 +295,44 @@ def _screen_name(tree: WidgetTree, screen_id: str) -> str:
 # Map common semantic icon names to SF Symbols. Default to `circle` so SwiftUI
 # never fails to render.
 _SF_SYMBOL_MAP: dict[str, str] = {
-    "add":           "plus",
-    "remove":        "minus",
-    "close":         "xmark",
-    "menu":          "line.3.horizontal",
-    "search":        "magnifyingglass",
-    "settings":      "gearshape",
-    "home":          "house",
-    "person":        "person",
-    "people":        "person.2",
-    "favorite":      "heart",
-    "star":          "star",
-    "share":         "square.and.arrow.up",
-    "send":          "paperplane",
-    "edit":          "pencil",
-    "delete":        "trash",
-    "bolt":          "bolt",
+    "add": "plus",
+    "remove": "minus",
+    "close": "xmark",
+    "menu": "line.3.horizontal",
+    "search": "magnifyingglass",
+    "settings": "gearshape",
+    "home": "house",
+    "person": "person",
+    "people": "person.2",
+    "favorite": "heart",
+    "star": "star",
+    "share": "square.and.arrow.up",
+    "send": "paperplane",
+    "edit": "pencil",
+    "delete": "trash",
+    "bolt": "bolt",
     "notifications": "bell",
-    "calendar":      "calendar",
-    "chat":          "bubble.left.and.bubble.right",
-    "mail":          "envelope",
-    "phone":         "phone",
-    "camera":        "camera",
-    "image":         "photo",
-    "cart":          "cart",
-    "lock":          "lock",
-    "play":          "play.fill",
-    "pause":         "pause.fill",
-    "stop":          "stop.fill",
-    "check":         "checkmark",
-    "info":          "info.circle",
-    "warning":       "exclamationmark.triangle",
-    "error":         "xmark.octagon",
+    "calendar": "calendar",
+    "chat": "bubble.left.and.bubble.right",
+    "mail": "envelope",
+    "phone": "phone",
+    "camera": "camera",
+    "image": "photo",
+    "cart": "cart",
+    "lock": "lock",
+    "play": "play.fill",
+    "pause": "pause.fill",
+    "stop": "stop.fill",
+    "check": "checkmark",
+    "info": "info.circle",
+    "warning": "exclamationmark.triangle",
+    "error": "xmark.octagon",
     "chevron_right": "chevron.right",
-    "chevron_left":  "chevron.left",
-    "chevron_up":    "chevron.up",
-    "chevron_down":  "chevron.down",
-    "arrow_back":    "arrow.left",
-    "arrow_forward":"arrow.right",
+    "chevron_left": "chevron.left",
+    "chevron_up": "chevron.up",
+    "chevron_down": "chevron.down",
+    "arrow_back": "arrow.left",
+    "arrow_forward": "arrow.right",
 }
 
 

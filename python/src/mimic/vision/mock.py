@@ -488,14 +488,12 @@ def _ecommerce_flow() -> WidgetTree:
                 kind="stack",
                 bounds=_bb(0.02, 0.18, 0.96, 0.78),
                 children=[
-                    product(0, "Linen shirt", "$48",
-                            "https://picsum.photos/seed/linen/400/400"),
-                    product(1, "Knit sweater", "$72",
-                            "https://picsum.photos/seed/sweater/400/400"),
-                    product(2, "Wool coat", "$195",
-                            "https://picsum.photos/seed/coat/400/400"),
-                    product(3, "Cotton trousers", "$56",
-                            "https://picsum.photos/seed/trousers/400/400"),
+                    product(0, "Linen shirt", "$48", "https://picsum.photos/seed/linen/400/400"),
+                    product(1, "Knit sweater", "$72", "https://picsum.photos/seed/sweater/400/400"),
+                    product(2, "Wool coat", "$195", "https://picsum.photos/seed/coat/400/400"),
+                    product(
+                        3, "Cotton trousers", "$56", "https://picsum.photos/seed/trousers/400/400"
+                    ),
                 ],
             ),
         ],

@@ -153,15 +153,15 @@ def _emit_shared(ctx: _Ctx) -> str:
     for shared in ctx.dedup.shared:
         slot_lookup = {(s.path, s.kind): s.name for s in shared.slots}
         body = _emit_widget(
-            shared.template, ctx, indent=6, in_shared=shared,
-            path=(), slot_lookup=slot_lookup,
+            shared.template,
+            ctx,
+            indent=6,
+            in_shared=shared,
+            path=(),
+            slot_lookup=slot_lookup,
         )
-        ctor_params = ", ".join(
-            f"required this.{slot.name}" for slot in shared.slots
-        )
-        ctor_args = (
-            "{" + ("super.key, " + ctor_params if ctor_params else "super.key") + "}"
-        )
+        ctor_params = ", ".join(f"required this.{slot.name}" for slot in shared.slots)
+        ctor_args = "{" + ("super.key, " + ctor_params if ctor_params else "super.key") + "}"
         field_decls = (
             "\n  ".join(f"final String {slot.name};" for slot in shared.slots)
             if shared.slots
@@ -186,11 +186,11 @@ def _emit_shared(ctx: _Ctx) -> str:
 
 
 def _emit_widget(
-    node:        WidgetNode,
-    ctx:         _Ctx,
-    indent:      int = 0,
-    in_shared:   SharedComponent | None = None,
-    path:        tuple[int, ...] = (),
+    node: WidgetNode,
+    ctx: _Ctx,
+    indent: int = 0,
+    in_shared: SharedComponent | None = None,
+    path: tuple[int, ...] = (),
     slot_lookup: dict[tuple[tuple[int, ...], str], str] | None = None,
 ) -> str:
     pad = " " * indent

@@ -23,14 +23,14 @@ class VueGenerator:
     def generate(self, tree: WidgetTree) -> list[GeneratedFile]:
         theme = extract_theme(tree)
         files: list[GeneratedFile] = [
-            GeneratedFile("package.json",       _emit_package_json(),         "json"),
-            GeneratedFile("vite.config.js",     _emit_vite_config(),          "javascript"),
+            GeneratedFile("package.json", _emit_package_json(), "json"),
+            GeneratedFile("vite.config.js", _emit_vite_config(), "javascript"),
             GeneratedFile("tailwind.config.js", _emit_tailwind_config(theme), "javascript"),
-            GeneratedFile("postcss.config.js",  _emit_postcss_config(),       "javascript"),
-            GeneratedFile("index.html",         _emit_index_html(),           "html"),
-            GeneratedFile("src/main.js",        _emit_main(tree),             "javascript"),
-            GeneratedFile("src/index.css",      _emit_index_css(),            "css"),
-            GeneratedFile("src/App.vue",        _emit_app(),                  "vue"),
+            GeneratedFile("postcss.config.js", _emit_postcss_config(), "javascript"),
+            GeneratedFile("index.html", _emit_index_html(), "html"),
+            GeneratedFile("src/main.js", _emit_main(tree), "javascript"),
+            GeneratedFile("src/index.css", _emit_index_css(), "css"),
+            GeneratedFile("src/App.vue", _emit_app(), "vue"),
         ]
         for screen in tree.screens:
             files.append(
@@ -168,7 +168,7 @@ def _emit_view(screen: Screen, tree: WidgetTree, theme: Theme) -> str:
     body = _emit_widget(screen.root, tree, theme, indent=4)
     bg_attr = ""
     if screen.background_color:
-        bg_attr = f' :style="{{ backgroundColor: \'{screen.background_color}\' }}"'
+        bg_attr = f" :style=\"{{ backgroundColor: '{screen.background_color}' }}\""
 
     routes_decl = ""
     nav_method = ""
@@ -179,11 +179,7 @@ def _emit_view(screen: Screen, tree: WidgetTree, theme: Theme) -> str:
             if i.kind == "tap" and i.target_screen_id
         )
         routes_decl = f"const routes = {{{route_entries}}};\n"
-        nav_method = (
-            "function onTap(id) {\n"
-            "  if (routes[id]) router.push('/' + routes[id]);\n"
-            "}\n"
-        )
+        nav_method = "function onTap(id) {\n  if (routes[id]) router.push('/' + routes[id]);\n}\n"
 
     return f"""<template>
   <section class="mx-auto max-w-md min-h-screen"{bg_attr}>
@@ -202,10 +198,18 @@ def _emit_widget(node: WidgetNode, tree: WidgetTree, theme: Theme, indent: int =
     pad = " " * indent
     cls = " ".join(layout_classes(node.kind) + style_classes(node.style, node.kind, theme))
     cls_attr = f' class="{cls}"' if cls else ""
-    on_click = f' @click=\'onTap("{node.id}")\'' if _has_tap_handler(node, tree) else ""
+    on_click = f" @click='onTap(\"{node.id}\")'" if _has_tap_handler(node, tree) else ""
 
-    if node.kind in {"row", "column", "stack", "list", "card", "container",
-                     "scroll_view", "app_bar"}:
+    if node.kind in {
+        "row",
+        "column",
+        "stack",
+        "list",
+        "card",
+        "container",
+        "scroll_view",
+        "app_bar",
+    }:
         children = "\n".join(_emit_widget(c, tree, theme, indent + 2) for c in node.children)
         text_inline = ""
         if node.text:
@@ -249,10 +253,7 @@ def _emit_widget(node: WidgetNode, tree: WidgetTree, theme: Theme, indent: int =
 
     if node.kind == "fab":
         svg = heroicon_svg(node.icon_name or "add", classes="w-6 h-6")
-        return (
-            f'{pad}<button type="button"{cls_attr}{on_click} aria-label="action">'
-            f"{svg}</button>"
-        )
+        return f'{pad}<button type="button"{cls_attr}{on_click} aria-label="action">{svg}</button>'
 
     if node.kind == "divider":
         return f"{pad}<hr{cls_attr} />"

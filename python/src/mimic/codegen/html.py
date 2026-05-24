@@ -164,7 +164,7 @@ def _emit_widget(node: WidgetNode, theme: Theme, indent: int = 0) -> str:
 
     if node.kind == "icon":
         svg = heroicon_svg(node.icon_name, classes="w-6 h-6")
-        return f"{pad}<span{id_attr}{cls_attr} aria-hidden=\"true\">{svg}</span>"
+        return f'{pad}<span{id_attr}{cls_attr} aria-hidden="true">{svg}</span>'
 
     if node.kind == "text":
         return f"{pad}<{tag}{id_attr}{cls_attr}>{inner}</{tag}>"
@@ -195,10 +195,7 @@ def _emit_widget(node: WidgetNode, theme: Theme, indent: int = 0) -> str:
 
     if node.kind == "fab":
         svg = heroicon_svg(node.icon_name or "add", classes="w-6 h-6")
-        return (
-            f'{pad}<button{id_attr}{cls_attr} type="button" aria-label="action">'
-            f"{svg}</button>"
-        )
+        return f'{pad}<button{id_attr}{cls_attr} type="button" aria-label="action">{svg}</button>'
 
     if node.kind == "divider":
         return f"{pad}<hr{id_attr}{cls_attr} />"

@@ -180,7 +180,7 @@ def _enumerate_leaves(
     if node.placeholder is not None:
         out.append((path, "placeholder", node.placeholder))
     for idx, child in enumerate(node.children):
-        out.extend(_enumerate_leaves(child, path + (idx,)))
+        out.extend(_enumerate_leaves(child, (*path, idx)))
     return out
 
 

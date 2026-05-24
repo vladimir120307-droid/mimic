@@ -123,7 +123,6 @@ def _emit_index_html() -> str:
 
 
 def _emit_main(tree: WidgetTree) -> str:
-    initial = tree.initial_screen
     routes = ",\n".join(
         f'  {{ path: "{"/" if i == 0 else f"/{s.id}"}", component: () => import("./views/{_pascal(s.name)}.vue") }}'
         for i, s in enumerate(tree.screens)

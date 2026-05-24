@@ -326,7 +326,7 @@ def _emit_widget(
 
     if node.children and node.kind in {"row", "column", "stack", "list"}:
         children = ",\n".join(
-            _emit_widget(c, ctx, indent + 4, in_shared, path + (i,), slot_lookup)
+            _emit_widget(c, ctx, indent + 4, in_shared, (*path, i), slot_lookup)
             for i, c in enumerate(node.children)
         )
         args.append(f"children: [\n{children},\n{pad}]")
@@ -335,14 +335,14 @@ def _emit_widget(
             args.append(
                 "child: "
                 + _emit_widget(
-                    node.children[0], ctx, indent + 2, in_shared, path + (0,), slot_lookup
+                    node.children[0], ctx, indent + 2, in_shared, (*path, 0), slot_lookup
                 ).lstrip()
             )
         else:
             # Multi-child container/card → wrap children in a Column so we
             # don't silently drop content
             child_lines = ",\n".join(
-                _emit_widget(c, ctx, indent + 6, in_shared, path + (i,), slot_lookup)
+                _emit_widget(c, ctx, indent + 6, in_shared, (*path, i), slot_lookup)
                 for i, c in enumerate(node.children)
             )
             args.append(

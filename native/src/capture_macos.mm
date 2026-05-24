@@ -1,6 +1,7 @@
 #if defined(__APPLE__)
 
 #include "mimic/capture.h"
+#include "mimic/dedup.h"
 
 #include <atomic>
 #include <chrono>
@@ -105,12 +106,13 @@ public:
 
         __block bool ok = false;
         dispatch_semaphore_t sem = dispatch_semaphore_create(0);
+        MacOSCapturer* self_ptr = this;
         [SCShareableContent
             getShareableContentExcludingDesktopWindows:NO
                                   onScreenWindowsOnly:YES
-                                    completionHandler:^(SCShareableContent* c, NSError* e) {
+                                    completionHandler:^(SCShareableContent* c, NSError* /*e*/) {
                                         if (c && c.displays.count > 0) {
-                                            ok = [self _startWithContent:c];
+                                            ok = self_ptr->_startWithContent(c);
                                         }
                                         dispatch_semaphore_signal(sem);
                                     }];

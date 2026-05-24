@@ -14,7 +14,7 @@ class InboxScreen extends StatelessWidget {
           Column(
             children: [
               AppBar(
-                title: const Text("Messages"),
+                title: Text("Messages"),
                 backgroundColor: const Color(0xFF0EA5E9),
                 foregroundColor: const Color(0xFFFFFFFF),
               ),
@@ -24,26 +24,26 @@ class InboxScreen extends StatelessWidget {
               ListView(
                 children: [
                   ListTile(
-                    title: const Text("Anna"),
+                    title: Text("Anna"),
                     onTap: () => Navigator.pushNamed(context, "/chat"),
                     trailing: const Icon(Icons.chevron_right),
                   ),
                   ListTile(
-                    title: const Text("Boris"),
+                    title: Text("Boris"),
                     onTap: () => Navigator.pushNamed(context, "/chat"),
                     trailing: const Icon(Icons.chevron_right),
                   ),
                   ListTile(
-                    title: const Text("Team"),
+                    title: Text("Team"),
                     onTap: () => Navigator.pushNamed(context, "/chat"),
                     trailing: const Icon(Icons.chevron_right),
                   ),
                   ListTile(
-                    title: const Text("Mike"),
+                    title: Text("Mike"),
                     trailing: const Icon(Icons.chevron_right),
                   ),
                   ListTile(
-                    title: const Text("Family"),
+                    title: Text("Family"),
                     trailing: const Icon(Icons.chevron_right),
                   ),
               ],

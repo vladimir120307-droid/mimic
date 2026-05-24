@@ -28,16 +28,16 @@ class HomeScreen extends StatelessWidget {
               ListView(
                 children: [
                   ListTile(
-                    title: const Text("Recent activity"),
+                    title: Text("Recent activity"),
                     onTap: () => Navigator.pushNamed(context, "/details"),
                     trailing: const Icon(Icons.chevron_right),
                   ),
                   ListTile(
-                    title: const Text("Saved projects"),
+                    title: Text("Saved projects"),
                     trailing: const Icon(Icons.chevron_right),
                   ),
                   ListTile(
-                    title: const Text("Settings"),
+                    title: Text("Settings"),
                     trailing: const Icon(Icons.chevron_right),
                   ),
               ],

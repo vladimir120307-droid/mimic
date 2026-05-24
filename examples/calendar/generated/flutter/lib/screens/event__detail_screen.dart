@@ -14,7 +14,7 @@ class Event DetailScreen extends StatelessWidget {
           Column(
             children: [
               AppBar(
-                title: const Text("Design review"),
+                title: Text("Design review"),
                 backgroundColor: const Color(0xFF10B981),
                 foregroundColor: const Color(0xFFFFFFFF),
               ),
@@ -29,7 +29,7 @@ class Event DetailScreen extends StatelessWidget {
               FilledButton(
                 onPressed: () {},
                 style: FilledButton.styleFrom(backgroundColor: const Color(0xFF10B981), foregroundColor: const Color(0xFFFFFFFF)),
-                child: const Text("Join meeting"),
+                child: Text("Join meeting"),
               ),
           ],
           ),

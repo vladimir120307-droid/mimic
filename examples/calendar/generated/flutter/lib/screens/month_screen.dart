@@ -14,7 +14,7 @@ class MonthScreen extends StatelessWidget {
           Column(
             children: [
               AppBar(
-                title: const Text("May 2026"),
+                title: Text("May 2026"),
                 backgroundColor: const Color(0xFF10B981),
                 foregroundColor: const Color(0xFFFFFFFF),
               ),
@@ -53,123 +53,132 @@ class MonthScreen extends StatelessWidget {
               ListView(
                 children: [
                   ListTile(
-                    title: const Text("1"),
+                    title: Text("1"),
                     trailing: const Icon(Icons.chevron_right),
                   ),
                   ListTile(
-                    title: const Text("2"),
+                    title: Text("2"),
                     trailing: const Icon(Icons.chevron_right),
                   ),
                   ListTile(
-                    title: const Text("3"),
+                    title: Text("3"),
                     trailing: const Icon(Icons.chevron_right),
                   ),
                   ListTile(
-                    title: const Text("4"),
+                    title: Text("4"),
                     trailing: const Icon(Icons.chevron_right),
                   ),
                   ListTile(
-                    title: const Text("5"),
+                    title: Text("5"),
                     trailing: const Icon(Icons.chevron_right),
                   ),
                   ListTile(
-                    title: const Text("6"),
+                    title: Text("6"),
                     trailing: const Icon(Icons.chevron_right),
                   ),
                   ListTile(
-                    title: const Text("7"),
+                    title: Text("7"),
                     trailing: const Icon(Icons.chevron_right),
                   ),
                   ListTile(
-                    title: const Text("8"),
+                    title: Text("8"),
                     trailing: const Icon(Icons.chevron_right),
                   ),
                   ListTile(
-                    title: const Text("9"),
+                    title: Text("9"),
                     trailing: const Icon(Icons.chevron_right),
                   ),
                   ListTile(
-                    title: const Text("10"),
+                    title: Text("10"),
                     trailing: const Icon(Icons.chevron_right),
                   ),
                   ListTile(
-                    title: const Text("11"),
+                    title: Text("11"),
                     trailing: const Icon(Icons.chevron_right),
                   ),
                   ListTile(
-                    title: const Text("12"),
+                    title: Text("12"),
                     trailing: const Icon(Icons.chevron_right),
                   ),
                   ListTile(
-                    title: const Text("13"),
+                    title: Text("13"),
                     trailing: const Icon(Icons.chevron_right),
                   ),
                   ListTile(
-                    title: const Text("14"),
+                    title: Text("14"),
                     trailing: const Icon(Icons.chevron_right),
                   ),
                   ListTile(
-                    title: const Text("15"),
+                    title: Text("15"),
                     trailing: const Icon(Icons.chevron_right),
                   ),
                   ListTile(
-                    title: const Text("16"),
+                    title: Text("16"),
                     trailing: const Icon(Icons.chevron_right),
                   ),
                   ListTile(
-                    title: const Text("17"),
+                    title: Text("17"),
                     trailing: const Icon(Icons.chevron_right),
                   ),
                   ListTile(
-                    title: const Text("18"),
+                    title: Text("18"),
                     trailing: const Icon(Icons.chevron_right),
                   ),
                   ListTile(
-                    title: const Text("19"),
+                    title: Text("19"),
                     trailing: const Icon(Icons.chevron_right),
                   ),
                   ListTile(
-                    title: const Text("20"),
+                    title: Text("20"),
                     trailing: const Icon(Icons.chevron_right),
                   ),
                   ListTile(
-                    title: const Text("21"),
+                    title: Text("21"),
                     trailing: const Icon(Icons.chevron_right),
                   ),
                   ListTile(
-                    title: const Text("22"),
+                    title: Text("22"),
                     trailing: const Icon(Icons.chevron_right),
                   ),
                   ListTile(
-                    title: const Text("23"),
+                    title: Text("23"),
                     trailing: const Icon(Icons.chevron_right),
                   ),
                   ListTile(
-                    title: const Text("24"),
+                    title: Text("24"),
                     trailing: const Icon(Icons.chevron_right),
                   ),
                   ListTile(
-                    title: const Text("25"),
+                    title: Text("25"),
                     trailing: const Icon(Icons.chevron_right),
                   ),
                   ListTile(
-                    title: const Text("26"),
+                    title: Text("26"),
                     trailing: const Icon(Icons.chevron_right),
                   ),
                   ListTile(
-                    title: const Text("27"),
+                    title: Text("27"),
                     trailing: const Icon(Icons.chevron_right),
                   ),
                   ListTile(
-                    title: const Text("28"),
+                    title: Text("28"),
                     trailing: const Icon(Icons.chevron_right),
                   ),
               ],
               ),
               Card(
-                child: Text(
-                  "Next: Design review",
-                  style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Next: Design review",
+                      style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
+                    ),
+                    Text(
+                      "Tomorrow, 10:00",
+                      style: TextStyle(fontSize: 13.0, color: const Color(0xFF64748B)),
+                    ),
+                  ],
                 ),
                 color: const Color(0xFFECFDF5),
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),

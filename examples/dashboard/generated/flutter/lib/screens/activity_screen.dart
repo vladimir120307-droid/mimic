@@ -14,7 +14,7 @@ class ActivityScreen extends StatelessWidget {
           Column(
             children: [
               AppBar(
-                title: const Text("Recent activity"),
+                title: Text("Recent activity"),
                 backgroundColor: const Color(0xFF6E56CF),
                 foregroundColor: const Color(0xFFFFFFFF),
               ),

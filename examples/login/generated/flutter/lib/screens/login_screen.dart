@@ -35,7 +35,7 @@ class LoginScreen extends StatelessWidget {
               FilledButton(
                 onPressed: () {},
                 style: FilledButton.styleFrom(backgroundColor: const Color(0xFF6E56CF), foregroundColor: const Color(0xFFFFFFFF)),
-                child: const Text("Sign in"),
+                child: Text("Sign in"),
               ),
               Text(
                 "Don't have an account? Create one",

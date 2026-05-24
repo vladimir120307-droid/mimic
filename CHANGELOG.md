@@ -4,6 +4,19 @@ All notable changes to mimic are documented here. Format follows [Keep a Changel
 
 ## [Unreleased]
 
+## [0.3.0] — parameterized dedup + SwiftUI
+
+### Added
+
+- **SwiftUI target** (`--target swiftui`) — full Swift Package: `Package.swift`, `@main App` with `NavigationStack`, one `View` per `Screen`, `Color(hex:)` extension keyed off the extracted palette. Tap interactions become `NavigationLink`. Opens the iOS / macOS native audience.
+- **Parameterized component dedup** — repeated subtrees that differ only in leaf content (`text`, `icon_name`, `image_url`, `placeholder`) are now hoisted into a shared widget with **typed constructor parameters**. The ecommerce fixture's 4 product cards collapse into one `_Shared1` widget; per-instance titles / prices / image URLs are passed through named slots and rendered verbatim. Restores the v0.1 "wow" demo without the v0.2 regression of dropping content.
+- **Multi-child cards** — `card` / `container` / `scroll_view` widgets with more than one child now wrap children in a `Column(crossAxisAlignment: .start)` instead of silently keeping only the first.
+- Snapshot suite grew to **36 cases** (6 fixtures × 6 targets, +6 over v0.2).
+
+### Fixed
+
+- Snapshot test now parameterizes over the full target set, including `swiftui`.
+
 ## [0.2.0] — quality + breadth
 
 ### Added
@@ -37,6 +50,7 @@ All notable changes to mimic are documented here. Format follows [Keep a Changel
 - Flutter desktop UI scaffold (Riverpod + go_router).
 - GitHub Actions CI matrix: Ubuntu/macOS/Windows × Python 3.10/3.11/3.12 + native build + Flutter analyze/test.
 
-[Unreleased]: https://github.com/vladimir120307-droid/mimic/compare/v0.2.0...HEAD
+[Unreleased]: https://github.com/vladimir120307-droid/mimic/compare/v0.3.0...HEAD
+[0.3.0]:      https://github.com/vladimir120307-droid/mimic/releases/tag/v0.3.0
 [0.2.0]:      https://github.com/vladimir120307-droid/mimic/releases/tag/v0.2.0
 [0.1.0]:      https://github.com/vladimir120307-droid/mimic/releases/tag/v0.1.0

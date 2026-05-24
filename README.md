@@ -91,8 +91,8 @@ See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for the full design.
 | HTML + Tailwind     | 🟢 v0.1       | Single-file, inline `tailwind.config` palette      |
 | React + Tailwind    | 🟢 v0.1       | Vite + react-router + theme.extend palette         |
 | React + TypeScript  | 🟢 v0.1       | `.tsx`, typed RouteMap, full tsconfig              |
-| **Vue 3 + Tailwind**| 🟢 v0.2       | Vite + vue-router + single-file `.vue` components  |
-| SwiftUI             | ⚪ planned    | iOS/macOS native                                   |
+| Vue 3 + Tailwind    | 🟢 v0.2       | Vite + vue-router + single-file `.vue` components  |
+| **SwiftUI**         | 🟢 v0.3       | Swift Package + NavigationStack + per-screen Views |
 | Jetpack Compose     | ⚪ planned    | Android native                                     |
 
 ## How does mimic compare?

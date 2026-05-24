@@ -14,30 +14,35 @@ class SettingsScreen extends StatelessWidget {
           Column(
             children: [
               AppBar(
-                title: const Text("Settings"),
+                title: Text("Settings"),
                 backgroundColor: const Color(0xFFFFFFFF),
                 foregroundColor: const Color(0xFF0F172A),
               ),
               Card(
-                child: Text(
-                  "Vladimir",
-                  style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Vladimir",
+                      style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
+                    ),
+                    Text(
+                      "vladimir@example.com",
+                      style: TextStyle(fontSize: 13.0, color: const Color(0xFF64748B)),
+                    ),
+                  ],
                 ),
                 color: const Color(0xFFFFFFFF),
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
               ),
               Card(
-                child: Row(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      "Push notifications",
-                      style: TextStyle(fontSize: 15.0),
-                    ),
-                    Switch(
-                      value: true,
-                      onChanged: (_) {},
-                    ),
-                ],
+                    _Shared1(text: "Push notifications"),
+                    _Shared1(text: "Email digest"),
+                    _Shared1(text: "Do not disturb"),
+                  ],
                 ),
                 color: const Color(0xFFFFFFFF),
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
@@ -45,7 +50,7 @@ class SettingsScreen extends StatelessWidget {
               FilledButton(
                 onPressed: () {},
                 style: FilledButton.styleFrom(backgroundColor: const Color(0xFFE11D48), foregroundColor: const Color(0xFFFFFFFF)),
-                child: const Text("Sign out"),
+                child: Text("Sign out"),
               ),
           ],
           ),

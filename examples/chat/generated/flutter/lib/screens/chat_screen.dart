@@ -14,7 +14,7 @@ class ChatScreen extends StatelessWidget {
           Column(
             children: [
               AppBar(
-                title: const Text("Anna"),
+                title: Text("Anna"),
                 backgroundColor: const Color(0xFF0EA5E9),
                 foregroundColor: const Color(0xFFFFFFFF),
               ),

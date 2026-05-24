@@ -14,7 +14,7 @@ class CatalogScreen extends StatelessWidget {
           Column(
             children: [
               AppBar(
-                title: const Text("Shop"),
+                title: Text("Shop"),
                 backgroundColor: const Color(0xFFFFFFFF),
                 foregroundColor: const Color(0xFF0F172A),
               ),
@@ -23,34 +23,10 @@ class CatalogScreen extends StatelessWidget {
               ),
               Stack(
                 children: [
-                  Card(
-                    child: Image.network(
-                      "https://picsum.photos/seed/linen/400/400",
-                    ),
-                    color: const Color(0xFFFFFFFF),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
-                  ),
-                  Card(
-                    child: Image.network(
-                      "https://picsum.photos/seed/sweater/400/400",
-                    ),
-                    color: const Color(0xFFFFFFFF),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
-                  ),
-                  Card(
-                    child: Image.network(
-                      "https://picsum.photos/seed/coat/400/400",
-                    ),
-                    color: const Color(0xFFFFFFFF),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
-                  ),
-                  Card(
-                    child: Image.network(
-                      "https://picsum.photos/seed/trousers/400/400",
-                    ),
-                    color: const Color(0xFFFFFFFF),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
-                  ),
+                  _Shared1(image: "https://picsum.photos/seed/linen/400/400", text: "Linen shirt", text2: "$48"),
+                  _Shared1(image: "https://picsum.photos/seed/sweater/400/400", text: "Knit sweater", text2: "$72"),
+                  _Shared1(image: "https://picsum.photos/seed/coat/400/400", text: "Wool coat", text2: "$195"),
+                  _Shared1(image: "https://picsum.photos/seed/trousers/400/400", text: "Cotton trousers", text2: "$56"),
               ],
               ),
           ],

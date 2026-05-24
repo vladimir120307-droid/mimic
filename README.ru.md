@@ -91,8 +91,8 @@ mimic bench --target flutter
 | HTML + Tailwind        | 🟢 v0.1       | Один файл, inline `tailwind.config` с палитрой         |
 | React + Tailwind       | 🟢 v0.1       | Vite + react-router + theme.extend палитра             |
 | React + TypeScript     | 🟢 v0.1       | `.tsx`, типизированный RouteMap, полный tsconfig       |
-| **Vue 3 + Tailwind**   | 🟢 v0.2       | Vite + vue-router + однофайловые `.vue` компоненты     |
-| SwiftUI                | ⚪ план       | Нативный iOS/macOS                                     |
+| Vue 3 + Tailwind       | 🟢 v0.2       | Vite + vue-router + однофайловые `.vue` компоненты     |
+| **SwiftUI**            | 🟢 v0.3       | Swift Package + NavigationStack + View per screen      |
 | Jetpack Compose        | ⚪ план       | Нативный Android                                       |
 
 ## Сравнение с альтернативами

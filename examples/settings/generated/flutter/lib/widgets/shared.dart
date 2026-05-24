@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
 class _Shared1 extends StatelessWidget {
-  const _Shared1({super.key});
+  _Shared1({super.key, required this.text});
+
+  final String text;
 
   @override
   Widget build(BuildContext context) {
@@ -9,7 +11,7 @@ class _Shared1 extends StatelessWidget {
       Row(
         children: [
           Text(
-            "Push notifications",
+            text,
             style: TextStyle(fontSize: 15.0),
           ),
           Switch(

@@ -31,7 +31,7 @@ class ProductScreen extends StatelessWidget {
               FilledButton(
                 onPressed: () {},
                 style: FilledButton.styleFrom(backgroundColor: const Color(0xFF0F172A), foregroundColor: const Color(0xFFFFFFFF)),
-                child: const Text("Add to cart"),
+                child: Text("Add to cart"),
               ),
           ],
           ),
